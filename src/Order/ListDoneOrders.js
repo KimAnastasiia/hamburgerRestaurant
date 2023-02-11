@@ -47,7 +47,7 @@ export default function ListDoneOrders(props){
             <Tr>
                 <Th>Date</Th>
                 <Th>Pack Id</Th>
-                <Th>Totall</Th>
+                <Th>Total</Th>
                 <Th>Check details</Th>
             </Tr>
             </Thead>
@@ -56,7 +56,7 @@ export default function ListDoneOrders(props){
             <Tr>
                 <Td>{order.date}</Td>
                 <Td>{order.orderPackId}</Td>
-                <Td>Totall</Td>
+                <Td>{order.total}</Td>
                 <Td><Link to={"/order/details/"+order.orderPackId} ><Button>Details</Button></Link></Td>
             </Tr>
             )}
@@ -67,7 +67,7 @@ export default function ListDoneOrders(props){
             <Tr>
                 <Th>Date</Th>
                 <Th>Pack Id</Th>
-                <Th>Totall</Th>
+                <Th>Total</Th>
                 <Th>Check details</Th>
             </Tr>
             </Tfoot>
