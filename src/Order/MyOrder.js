@@ -18,16 +18,12 @@ import objectApiKey from "../ApiKey"
 
 export default function MyOrder(props){
 
+    let [listOfOrders, setListOfOrders]=useState([]) 
 
     useEffect(()=>{
         checkListOfOrders()
     
     }, [])
-
-
-    let [listOfOrders, setListOfOrders]=useState([])
-   
-    
 
     let checkListOfOrders =async()=>{
         let response = await fetch("http://localhost:2000/order/hamburgers?apiKey="+objectApiKey.apiKey)
@@ -38,7 +34,7 @@ export default function MyOrder(props){
                
             }
         }
-        props.setQuantityInOrder(listOfOrders.length)
+      
     }
 
 
@@ -81,19 +77,73 @@ export default function MyOrder(props){
         )
       
         checkListOfOrders()
-    
-        
-        
-        
-       
+     
     }
-
-    
 
     let totall= false
     listOfOrders.map((order)=>
         totall+= order.price*order.number
     )
+
+    let minus = async(idOfHamburger)=>{
+        let response = await fetch("http://localhost:2000/order/"+idOfHamburger+"?apiKey="+objectApiKey.apiKey)
+        if(response.ok){
+            let data = await response.json()
+            if(!data.error){
+              let listOfOrders = data;
+              if(listOfOrders[0].number>0){
+                   
+                    let response = await fetch ("http://localhost:2000/order/"+idOfHamburger+"?apiKey="+objectApiKey.apiKey,{
+
+                    method: 'PUT',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    },
+                    body:
+                    JSON.stringify( { 
+                    number:listOfOrders[0].number-1
+                    })
+                    
+                   
+                    })
+               
+                
+                    checkListOfOrders()
+                }
+                if(listOfOrders[0].number===1){
+                    let response = await fetch ("http://localhost:2000/order/"+idOfHamburger+"?apiKey="+objectApiKey.apiKey,{
+                        method: 'DELETE',
+                    })
+                    checkListOfOrders()
+                }
+                console.log(listOfOrders)
+            }
+        }
+    }
+
+    let plus=async(idOfHamburger)=>{
+        let response = await fetch("http://localhost:2000/order/"+idOfHamburger+"?apiKey="+objectApiKey.apiKey)
+        if(response.ok){
+            let data = await response.json()
+            if(!data.error){
+                let listOfOrders = data;
+                let response = await fetch ("http://localhost:2000/order/"+idOfHamburger+"?apiKey="+objectApiKey.apiKey,{
+
+                    method: 'PUT',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    },
+
+                    body:
+                    JSON.stringify( { 
+                    number:listOfOrders[0].number+1
+                    })
+                })
+            }
+       
+        }           
+        checkListOfOrders()
+    }
 
 
 
@@ -118,11 +168,14 @@ export default function MyOrder(props){
                     <Tbody>
                     {  listOfOrders.map((order)=>
                     <Tr>
-                        <Td>{order.type}</Td>
+                        <Td>{order.hamburgerId} {order.type}</Td>
                         <Td>{order.price}</Td>
                         <Td>{order.number}</Td>
                         <Td>{order.number*order.price}</Td>
-                        <Th><Button>-</Button><Button>+</Button></Th>
+                        <Th>
+                            <Button onClick={(e)=>minus(order.hamburgerId)}>-</Button>
+                            <Button onClick={(e)=>plus(order.hamburgerId)}>+</Button>
+                        </Th>
                     
                     </Tr>
                     )}

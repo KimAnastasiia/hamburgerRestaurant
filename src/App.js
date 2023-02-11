@@ -14,50 +14,30 @@ import { PhoneIcon, AddIcon, WarningIcon } from '@chakra-ui/icons'
 import { InstagramOutlined, FacebookOutlined, TwitterOutlined, YoutubeOutlined} from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import PreviosOrders from './Order/PreviosOrders';
-import PreviosOrdersDitails from './Order/doneOrdersDetails';
+import PreviosOrdersDitails from './Order/DoneOrdersDetails';
 
 export default function App(){
   let [login, setLogin] = useState(false)
   let[admin, setAdmin] = useState(false)
-
-  let [listOfOrders, setListOfOrders]=useState([])
-  
-  useEffect(()=>{
-    checkListOfOrders()
-  },[])
-
-  let checkListOfOrders =async()=>{
-    let response = await fetch("http://localhost:2000/order/hamburgers?apiKey="+objectApiKey.apiKey)
-    if(response.ok){
-        let data = await response.json()
-        if(!data.error){
-            setListOfOrders(data)
-           
-        }
-    }
-  }
-  let[quantityInOrder, setQuantityInOrder]=useState(listOfOrders.length)
   return (
     <div>
       <br></br>
-      <Menu setLogin={setLogin} login={login} admin={admin} setAdmin={setAdmin} quantityInOrder={quantityInOrder}/>
+      <Menu setLogin={setLogin} login={login} admin={admin} setAdmin={setAdmin}/>
 
       <br></br>
       <br></br>
       <Routes>
-      <Route path='/' element={<ListOfHamburgers/>} />
+        <Route path='/' element={<ListOfHamburgers/>} />
         <Route path='/hamburgers/all' element={<ListOfHamburgers/>} />
         <Route path='/hamburgers/addNew' element={<AddHamburger/>} />
         <Route path='/hamburgers/all' element={<ListOfHamburgers/>} />
         <Route path='/hamburgers' element={<Hamburgers/>} />
         <Route path='/orderPack' element={<PreviosOrders/>} />
         <Route path='/order/ditails/:doneOrdersDitailsId' element={<PreviosOrdersDitails/>} />
-        <Route path='/order/:id' element={<Ditails login={login} setQuantityInOrder={setQuantityInOrder} quantityInOrder={quantityInOrder} />} />
-        <Route path='/order/hamburgers' element={<MyOrder setQuantityInOrder={setQuantityInOrder}/>} />
+        <Route path='/order/:id' element={<Ditails login={login} />} />
+        <Route path='/order/hamburgers' element={<MyOrder/>} />
         {!login && <Route path='/login' element={<LoginComponent login={login} setLogin={setLogin} setAdmin={setAdmin} />} />}
         <Route path='/login/create-account' element={<MakeAccount/>} />
-        
-
       </Routes>
       <Box bg={["primary.500", "primary.500", "primary.500", "primary.500"]} w="100%">
       <footer >

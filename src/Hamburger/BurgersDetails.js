@@ -29,7 +29,7 @@ export default function Ditails(props){
                
             }
         }
-        props.setQuantityInOrder(listOfOrders.length)
+       
     }
     let showAll=async()=>{
         let response = await fetch("http://localhost:2000/hamburgers/"+id)
@@ -79,7 +79,7 @@ export default function Ditails(props){
                     })
                     setQuantity(1)
                     checkListOfOrders()
-                    props.setQuantityInOrder(listOfOrders.length)
+                   
                 }else{
                    
                     let response = await fetch ("http://localhost:2000/order/"+id+"?apiKey="+objectApiKey.apiKey,{
@@ -99,7 +99,7 @@ export default function Ditails(props){
                    
                 setQuantity(listOfOrders[0].number+1)
                 checkListOfOrders()
-                props.setQuantityInOrder(listOfOrders.length)
+               
                 
                 }
                 console.log(listOfOrders)
@@ -135,7 +135,7 @@ export default function Ditails(props){
                         setQuantity(listOfOrders[0].number-1)
                     }
                     checkListOfOrders()
-                    props.setQuantityInOrder(props.quantityInOrder-1)
+                 
                 }
                 if(listOfOrders[0].number===1){
                     let response = await fetch ("http://localhost:2000/order/"+id+"?apiKey="+objectApiKey.apiKey,{
