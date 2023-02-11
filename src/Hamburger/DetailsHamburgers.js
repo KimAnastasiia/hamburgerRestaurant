@@ -4,10 +4,10 @@ import { Table, Thead, Tbody, Tr, Th, Td, chakra, Button, Text, Image, Box, Stac
 import { useParams } from "react-router-dom";
 import { PhoneIcon, ArrowBackIcon,  ArrowForwardIcon} from '@chakra-ui/icons'
 import { Link } from "react-router-dom";
-import objectApiKey from "../ApiKey"
-import { RowSelection } from "@tanstack/react-table";
+import objectApiKey from "../Utility/ApiKey"
 
-export default function Ditails(props){
+
+export default function DetailsHamburgers(props){
 
     const {id} = useParams()
     let [hamburger, setHamburger ] = useState([])
@@ -157,7 +157,7 @@ export default function Ditails(props){
             </Link>
             </Button>
         </Stack>
-        <Box display={"flex"} justifyContent="center" alignItems={"center"} flexDirection="column" >
+        <Box  minH={"100vh"} display={"flex"} justifyContent="center" alignItems={"center"} flexDirection="column" >
             <Image w={["100%", "30%"]} src={"/images/"+hamburger.type+".png"} ></Image>
             <Box display={"flex"} flexDirection="column" justifyContent="center" alignItems="center" h="400" w="30%">
                 <Text h="30%" w="100%"  >{hamburger.description}</Text>

@@ -13,11 +13,11 @@ import {
     Button,Text
 } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
-import objectApiKey from "../ApiKey"
+import objectApiKey from "../Utility/ApiKey"
 
 
 
-export default function PreviosOrders(props){
+export default function ListDoneOrders(props){
 
     let [listOfDoneOrders, setListOfDoneOrders] = useState([])
  
@@ -40,7 +40,7 @@ export default function PreviosOrders(props){
 
 
     return(
-        <TableContainer w={"100%"}  minH={"73.6vh"}>
+        <TableContainer w={"100%"}  minH={"100vh"}>
         <Table variant='striped' colorScheme='teal'>
             <TableCaption>Your order</TableCaption>
             <Thead>
@@ -48,7 +48,7 @@ export default function PreviosOrders(props){
                 <Th>Date</Th>
                 <Th>Pack Id</Th>
                 <Th>Totall</Th>
-                <Th>Check ditails</Th>
+                <Th>Check details</Th>
             </Tr>
             </Thead>
             <Tbody>
@@ -57,7 +57,7 @@ export default function PreviosOrders(props){
                 <Td>{order.date}</Td>
                 <Td>{order.orderPackId}</Td>
                 <Td>Totall</Td>
-                <Td><Link to={"/order/ditails/"+order.orderPackId} ><Button>Ditails</Button></Link></Td>
+                <Td><Link to={"/order/details/"+order.orderPackId} ><Button>Details</Button></Link></Td>
             </Tr>
             )}
 
@@ -68,7 +68,7 @@ export default function PreviosOrders(props){
                 <Th>Date</Th>
                 <Th>Pack Id</Th>
                 <Th>Totall</Th>
-                <Th>Check ditails</Th>
+                <Th>Check details</Th>
             </Tr>
             </Tfoot>
     </Table>

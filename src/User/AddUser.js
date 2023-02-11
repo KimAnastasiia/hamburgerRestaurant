@@ -1,10 +1,10 @@
 import React,{useState, useEffect} from "react"
 import { useNavigate   } from "react-router-dom";
-import objectApiKey from "./ApiKey"
+import objectApiKey from "../Utility/ApiKey"
 
 import { Input, InputGroup,InputRightElement, Button,VStack, Box, Text, Link,Heading, FormLabel,FormErrorMessage,FormControl} from '@chakra-ui/react'
 
-export default function MakeAccount(props){
+export default function AddUser(props){
 
     let [email,setEmail] = useState("")
     let [password,setPassword] = useState("")
@@ -77,7 +77,7 @@ export default function MakeAccount(props){
             </Box> 
 </VStack>*/ }
    
-        <Box  w={"100%"} display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center" minH={"73.6vh"}>        
+        <Box  w={"100%"} display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center" minH={"100vh"}>        
         <Text m={"30"} >Create your account</Text>
         <Input onChange={addEmail}
             pr='4.5rem'

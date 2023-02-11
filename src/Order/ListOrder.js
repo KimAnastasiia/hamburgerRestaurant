@@ -12,11 +12,11 @@ import {
     Box,
     Button,Text
 } from '@chakra-ui/react'
-import objectApiKey from "../ApiKey"
+import objectApiKey from "../Utility/ApiKey"
 
 
 
-export default function MyOrder(props){
+export default function ListOrder(props){
 
     let [listOfOrders, setListOfOrders]=useState([]) 
 
@@ -150,7 +150,7 @@ export default function MyOrder(props){
 
 
     return(
-        <Box  minH={"73.6vh"} display="flex" flexDirection={"column"} alignItems="center">
+        <Box  minH={"100vh"} display="flex" flexDirection={"column"} alignItems="center">
             <TableContainer w={"100%"}>
                 <Table variant='striped' colorScheme='teal'>
                { totall && <TableCaption>Your order</TableCaption>}

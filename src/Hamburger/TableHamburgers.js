@@ -2,7 +2,7 @@ import React,{useState, useEffect} from "react"
 import { Table, Thead, Tbody, Tr, Th, Td, chakra, Flex, Spacer, Text, Center, Square, Box, Image} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-export default function Hamburgers(){
+export default function TableHamburgers(){
 
     let [listOfHamburgers, setListOfHamburgers ] = useState([])
 
@@ -21,7 +21,7 @@ export default function Hamburgers(){
     }
 
     return(
-        <Flex  flexWrap="wrap" alignItems="center" w="100%" justifyContent="center" max={"3"}   minH={"73.6vh"}>
+        <Flex  flexWrap="wrap" alignItems="center" w="100%" justifyContent="center" max={"3"}   minH={"100vh"}>
              {listOfHamburgers.map((hamburger)=>
             <Box  w={["50%","33%","25%","16%"]}>
                 <Box m={"3"} bg={"hsl(40, 47%, 82%)"}  borderRadius='20px' display="flex" flexDirection={"column"}>

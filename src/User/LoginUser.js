@@ -1,11 +1,13 @@
 import React,{useState, useEffect} from "react"
 import { useNavigate   } from "react-router-dom";
-import objectApiKey from "./ApiKey"
+import objectApiKey from "../Utility/ApiKey"
 
 import { Input, InputGroup,InputRightElement, Button, Box, Text} from '@chakra-ui/react'
 
 import { Link } from "react-router-dom";
-export default function LoginComponent(props){
+
+export default function LoginUser(props){
+
     let [email,setEmail] = useState("")
     let [password,setPassword] = useState("")
     let [sms, setSms] = useState("")
@@ -58,7 +60,7 @@ export default function LoginComponent(props){
 
     return(
         <div> 
-            <Box  w={"100%"} display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center" minH={"73.6vh"}>        
+            <Box  w={"100%"} display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center" minH={"100vh"}>        
                 <Text m={"30"} >Login</Text>
                 <Input onChange={addEmail}
                     pr='4.5rem'

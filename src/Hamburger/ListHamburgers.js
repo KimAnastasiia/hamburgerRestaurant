@@ -2,7 +2,7 @@ import React,{useState, useEffect} from "react"
 import { Table, Thead, Tbody, Tr, Th, Td, chakra } from "@chakra-ui/react";
 
 
-export default function ListOfHamburgers(){
+export default function ListHamburgers(){
     
     let [listOfHamburgers, setListOfHamburgers ] = useState([])
 
@@ -23,7 +23,7 @@ export default function ListOfHamburgers(){
     return(
 <section>
     <article>
-        <Table>
+        <Table minH={"100vh"}>
             <Thead >
                     <Tr >
                         <Th color="red">

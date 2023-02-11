@@ -89,7 +89,7 @@ export default function AddHamburger(){
                 <section>
                     <article>
 
-                            <Stack direction="column" spacing={3} align="flex-start">
+                            <Stack minH={"30vh"} direction="column" spacing={3} align="flex-start">
                                 <Text w={["100%"]}  textAlign="center" >Make new Hamburger</Text>
                                 <Input
                                     isInvalid
@@ -117,13 +117,9 @@ export default function AddHamburger(){
                             </Stack>
                     </article>
                 </section>
-        <br>
-        </br>
-        <br>
-        </br>
                 <section>
                     <article>
-                        <Table>
+                        <Table minH={"100vh"}>
                             <Thead>
                                     <Tr>
                                         <Th color="red">
