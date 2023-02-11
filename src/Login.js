@@ -43,6 +43,12 @@ export default function LoginComponent(props){
                     props.setLogin(true)                
                     navigate("/hamburgers/all")
                 }
+                if(data.messege === "admin"){
+                    objectApiKey.apiKey=data.apiKey
+                    props.setLogin(true)  
+                    props.setAdmin(true)              
+                    navigate("/hamburgers/all")
+                }
             }else{
                 setSms("Error")
             }
@@ -67,10 +73,10 @@ export default function LoginComponent(props){
                     w={"20%"}
                 />
                 <br></br>
-                <Button bg={"green"} color="white" onClick={loginToProfile} w="20%" m={"2"}>
+                <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]} color="white" onClick={loginToProfile} w="20%" m={"2"}>
                     Continium
                 </Button> 
-                <Button w="10%" >
+                <Button w="10%" bg={"blue.200"} >
                     <Link to="/login/create-account" >Create account</Link>
                 </Button>
             </Box>  

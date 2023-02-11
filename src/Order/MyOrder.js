@@ -16,17 +16,17 @@ import objectApiKey from "../ApiKey"
 
 
 
-export default function MyOrder(){
+export default function MyOrder(props){
 
 
     useEffect(()=>{
         checkListOfOrders()
-        checkListOfDoneOrders()
+    
     }, [])
 
 
     let [listOfOrders, setListOfOrders]=useState([])
-    let [listOfDoneOrders, setListOfDoneOrders]=useState([])
+   
     
 
     let checkListOfOrders =async()=>{
@@ -35,44 +35,67 @@ export default function MyOrder(){
             let data = await response.json()
             if(!data.error){
                 setListOfOrders(data)
+               
             }
         }
+        props.setQuantityInOrder(listOfOrders.length)
     }
 
-    let checkListOfDoneOrders =async()=>{
-        let response = await fetch("http://localhost:2000/order/done?apiKey="+objectApiKey.apiKey)
-        if(response.ok){
-            let data = await response.json()
-            if(!data.error){
-                setListOfDoneOrders(data)
-            }
-        }
-    }
+
 
 
 
     let complete =async ()=>{
+        let  data 
+        let total = 0
+         listOfOrders.map((order)=>
+        total = total + order.number * order.price)
+
+        let responseOrderPack = await fetch ("http://localhost:2000/orderPack?apiKey="+objectApiKey.apiKey,{
+
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body:
+            JSON.stringify( { 
+               total: total
+            })
+
+        })
+        if(responseOrderPack.ok){
+            data = await responseOrderPack.json()
+            console.log(data.rows.insertId)
+        }
         let response = await fetch("http://localhost:2000/order/complete?apiKey="+objectApiKey.apiKey,  
             {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
-            }}
+                },
+                body:
+                    JSON.stringify( { 
+                        orderPackId:data.rows.insertId
+                    })
+                }
         )
+      
         checkListOfOrders()
-        checkListOfDoneOrders()
+    
         
+        
+        
+       
     }
 
-    let totall= 0
+    
+
+    let totall= false
     listOfOrders.map((order)=>
         totall+= order.price*order.number
     )
 
-    let totallOfDone=0
-    listOfDoneOrders.map((doneOrder)=>
-        totallOfDone+=doneOrder.price*doneOrder.number
-    )
+
 
 
 
@@ -80,13 +103,15 @@ export default function MyOrder(){
         <Box  minH={"73.6vh"} display="flex" flexDirection={"column"} alignItems="center">
             <TableContainer w={"100%"}>
                 <Table variant='striped' colorScheme='teal'>
-                    <TableCaption>Your order</TableCaption>
+               { totall && <TableCaption>Your order</TableCaption>}
+               { !totall &&<TableCaption>Your order empty</TableCaption>}
                     <Thead>
                     <Tr>
                         <Th>Type</Th>
                         <Th>Price</Th>
                         <Th>Quantity</Th>
                         <Th>Totall</Th>
+                        <Th>Delete</Th>
                         <Th>Bill</Th>
                     </Tr>
                     </Thead>
@@ -97,10 +122,12 @@ export default function MyOrder(){
                         <Td>{order.price}</Td>
                         <Td>{order.number}</Td>
                         <Td>{order.number*order.price}</Td>
+                        <Th><Button>-</Button><Button>+</Button></Th>
                     
                     </Tr>
                     )}
                     <Tr>
+                        <Td></Td>
                         <Td></Td>
                         <Td></Td>
                         <Td></Td>
@@ -115,6 +142,7 @@ export default function MyOrder(){
                         <Th>Price</Th>
                         <Th>Quantity</Th>
                         <Th>Totall</Th>
+                        <Th>Delete</Th>
                         <Th>Bil</Th>
                     </Tr>
                     </Tfoot>
@@ -122,52 +150,7 @@ export default function MyOrder(){
             
             </TableContainer>
             <Button  onClick={complete} color="green" m={"30px"} w="10%">Complete order</Button>
-            <Text textAlign={"center"}  rounded={"20px"}  color="white" bg={"green"} w="10%"  >History of orders</Text>
-
-
-            <TableContainer w={"100%"}>
-                <Table variant='striped' colorScheme='teal'>
-                    <TableCaption>Your done orders</TableCaption>
-                    <Thead>
-                    <Tr>
-                        <Th>Type</Th>
-                        <Th>Price</Th>
-                        <Th>Quantity</Th>
-                        <Th>Totall</Th>
-                        <Th>Bill</Th>
-                    </Tr>
-                    </Thead>
-                    <Tbody>
-                    {  listOfDoneOrders.map((doneOrder)=>
-                    <Tr>
-                        <Td>{doneOrder.type}</Td>
-                        <Td>{doneOrder.price}</Td>
-                        <Td>{doneOrder.number}</Td>
-                        <Td>{doneOrder.number*doneOrder.price}</Td>
-                    
-                    </Tr>
-                    )}
-                            <Tr>
-                        <Td></Td>
-                        <Td></Td>
-                        <Td></Td>
-                        <Td></Td>
-                        <Td>{totallOfDone}</Td>
-                    </Tr>
-                    </Tbody>
-
-                    <Tfoot>
-                    <Tr>
-                        <Th>Type</Th>
-                        <Th>Price</Th>
-                        <Th>Quantity</Th>
-                        <Th>Totall</Th>
-                        <Th>Bil</Th>
-                    </Tr>
-                    </Tfoot>
-            </Table>
-            
-            </TableContainer>
+           
         </Box>
 
     )

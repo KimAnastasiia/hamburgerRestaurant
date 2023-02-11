@@ -20,12 +20,14 @@ export default function Menu(props){
           let data = await response.json()
           
               if(data.messege === "done"){
-                  props.setLogin(false)                
+                  props.setLogin(false)   
+                  props.setAdmin(false)            
                   navigate("/hamburgers/all")
               }
           
       }  
   }
+  
     const [isOpen, setIsOpen] = React.useState(false);
 
     const toggle = () => setIsOpen(!isOpen);
@@ -54,7 +56,7 @@ export default function Menu(props){
                 </Text>
               </Link>
 
-              {props.login &&<Link to="/hamburgers/addNew">
+              {props.admin &&<Link to="/hamburgers/addNew">
                 <Text display="block" >
                   Add new Hamburger
                 </Text>
@@ -70,7 +72,14 @@ export default function Menu(props){
               {props.login &&
               <Link to="/order/hamburgers">
                 <Text display="block" >
-                  My order
+                  My order 
+                </Text>
+              </Link>}
+
+             
+              {props.login &&<Link to="/orderPack">
+                <Text display="block" >
+                  History of orders
                 </Text>
               </Link>}
 
@@ -80,7 +89,7 @@ export default function Menu(props){
                   Login
                 </Text>
               </Link>}
-
+              
               {props.login &&
                 <Button  bg={"none"} onClick={logOut}  >
                   Log out <ArrowForwardIcon/>

@@ -5,20 +5,32 @@ import { useParams } from "react-router-dom";
 import { PhoneIcon, ArrowBackIcon,  ArrowForwardIcon} from '@chakra-ui/icons'
 import { Link } from "react-router-dom";
 import objectApiKey from "../ApiKey"
+import { RowSelection } from "@tanstack/react-table";
 
 export default function Ditails(props){
 
     const {id} = useParams()
     let [hamburger, setHamburger ] = useState([])
     let [quantity, setQuantity] = useState(0)
-    let [visible , setVisible]= useState(false)
+    let [listOfOrders, setListOfOrders]=useState([])
 
     useEffect (()=>{ 
         showAll()
         informationAboutHamburger()
+        checkListOfOrders()
 
     },[])
-
+    let checkListOfOrders =async()=>{
+        let response = await fetch("http://localhost:2000/order/hamburgers?apiKey="+objectApiKey.apiKey)
+        if(response.ok){
+            let data = await response.json()
+            if(!data.error){
+                setListOfOrders(data)
+               
+            }
+        }
+        props.setQuantityInOrder(listOfOrders.length)
+    }
     let showAll=async()=>{
         let response = await fetch("http://localhost:2000/hamburgers/"+id)
         if(response.ok){
@@ -53,7 +65,6 @@ export default function Ditails(props){
               if(listOfOrders.length==0){
 
                     let response = await fetch ("http://localhost:2000/order?apiKey="+objectApiKey.apiKey,{
-
                         method: 'POST',
                         headers: {
                         'Content-Type': 'application/json'
@@ -67,6 +78,8 @@ export default function Ditails(props){
             
                     })
                     setQuantity(1)
+                    checkListOfOrders()
+                    props.setQuantityInOrder(listOfOrders.length)
                 }else{
                    
                     let response = await fetch ("http://localhost:2000/order/"+id+"?apiKey="+objectApiKey.apiKey,{
@@ -85,7 +98,9 @@ export default function Ditails(props){
                 })
                    
                 setQuantity(listOfOrders[0].number+1)
-
+                checkListOfOrders()
+                props.setQuantityInOrder(listOfOrders.length)
+                
                 }
                 console.log(listOfOrders)
             }
@@ -119,10 +134,10 @@ export default function Ditails(props){
                     if(listOfOrders[0].number>0){
                         setQuantity(listOfOrders[0].number-1)
                     }
-                
-
+                    checkListOfOrders()
+                    props.setQuantityInOrder(props.quantityInOrder-1)
                 }
-                if(listOfOrders[0].number===0){
+                if(listOfOrders[0].number===1){
                     let response = await fetch ("http://localhost:2000/order/"+id+"?apiKey="+objectApiKey.apiKey,{
                         method: 'DELETE',
                     })
@@ -132,14 +147,12 @@ export default function Ditails(props){
         }
     
     }
-    let goBack =()=>{
 
-    }
 
     return(
     <div>
         <Stack align='start'>
-            <Button onClick={goBack} marginLeft={"600px"} leftIcon={<ArrowBackIcon />} colorScheme='teal' variant='outline'><Link to="/hamburgers" >
+            <Button  marginLeft={"600px"} leftIcon={<ArrowBackIcon />} colorScheme='teal' variant='outline'><Link to="/hamburgers" >
                 Back
             </Link>
             </Button>

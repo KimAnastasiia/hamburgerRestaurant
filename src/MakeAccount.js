@@ -2,14 +2,14 @@ import React,{useState, useEffect} from "react"
 import { useNavigate   } from "react-router-dom";
 import objectApiKey from "./ApiKey"
 
-import { Input, InputGroup,InputRightElement, Button, Box, Text, Link} from '@chakra-ui/react'
+import { Input, InputGroup,InputRightElement, Button,VStack, Box, Text, Link,Heading, FormLabel,FormErrorMessage,FormControl} from '@chakra-ui/react'
 
 export default function MakeAccount(props){
 
     let [email,setEmail] = useState("")
     let [password,setPassword] = useState("")
     const navigate  = useNavigate();
-    let [sms, setSms] = useState("")
+
     let addEmail =(e)=>{
         setEmail(e.target.value)
     }
@@ -37,21 +37,36 @@ export default function MakeAccount(props){
     }
     
     return(
-        <div> 
-            <Box  w={"100%"} display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center">        
-                <Text m={"30"} >Create your account</Text>
-                <Input onChange={addEmail}
-                    pr='4.5rem'
-                    type={"email"}
-                    placeholder='Enter email'
-                    w={"20%"}
-                />
-                <Input onChange={addtPassword}
-                    type="password"
-                    pr='4.5rem'
-                    placeholder='Enter password'
-                    w={"20%"}
-                />
+        <div>
+{       
+           /* <VStack  p={32} alignItems="flex-start" bg={"pink"} display={"flex"} justifyContent="center">
+            <Box minH={"73.6vh"} w={"100%"} display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center"  bg={"gray"}>    
+                
+                <Heading as="h1"  >
+                    Create your account
+                </Heading>
+                <FormControl>
+                    <FormLabel  htmlFor="email">Email</FormLabel>
+                    <Input 
+                        onChange={addEmail}
+                        pr='4.5rem'
+                        type={"email"}
+                        placeholder='Enter email'
+                        w={"20%"}
+                        id="email"
+                    />
+                    <FormErrorMessage>Write a email</FormErrorMessage>
+                </FormControl>
+                <FormControl>
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <Input onChange={addtPassword}
+                        type="password"
+                        pr='4.5rem'
+                        placeholder='Enter password'
+                        w={"20%"}
+                        id="password"
+                    />
+                </FormControl>
                 <br></br>
                 <Button  onClick={createAccount} w="10%" m={"2"}>
                    Continium
@@ -59,7 +74,30 @@ export default function MakeAccount(props){
                 <Button w="10%" >
                     <Link href={"/login"} >I already have account</Link>
                 </Button>
-            </Box>  
-        </div>
-    )
-}
+            </Box> 
+</VStack>*/ }
+   
+        <Box  w={"100%"} display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center" minH={"73.6vh"}>        
+        <Text m={"30"} >Create your account</Text>
+        <Input onChange={addEmail}
+            pr='4.5rem'
+            type={"email"}
+            placeholder='Enter email'
+            w={"20%"}
+        />
+        <Input onChange={addtPassword}
+            type="password"
+            pr='4.5rem'
+            placeholder='Enter password'
+            w={"20%"}
+        />
+        <br></br>
+        <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]} color="white" onClick={createAccount} w="20%" m={"2"}>
+            Continium
+        </Button> 
+        <Button w="10%" bg={"blue.200"} >
+            <Link href={"/login"} >I already have account</Link>
+        </Button>
+        </Box> 
+    </div>
+)}

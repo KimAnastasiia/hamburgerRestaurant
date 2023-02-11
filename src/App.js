@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Routes, useHref } from "react-router-dom"
 import ListOfHamburgers from './Hamburger/ListOfHamburgers';
 import { Flex, Thead, Tbody, Tr, Th, Td, chakra, Button, Text, Image, Box, Stack } from "@chakra-ui/react";
@@ -8,31 +8,55 @@ import Hamburgers from './Hamburger/Hamburgers';
 import Ditails from './Hamburger/BurgersDetails';
 import MyOrder from './Order/MyOrder';
 import LoginComponent from './Login';
+import objectApiKey from "./ApiKey"
 import MakeAccount from './MakeAccount';
 import { PhoneIcon, AddIcon, WarningIcon } from '@chakra-ui/icons'
 import { InstagramOutlined, FacebookOutlined, TwitterOutlined, YoutubeOutlined} from '@ant-design/icons';
 import { Link } from "react-router-dom";
+import PreviosOrders from './Order/PreviosOrders';
+import PreviosOrdersDitails from './Order/doneOrdersDetails';
 
 export default function App(){
   let [login, setLogin] = useState(false)
-  
+  let[admin, setAdmin] = useState(false)
 
+  let [listOfOrders, setListOfOrders]=useState([])
+  
+  useEffect(()=>{
+    checkListOfOrders()
+  },[])
+
+  let checkListOfOrders =async()=>{
+    let response = await fetch("http://localhost:2000/order/hamburgers?apiKey="+objectApiKey.apiKey)
+    if(response.ok){
+        let data = await response.json()
+        if(!data.error){
+            setListOfOrders(data)
+           
+        }
+    }
+  }
+  let[quantityInOrder, setQuantityInOrder]=useState(listOfOrders.length)
   return (
     <div>
       <br></br>
-      <Menu setLogin={setLogin} login={login}/>
+      <Menu setLogin={setLogin} login={login} admin={admin} setAdmin={setAdmin} quantityInOrder={quantityInOrder}/>
 
       <br></br>
       <br></br>
       <Routes>
+      <Route path='/' element={<ListOfHamburgers/>} />
         <Route path='/hamburgers/all' element={<ListOfHamburgers/>} />
         <Route path='/hamburgers/addNew' element={<AddHamburger/>} />
         <Route path='/hamburgers/all' element={<ListOfHamburgers/>} />
         <Route path='/hamburgers' element={<Hamburgers/>} />
-        <Route path='/order/:id' element={<Ditails login={login}/>} />
-        <Route path='/order/hamburgers' element={<MyOrder/>} />
-        {!login && <Route path='/login' element={<LoginComponent login={login} setLogin={setLogin} />} />}
+        <Route path='/orderPack' element={<PreviosOrders/>} />
+        <Route path='/order/ditails/:doneOrdersDitailsId' element={<PreviosOrdersDitails/>} />
+        <Route path='/order/:id' element={<Ditails login={login} setQuantityInOrder={setQuantityInOrder} quantityInOrder={quantityInOrder} />} />
+        <Route path='/order/hamburgers' element={<MyOrder setQuantityInOrder={setQuantityInOrder}/>} />
+        {!login && <Route path='/login' element={<LoginComponent login={login} setLogin={setLogin} setAdmin={setAdmin} />} />}
         <Route path='/login/create-account' element={<MakeAccount/>} />
+        
 
       </Routes>
       <Box bg={["primary.500", "primary.500", "primary.500", "primary.500"]} w="100%">
