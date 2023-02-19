@@ -22,6 +22,7 @@ export default function DetailsDoneOrders(props){
     let [listOfDoneOrdersDetails, setListOfDoneOrdersDetails] = useState([])
     const {doneOrdersDetailsId: doneOrdersDetailsId}= useParams()
     let date 
+    
     useEffect(()=>{
         doneOrdersDetails()
     

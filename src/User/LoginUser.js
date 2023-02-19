@@ -1,15 +1,9 @@
 import React,{useState, useEffect} from "react"
 import { useNavigate   } from "react-router-dom";
 import objectApiKey from "../Utility/ApiKey"
-import {
-    Alert,
-    AlertIcon,
-    AlertTitle,
-    AlertDescription,
-  } from '@chakra-ui/react'
-import { Input, InputGroup,InputRightElement, Button, Box, Text} from '@chakra-ui/react'
-
+import { Input,  Alert,AlertIcon,AlertTitle, AlertDescription, InputGroup,InputRightElement, Button, Box, Text} from '@chakra-ui/react'
 import { Link } from "react-router-dom";
+
 
 export default function LoginUser(props){
 
@@ -46,20 +40,23 @@ export default function LoginUser(props){
         if(response.ok){
             let data = await response.json()
             if(data.apiKey){
-                if(data.messege === "done"){
-                    objectApiKey.apiKey=data.apiKey     
-                 
+                if(data.messege === "user"){
+                    objectApiKey.apiKey=data.apiKey 
+                    objectApiKey.userId=data.userId  
+                    props.setLogin(true)
+                    navigate("/hamburgers/all")
                 }
                 if(data.messege === "admin"){
                     objectApiKey.apiKey=data.apiKey
+                    objectApiKey.userId=data.userId
                     props.setLogin(true)  
                     props.setAdmin(true)              
                     navigate("/hamburgers/all")
                 }
-                
+              props.setProfileAvatar(data.name)  
             }
             else if(!data.apiKey){
-                if(data.messege === "Your user or your password is bad"){
+                if(data.messege ==="Incorrect email or password"){
                     setAlert(data.messege)
                 }
                 
@@ -73,33 +70,39 @@ export default function LoginUser(props){
 
     return(
         <div> 
-         { alert &&  <Alert status='error' width={"400px"} marginLeft="750">
-                <AlertIcon />
-                <AlertTitle>{alert}</AlertTitle>
-            </Alert>}
-            <Box  w={"100%"} display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center" minH={"100vh"}>        
-                <Text m={"30"} >Login</Text>
-                <Input onChange={addEmail}
-                    pr='4.5rem'
-                    type={"email"}
-                    placeholder='Enter email'
-                    w={"20%"}
-                />
-                <Input onChange={addPassword}
-                    type="password"
-                    pr='4.5rem'
-                    placeholder='Enter password'
-                    w={"20%"}
-                />
-                <br></br>
-                <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]} color="white" onClick={loginToProfile} w="20%" m={"2"}>
-                    Continium
-                </Button> 
-                <Button w="10%" bg={"blue.200"} >
-                    <Link to="/login/create-account" >Create account</Link>
-                </Button>
-               
-            </Box>  
+
+             <Box  minH={"100vh"} display={"flex"}  justifyContent="center" alignItems={"center"} flexDirection="column" >
+                { alert &&
+                <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
+                    <Alert status='error' width={"300px"}  >
+                        <AlertIcon />
+                        <AlertTitle>{alert}</AlertTitle>
+                    </Alert>
+                </Box>}
+                <Box  w={"100%"} display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center" >        
+                    <Text m={"30"} >Login</Text>
+                    <Input onChange={addEmail}
+                        pr='4.5rem'
+                        type={"email"}
+                        placeholder='Enter email'
+                        w={"20%"}
+                    />
+                    <Input onChange={addPassword}
+                        type="password"
+                        pr='4.5rem'
+                        placeholder='Enter password'
+                        w={"20%"}
+                    />
+                    <br></br>
+                    <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]} color="white" onClick={loginToProfile} w="20%" m={"2"}>
+                        Continium
+                    </Button> 
+                    <Button w="10%" bg={"blue.200"} >
+                        <Link to="/login/create-account" >Create account</Link>
+                    </Button>
+                
+                </Box> 
+            </Box> 
         </div>
     )
 }

@@ -1,10 +1,12 @@
 
-import React,{useState, useEffect} from "react"
-import { Table, Thead, Tbody, Tr, Th, Td, chakra, Button, Text, Image, Box, Stack } from "@chakra-ui/react";
+import React,{useState, useEffect, useRef} from "react"
+import { Button, 
+Text, Image, Box, Stack,  } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import { PhoneIcon, ArrowBackIcon,  ArrowForwardIcon} from '@chakra-ui/icons'
+import {  ArrowBackIcon} from '@chakra-ui/icons'
 import { Link } from "react-router-dom";
 import objectApiKey from "../Utility/ApiKey"
+import ListCommentsHamburger from "./ListCommentsHamburger";
 
 
 export default function DetailsHamburgers(props){
@@ -12,25 +14,12 @@ export default function DetailsHamburgers(props){
     const {id} = useParams()
     let [hamburger, setHamburger ] = useState([])
     let [quantity, setQuantity] = useState(0)
-    let [listOfOrders, setListOfOrders]=useState([])
 
     useEffect (()=>{ 
         showAll()
         informationAboutHamburger()
-        checkListOfOrders()
-
     },[])
-    let checkListOfOrders =async()=>{
-        let response = await fetch("http://localhost:2000/order/hamburgers?apiKey="+objectApiKey.apiKey)
-        if(response.ok){
-            let data = await response.json()
-            if(!data.error){
-                setListOfOrders(data)
-               
-            }
-        }
-       
-    }
+
     let showAll=async()=>{
         let response = await fetch("http://localhost:2000/hamburgers/"+id)
         if(response.ok){
@@ -78,7 +67,7 @@ export default function DetailsHamburgers(props){
             
                     })
                     setQuantity(1)
-                    checkListOfOrders()
+                    props.setQuantityInMenu(props.quantityInMenu+1)
                    
                 }else{
                    
@@ -98,8 +87,7 @@ export default function DetailsHamburgers(props){
                 })
                    
                 setQuantity(listOfOrders[0].number+1)
-                checkListOfOrders()
-               
+                props.setQuantityInMenu(props.quantityInMenu+1)
                 
                 }
                 console.log(listOfOrders)
@@ -118,29 +106,31 @@ export default function DetailsHamburgers(props){
               if(listOfOrders[0].number>0){
                    
                     let response = await fetch ("http://localhost:2000/order/"+id+"?apiKey="+objectApiKey.apiKey,{
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body:
+                            JSON.stringify( { 
+                            number:listOfOrders[0].number-1
+                        })
+                    })
 
-                    method: 'PUT',
-                    headers: {
-                    'Content-Type': 'application/json'
-                    },
-                    body:
-                    JSON.stringify( { 
-                    number:listOfOrders[0].number-1
-                    })
-                    
-                   
-                    })
-               
-                    if(listOfOrders[0].number>0){
-                        setQuantity(listOfOrders[0].number-1)
+                    if(response.ok){
+                        let data = await response.json()
+                        if(data.error==null){ 
+                            if(listOfOrders[0].number>0){
+                                setQuantity(listOfOrders[0].number-1)
+                            }
+                            props.setQuantityInMenu(props.quantityInMenu-1)
+                        }
                     }
-                    checkListOfOrders()
-                 
                 }
                 if(listOfOrders[0].number===1){
                     let response = await fetch ("http://localhost:2000/order/"+id+"?apiKey="+objectApiKey.apiKey,{
                         method: 'DELETE',
                     })
+                    props.setQuantityInMenu(props.quantityInMenu-1)
                 }
                 console.log(listOfOrders)
             }
@@ -149,6 +139,8 @@ export default function DetailsHamburgers(props){
     }
 
 
+
+   
     return(
     <div>
         <Stack align='start'>
@@ -163,7 +155,8 @@ export default function DetailsHamburgers(props){
                 <Text h="30%" w="100%"  >{hamburger.description}</Text>
                 <Text w="100%" >price: {hamburger.price} euro</Text>
 
-                {props.login && <Box>
+                {props.login && 
+                <Box>
                     <Text color="green" >Quantity in cart {quantity}</Text>
                     <Box  display={"flex"} justifyContent="center" alignItems={"center"} >
                         <Button onClick={minus} >-</Button>
@@ -171,14 +164,20 @@ export default function DetailsHamburgers(props){
                     </Box>
                 </Box>}
 
-                {!props.login &&<Box>
+                {!props.login &&
+                <Box>
                     <Text color="green" >Add in cart</Text>
                     <Box  display={"flex"} justifyContent="center" alignItems={"center"} >
                         <Button><Link to="/login" >Login</Link></Button>
                     </Box>
                 </Box>}
-            </Box>
+            </Box> 
         </Box>
+
+        <Box display={"flex"} justifyContent="center">
+            <ListCommentsHamburger login={props.login}/>
+        </Box>
+        
     </div>
     )
 }

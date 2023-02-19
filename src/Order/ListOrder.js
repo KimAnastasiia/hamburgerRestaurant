@@ -77,6 +77,7 @@ export default function ListOrder(props){
         )
       
         checkListOfOrders()
+        props.setQuantityInMenu(0)
      
     }
 
@@ -106,8 +107,7 @@ export default function ListOrder(props){
                     
                    
                     })
-               
-                
+                    props.setQuantityInMenu(props.quantityInMenu-1)
                     checkListOfOrders()
                 }
                 if(listOfOrders[0].number===1){
@@ -115,6 +115,7 @@ export default function ListOrder(props){
                         method: 'DELETE',
                     })
                     checkListOfOrders()
+                    props.setQuantityInMenu(props.quantityInMenu-1)
                 }
                 console.log(listOfOrders)
             }
@@ -139,6 +140,7 @@ export default function ListOrder(props){
                     number:listOfOrders[0].number+1
                     })
                 })
+                props.setQuantityInMenu(props.quantityInMenu+1)
             }
        
         }           
@@ -150,6 +152,8 @@ export default function ListOrder(props){
 
 
     return(
+        <div>
+        {props.login &&
         <Box  minH={"100vh"} display="flex" flexDirection={"column"} alignItems="center">
             <TableContainer w={"100%"}>
                 <Table variant='striped' colorScheme='teal'>
@@ -204,7 +208,8 @@ export default function ListOrder(props){
             </TableContainer>
             <Button  onClick={complete} color="green" m={"30px"} w="10%">Complete order</Button>
            
-        </Box>
+        </Box>}
+        </div>
 
     )
 

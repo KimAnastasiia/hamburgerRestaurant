@@ -1,14 +1,36 @@
 
-import React from 'react';
+import React,{useState, useEffect} from "react"
 import { HamburgerIcon, CloseIcon,ArrowForwardIcon} from '@chakra-ui/icons';
-import { Box, Flex, Text, Button, Stack, Img } from "@chakra-ui/react";
+import { Box, Flex, Text, Button, Stack, Img, Badge,Avatar } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useNavigate   } from "react-router-dom";
 import objectApiKey from "../Utility/ApiKey"
 
+
+
+
 export default function Menu(props){
+  
   const navigate  = useNavigate();
 
+
+  useEffect(()=>{
+      quantity()
+  },[])
+
+
+  let quantity =async()=>{
+      let response = await fetch("http://localhost:2000/order/basket?apiKey="+objectApiKey.apiKey)
+      if(response.ok){
+          let data = await response.json()
+          if(!data.error){
+            if(data[0].number){
+              props.setQuantityInMenu(data[0].number)
+             }
+          }
+      }
+    
+  }
   let logOut=async()=>{
       let response = await fetch ("http://localhost:2000/login/log-out?apiKey="+objectApiKey.apiKey,{
           method: 'POST',
@@ -20,21 +42,27 @@ export default function Menu(props){
         let data = await response.json()
         if(data.messege === "done"){
             props.setLogin(false)   
-            props.setAdmin(false)            
+            props.setAdmin(false) 
+            props.setProfileAvatar("User")
+            objectApiKey.apiKey=1
+            objectApiKey.userId=-1
             navigate("/hamburgers/all")
         }
           
       }  
   }
-  
+
+    
     const [isOpen, setIsOpen] = React.useState(false);
 
     const toggle = () => setIsOpen(!isOpen);
+
 
     const MenuLinks = ({ isOpen }) => {
       return (
         <div>
             <header>
+              
               <Box
                 display={{ base: isOpen ? "block" : "none", md: "block" }}
                 flexBasis={{ base: "100%", md: "auto" }}
@@ -71,7 +99,7 @@ export default function Menu(props){
                   {props.login &&
                   <Link to="/order/hamburgers">
                     <Text display="block" >
-                      My order 
+                      My order  <Badge colorScheme='red'>{props.quantityInMenu} </Badge>
                     </Text>
                   </Link>}
 
@@ -89,6 +117,15 @@ export default function Menu(props){
                     </Text>
                   </Link>}
                   
+                  {props.login &&<Link to='/user' >
+                    <Avatar size='sm' name={props.profileAvatar}/>
+                  </Link>
+                  }
+                  {!props.login &&<Link to="/login/create-account" >
+                    <Avatar size='sm'/>
+                  </Link>}
+                  
+
                   {props.login &&
                     <Button  bg={"none"} onClick={logOut}  >
                       Log out <ArrowForwardIcon/>
