@@ -61,7 +61,7 @@ export default function StatusOrder(props){
                 id:id
                 })
         })
-        
+        doneOrders()
     }
 
     return(
@@ -84,7 +84,7 @@ export default function StatusOrder(props){
                 <Td>{order.orderPackId}</Td>
                 <Td>{order.total}</Td>
                 <Td><Link to={"/order/details/"+order.orderPackId} ><Button>Details</Button></Link></Td>
-                <Td><Select onChange={e =>chanheStatusOfOrder(e, order.orderPackId)}>
+                <Td><Select onChange={e =>chanheStatusOfOrder(e, order.orderPackId)}  placeholder={order.status}>
                     <option value="Pending" >Pending</option>
                     <option value="Cancel" >Cancel</option>
                     <option value="In Progress" >In progress</option>

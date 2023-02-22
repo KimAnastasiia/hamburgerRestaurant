@@ -21,14 +21,14 @@ export default function TableHamburgers(){
     }
 
     return(
-        <Flex  flexWrap="wrap" alignItems="center" w="100%" justifyContent="center" max={"3"}   minH={"100vh"}>
+        <Flex  flexWrap="wrap" alignItems="center" m="0" p="0" w="100%" justifyContent="center"  minH={"100vh"}>
              {listOfHamburgers.map((hamburger)=>
-            <Box  w={["50%","33%","25%","16%"]}>
-                <Box m={"3"} bg={"hsl(40, 47%, 82%)"}  borderRadius='20px' display="flex" flexDirection={"column"}>
+            <Box  w={["50%","50%","30%","24%","24%","23%","23%","22%","22%","20%","20%"]}  >
+                <Box m={"3"} bg={"hsl(40, 47%, 82%)"}  borderRadius='20px' display="flex" flexDirection={"column"} >
                     <Box  h="70%" display="flex" justifyContent={"center"} alignItems="flex-end" > 
                         <Image borderRadius='20px' w="70%"  src={"/images/"+hamburger.type+".png"} />
                     </Box>
-                    <Box  w="100%"  h="30%" display="flex"><Text w="100%"  h="30%" display="flex"  justifyContent={"center"} alignItems="flex-start" color={"blue"}><Link to={"/order/"+hamburger.Id}  >  {hamburger.type}</Link></Text></Box>
+                    <Box  w="100%"  h="30%" display="flex"><Text w="100%"  h="30%" display="flex"  justifyContent={"center"} alignItems="flex-start" color={"blue"}><Link to={"/order/"+hamburger.Id}>{hamburger.type}</Link></Text></Box>
                 </Box>
             </Box>
               )}

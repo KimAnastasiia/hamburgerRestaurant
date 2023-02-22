@@ -48,69 +48,76 @@ export default function Menu(props){
 
     const MenuLinks = ({ isOpen }) => {
       return (
-        <div>
-            <header>
-              
+
               <Box
-                display={{ base: isOpen ? "block" : "none", md: "block" }}
-                flexBasis={{ base: "100%", md: "auto" }}
+                display={{ base: isOpen ? "block" : "none",  lg: "block" }}
+                flexBasis={{ base: "100%", lg: "auto" }}
               >
                 <Stack
                   spacing={8}
                   align="center"
-                  justify={["center", "space-between", "flex-end", "flex-end"]}
-                  direction={["column", "row", "row", "row"]}
+                  justify={"center"}
+                  direction={["column", "column", "column","row", "row"]}
                   pt={[4, 4, 0, 0]}
-                
-                  marginRight={"200px"}
+                  marginRight={["0px","0px","0px","200px"]}
+                  w={'100%'}
                 >
-
-                  <Link to="/hamburgers/all">
                     <Text display="block" >
-                      Home
+                      <Link to="/hamburgers/all">
+                        Home
+                      </Link>
                     </Text>
-                  </Link>
+                  
 
-                  {props.admin &&<Link to="/hamburgers/addNew">
+                  {props.admin &&
                     <Text display="block" >
-                      Add new Hamburger
+                      <Link to="/hamburgers/addNew">
+                        Add new Hamburger
+                      </Link>
                     </Text>
-                  </Link>
                   }
                   
-                  {props.admin &&<Link to="/hamburgers/status">
+                  {props.admin &&
                     <Text display="block" >
+                      <Link to="/hamburgers/status">
                       Status of orders
+                      </Link>
                     </Text>
-                  </Link>
+    
                   }  
 
-                  <Link to="/hamburgers">
-                    <Text display="block" >
+                 
+                  <Text display="block" >
+                    <Link to="/hamburgers">
                       Hamburgers
-                    </Text>
-                  </Link>
+                    </Link>
+                  </Text>
+                  
 
                   {props.login &&
-                  <Link to="/order/hamburgers">
                     <Text display="block" >
-                      My order  <Badge colorScheme='red'>{props.quantityInMenu} </Badge>
+                      <Link to="/order/hamburgers">
+                        My order  <Badge colorScheme='red'>{props.quantityInMenu} </Badge>
+                      </Link>
                     </Text>
-                  </Link>}
+                  }
 
                 
-                  {props.login &&<Link to="/orderPack">
+                  {props.login &&
                     <Text display="block" >
-                      History of orders
+                      <Link to="/orderPack">
+                        History of orders
+                      </Link>
                     </Text>
-                  </Link>}
+                  }
 
                   {!props.login &&
-                  <Link to="/login">
                     <Text display="block" >
-                      Login
+                      <Link to="/login">
+                        Login
+                      </Link>
                     </Text>
-                  </Link>}
+                   }
                   
                   {props.login &&<Link to='/user' >
                     <Avatar size='sm' name={props.profileAvatar}/>
@@ -130,26 +137,26 @@ export default function Menu(props){
 
                 </Stack>
               </Box>
-            </header>   
-          </div>
+       
+        
       );
 
     };
 
     return (
-      <body>
-        <Flex  as="nav" align="center" justify="space-between"
-            wrap="wrap"  w="100%" mb={8}  p={3} 
-            bg={["primary.500", "primary.500", "primary.500", "primary.500"]}
-            color={["white", "white", "white", "white"]}>
-          <Img marginLeft="200" src="/images/logo.png" alt="Logo restaurant" />
-          <Box 
-            display={{ base: "block", md: "none" }} onClick={toggle} >
-            {isOpen ? <CloseIcon w={8} h={8}/> : <HamburgerIcon  w={8} h={8}/>}
-          </Box>
-          <MenuLinks
-          isOpen={isOpen} />
-        </Flex>
-      </body>
+      <header>
+          <Flex  as="nav" align="center" justify="space-between"
+              wrap="wrap"  w="100%" mb={8}  p={3} 
+              bg={["primary.500", "primary.500", "primary.500", "primary.500"]}
+              color={["white", "white", "white", "white"]}>
+            <Img marginLeft={["100px" ,"100px" ,"100px" ,"50px" ,"200px" ]}src="/images/logo.png" alt="Logo restaurant" />
+            <Box 
+              display={{ base: "block", lg: "none" }} onClick={toggle} >
+              {isOpen ? <CloseIcon w={8} h={8}/> : <HamburgerIcon  w={8} h={8}/>}
+            </Box>
+            <MenuLinks
+              isOpen={isOpen} />
+          </Flex>
+      </header>
     )
   }
