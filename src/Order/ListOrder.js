@@ -42,11 +42,13 @@ export default function ListOrder(props){
 
 
     let complete =async ()=>{
+        if(listOfOrders.length===0){
+            return
+        }
         let  data 
         let total = 0
-         listOfOrders.map((order)=>
-        total = total + (order.number * order.price))
-
+        listOfOrders.map((order)=>total = total + (order.number * order.price))
+       
         let responseOrderPack = await fetch ("http://localhost:2000/orderPack?apiKey="+objectApiKey.apiKey,{
 
             method: 'POST',

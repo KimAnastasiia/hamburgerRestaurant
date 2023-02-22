@@ -15,22 +15,10 @@ export default function Menu(props){
 
 
   useEffect(()=>{
-      quantity()
+      props.updateQuantity()
   },[])
 
 
-  let quantity =async()=>{
-      let response = await fetch("http://localhost:2000/order/basket?apiKey="+objectApiKey.apiKey)
-      if(response.ok){
-          let data = await response.json()
-          if(!data.error){
-            if(data[0].number){
-              props.setQuantityInMenu(data[0].number)
-             }
-          }
-      }
-    
-  }
   let logOut=async()=>{
       let response = await fetch ("http://localhost:2000/login/log-out?apiKey="+objectApiKey.apiKey,{
           method: 'POST',
@@ -89,7 +77,14 @@ export default function Menu(props){
                     </Text>
                   </Link>
                   }
-                    
+                  
+                  {props.admin &&<Link to="/hamburgers/status">
+                    <Text display="block" >
+                      Status of orders
+                    </Text>
+                  </Link>
+                  }  
+
                   <Link to="/hamburgers">
                     <Text display="block" >
                       Hamburgers

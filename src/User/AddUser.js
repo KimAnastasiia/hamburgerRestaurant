@@ -2,16 +2,18 @@ import React,{useState, useEffect} from "react"
 import { useNavigate   } from "react-router-dom";
 import { Input, AlertIcon,InputGroup,InputRightElement,Alert,AlertTitle,
      Button,VStack, Box, Text, Link, Heading, FormLabel,FormErrorMessage,
-     FormControl, Select, Option} from '@chakra-ui/react'
+     FormControl, Select, Option, Radio, RadioGroup, Stack } from '@chakra-ui/react'
 
 import listOfCountries from "../Utility/ListOfCountries";
+import objectApiKey from "../Utility/ApiKey"
+
 export default function AddUser(props){
 
     let [email,setEmail] = useState("")
     let [password,setPassword] = useState("")
 
-    let [emailDirty, setEmailDirty]=useState(false)
-    let [passwordDirty, setPasswordDirty]=useState(false)
+    let [emailInput, setEmailInput]=useState(false)
+    let [passwordInput, setPasswordInput]=useState(false)
 
     let [emailError, setEmailError]=useState(false)
     let [passwordError, setPasswordError]=useState(false)
@@ -22,8 +24,8 @@ export default function AddUser(props){
 
     let [name, setName]=useState("")
     let [surname, setSurname]=useState("")
-    let [payment, setPayment]=useState("")
-    let [country, setCountry]=useState("")
+    let [payment, setPayment]=useState('Cash')
+    let [country, setCountry]=useState(listOfCountries[0])
 
     const navigate  = useNavigate();
  
@@ -36,7 +38,6 @@ export default function AddUser(props){
             setEmailError(false)
         }
     }
-
     
     let addtPassword =(e)=>{
         setPassword(e.target.value)
@@ -71,38 +72,38 @@ export default function AddUser(props){
         setCountry(e.target.value)
     }
     let addPayment =(e)=>{
-        setPayment(e.target.value)
+        setPayment(e)
     }
     const blurHandler = (e)=>{
 
         if(e.target.name==="email"){
-            setEmailDirty(true)
+            setEmailInput(true)
         }
         if ( e.target.name==="password"){
-            setPasswordDirty(true)
+            setPasswordInput(true)
         }
     }
 
-    let allUsers=async()=>{
+    let checkIfEmailExists=async()=>{
      
-        let response = await fetch ("http://localhost:2000/users?email="+email)
+        let response = await fetch ("http://localhost:2000/login?email="+email)
         if(response.ok){
             let data = await response.json()
-            if(!data.error){
-                if(data.length>0){
-                    setEmailError("Email is already taken")
-                    return true
-                }else{
-                    return false
-                }
+            if(data.error){
+                setEmailError("Email is already taken")
+                return true
+            }else{
+                return false 
             }
         }
+        
     }
 
-    let createAccount=async()=>{
-        let userExist=allUsers()
+    let createUser =async()=>{
+      
+        let emailExists = await checkIfEmailExists()
        
-        if ( !passwordError&& emailDirty && userExist){
+        if ( !passwordError && emailInput && !emailExists){
             let response = await fetch ("http://localhost:2000/login/create-account",{
 
             method: 'POST',
@@ -111,7 +112,7 @@ export default function AddUser(props){
             },
 
             body:
-                JSON.stringify( { 
+                JSON.stringify({ 
                     email:email,
                     password:password,
                     name: name,
@@ -120,8 +121,28 @@ export default function AddUser(props){
                     payment:payment
                 })
             })
-            navigate("/hamburgers/all")
+            if(response.ok){
+                let data = await response.json()
+                if(data.apiKey){
+                    if(data.messege === "user"){
+                        objectApiKey.apiKey=data.apiKey 
+                        objectApiKey.userId=data.userId  
+                        props.setLogin(true)
+                        navigate("/hamburgers/all")
+                    }
+                    if(data.messege === "admin"){
+                        objectApiKey.apiKey=data.apiKey
+                        objectApiKey.userId=data.userId
+                        props.setLogin(true)  
+                        props.setAdmin(true)              
+                        navigate("/hamburgers/all")
+                    }
+                props.setProfileAvatar(data.name)  
+            }
+           
         }
+        }
+       
     }
     
     return(
@@ -174,6 +195,9 @@ export default function AddUser(props){
                             <AlertTitle>{nameError}</AlertTitle>
                         </Alert>
             </Box>}
+
+
+
         <Input mb={"15"} w={"20%"} pr='4.5rem'  placeholder="Enter name" onChange={addName}/>
         {surnameError &&                 
             <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
@@ -189,25 +213,43 @@ export default function AddUser(props){
                             <AlertIcon />
                             <AlertTitle>{countryError}</AlertTitle>
                         </Alert>
-            </Box>}
-        <Select mb={"15"} w={"20%"} pr='4.5rem' onChange={addCountry} >
-            {listOfCountries.map((country)=> <option value={country}>{country}</option>)}
-        </Select>
+            </Box>
+        }
+
+            <Box  pr='4.5rem' w={"20%"} mb={"15"} >
+                <Select onChange={addCountry} placeholder='Select country' >
+                    {listOfCountries.map((country)=> <option value={country}>{country}</option>)}
+                </Select>
+            </Box>
+
         {paymentError &&                 
             <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
                         <Alert status='error' width={"500px"}  >
                             <AlertIcon />
                             <AlertTitle>{paymentError}</AlertTitle>
                         </Alert>
-            </Box>}
-        <Input mb={"15"} w={"20%"} pr='4.5rem'  placeholder="Enter your payment" onChange={addPayment} />
-        {(emailDirty && emailError) &&                 
+            </Box>
+        }
+
+            <RadioGroup onChange={addPayment} defaultValue={'Cash'} > 
+                <Stack direction='row'>
+                    <Radio value='Cash' defaultChecked>Cash</Radio>
+                    <Radio value='Cart'>Cart</Radio>
+                    <Radio value='Pay Pal'>Pay Pal</Radio>
+                </Stack>
+            </RadioGroup>
+            
+
+
+
+        {(emailInput && emailError) &&                 
         <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
                     <Alert status='error' width={"500px"}  >
                         <AlertIcon />
                         <AlertTitle>{emailError}</AlertTitle>
                     </Alert>
         </Box>}
+
         <Input 
             mb={"15"}
             onBlur={e=>blurHandler(e)}
@@ -219,13 +261,16 @@ export default function AddUser(props){
             name="email"
             value={email}
         />
-        {(passwordDirty && passwordError) &&                 
+
+        {(passwordInput && passwordError) &&                 
             <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
                         <Alert status='error' width={"500px"}  >
                             <AlertIcon />
                             <AlertTitle>{passwordError}</AlertTitle>
                         </Alert>
-            </Box>}
+            </Box>
+        }
+
         <Input 
             onBlur={e=>blurHandler(e)}
             onChange={addtPassword}
@@ -237,10 +282,14 @@ export default function AddUser(props){
             value={password}
             mb={"15"}
         />
- 
-        <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]} color="white" onClick={createAccount} w="20%" m={"2"}>
+
+        <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]} color="white" onClick={createUser} w="20%" m={"2"}>
             Continium
         </Button> 
+
+
+
+
         <Button w="10%" bg={"blue.200"} >
             <Link href={"/login"} >I already have account</Link>
         </Button>

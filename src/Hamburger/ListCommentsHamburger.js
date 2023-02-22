@@ -21,6 +21,7 @@ export default function ListCommentsHamburger(props){
     const {id} = useParams()
 
 
+
     useEffect (()=>{  
         listComments()
     },[])
@@ -40,7 +41,7 @@ export default function ListCommentsHamburger(props){
         setOriginalComment(e.target.value)
 
     }
-    
+
     let listComments=async()=>{
         let response = await fetch("http://localhost:2000/comments")
         if(response.ok){
@@ -158,6 +159,8 @@ return(
                                 <Button onClick={(e)=>changeData(comment)} ><EditIcon/></Button>
                             </Box>}
                         </Box>}
+
+
                         {(objectApiKey.userId==comment.userId && selectedCommentId.current==comment.id) &&
                             <Box display={"flex"}>
                                <Input 
@@ -169,7 +172,7 @@ return(
                                { changeButtons && 
                                <Button onClick={onChangeData} isDisabled={!comments}><CheckIcon/></Button>}
                             </Box>
-                               }
+                        }
 
 
                             <Text>Date: { 

@@ -10,16 +10,17 @@ import {
     TableCaption,
     TableContainer,
     Box,
-    Button,Text
+    Button,Text,Select
 } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
 import objectApiKey from "../Utility/ApiKey"
 import { useNavigate   } from "react-router-dom";
 
 
-export default function ListDoneOrders(props){
+export default function StatusOrder(props){
 
     let [listOfDoneOrders, setListOfDoneOrders] = useState([])
+  
     const navigate  = useNavigate();
 
     useEffect(()=>{
@@ -35,7 +36,7 @@ export default function ListDoneOrders(props){
 
 
     let doneOrders=async()=>{
-        let response = await fetch("http://localhost:2000/orderPack?apiKey="+objectApiKey.apiKey)
+        let response = await fetch("http://localhost:2000/orderPack/status?apiKey="+objectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){
@@ -44,7 +45,24 @@ export default function ListDoneOrders(props){
         }
     }   
  
+    let chanheStatusOfOrder =async(e, id)=>{
 
+
+        let statusOfOrder= e.target.value
+     
+        //id
+        let response = await fetch ("http://localhost:2000/orderPack?apiKey="+objectApiKey.apiKey,{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                status:statusOfOrder,
+                id:id
+                })
+        })
+        
+    }
 
     return(
         <TableContainer w={"100%"}  minH={"100vh"}>
@@ -66,7 +84,12 @@ export default function ListDoneOrders(props){
                 <Td>{order.orderPackId}</Td>
                 <Td>{order.total}</Td>
                 <Td><Link to={"/order/details/"+order.orderPackId} ><Button>Details</Button></Link></Td>
-                <Th>{order.status}</Th>
+                <Td><Select onChange={e =>chanheStatusOfOrder(e, order.orderPackId)}>
+                    <option value="Pending" >Pending</option>
+                    <option value="Cancel" >Cancel</option>
+                    <option value="In Progress" >In progress</option>
+                    <option value="Finished">Finished</option>
+                </Select></Td>
             </Tr>
             )}
 

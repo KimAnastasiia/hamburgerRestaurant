@@ -44,13 +44,15 @@ export default function LoginUser(props){
                     objectApiKey.apiKey=data.apiKey 
                     objectApiKey.userId=data.userId  
                     props.setLogin(true)
+                    props.updateQuantity();  
                     navigate("/hamburgers/all")
                 }
                 if(data.messege === "admin"){
                     objectApiKey.apiKey=data.apiKey
                     objectApiKey.userId=data.userId
                     props.setLogin(true)  
-                    props.setAdmin(true)              
+                    props.setAdmin(true)  
+                    props.updateQuantity();            
                     navigate("/hamburgers/all")
                 }
               props.setProfileAvatar(data.name)  
