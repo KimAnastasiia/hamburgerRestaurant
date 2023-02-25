@@ -84,10 +84,10 @@ export default function StatusOrder(props){
                 <Td>{order.orderPackId}</Td>
                 <Td>{order.total}</Td>
                 <Td><Link to={"/order/details/"+order.orderPackId} ><Button>Details</Button></Link></Td>
-                <Td><Select onChange={e =>chanheStatusOfOrder(e, order.orderPackId)}  placeholder={order.status}>
-                    <option value="Pending" >Pending</option>
+                <Td><Select onChange={e =>chanheStatusOfOrder(e, order.orderPackId)} >
+                    <option value="Pending" selected={order.status==="Pending"}>Pending</option>
                     <option value="Cancel" >Cancel</option>
-                    <option value="In Progress" >In progress</option>
+                    <option value="In Progress" selected={order.status==="In Progress"}>In Progress</option>
                     <option value="Finished">Finished</option>
                 </Select></Td>
             </Tr>

@@ -56,7 +56,7 @@ export default function App(){
         { admin && <Route path='/hamburgers/status' element={<StatusOrder  login={login}/>} />}
           <Route path='/hamburgers' element={<TableHamburgers/>} />
           <Route path='/orderPack' element={<ListDoneOrders login={login} />} />
-          {login && <Route path='/user' element={<ProfileUser/>} />}
+          {login && <Route path='/user' element={<ProfileUser login={login} setProfileAvatar={setProfileAvatar} />} />}
           <Route path='/order/details/:doneOrdersDetailsId' element={<DetailsDoneOrders/>} />
           <Route path='/order/:id' element={<DetailsHamburgers login={login}   setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu}/>} />
           <Route path='/order/hamburgers' element={<ListOrder login={login} setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu}/>} />

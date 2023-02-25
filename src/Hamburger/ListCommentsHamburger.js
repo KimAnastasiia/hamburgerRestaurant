@@ -99,7 +99,7 @@ export default function ListCommentsHamburger(props){
 
 
     let changeData=async(comment)=>{
-        selectedCommentId.current =comment.id
+        selectedCommentId.current = comment.id
         setComments(comment.comment)
         setChangeButtons(true)
     }

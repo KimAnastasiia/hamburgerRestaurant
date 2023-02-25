@@ -71,6 +71,7 @@ export default function AddUser(props){
     let addCountry =(e)=>{
         setCountry(e.target.value)
     }
+    
     let addPayment =(e)=>{
         setPayment(e)
     }

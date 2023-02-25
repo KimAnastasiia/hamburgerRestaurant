@@ -146,7 +146,7 @@ export default function Menu(props){
     return (
       <header>
           <Flex  as="nav" align="center" justify="space-between"
-              wrap="wrap"  w="100%" mb={8}  p={3} 
+              wrap="wrap"  w="100%"  p={3} 
               bg={["primary.500", "primary.500", "primary.500", "primary.500"]}
               color={["white", "white", "white", "white"]}>
             <Img marginLeft={["100px" ,"100px" ,"100px" ,"50px" ,"200px" ]}src="/images/logo.png" alt="Logo restaurant" />
