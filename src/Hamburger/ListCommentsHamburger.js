@@ -145,14 +145,16 @@ return(
 
 
                     if(comment.hamburgerId == id){
-                       return <div>
-                        <Box display={"flex"} >
+                       return <Box key={comment.id} >
+                        <Box display={"flex"}  >
                             <Avatar size='sm' name={comment.name} /> 
                             <Text ml={"3"} >{comment.name}</Text>       
                         </Box>  
 
 
-                      { !changeButtons && <Box display={"flex"}  justifyContent={"space-between"} >
+                      { !changeButtons && 
+
+                        <Box display={"flex"}  justifyContent={"space-between"} >
                             <Text>{comment.comment}</Text>
                             {(objectApiKey.userId==comment.userId) && <Box>
                                 <Button onClick={(e)=>deleteComment(comment)} ><DeleteIcon/></Button>  
@@ -178,7 +180,7 @@ return(
                             <Text>Date: { 
                               formatDate(comment.date)}
                             </Text>
-                        </div>
+                        </Box>
                     }
                     
                 })}

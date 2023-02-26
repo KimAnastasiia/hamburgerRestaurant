@@ -46,9 +46,9 @@ export default function App(){
 
 
   return (
-    <html>
-      <Menu updateQuantity={updateQuantity} setLogin={setLogin} login={login} admin={admin} setAdmin={setAdmin} setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu} profileAvatar={profileAvatar} setProfileAvatar={setProfileAvatar}/>
-      <body>
+      <div>
+        <Menu updateQuantity={updateQuantity} setLogin={setLogin} login={login} admin={admin} setAdmin={setAdmin} setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu} profileAvatar={profileAvatar} setProfileAvatar={setProfileAvatar}/>
+        
         <Routes>
           <Route path='/' element={<ListHamburgers/>} />
           <Route path='/hamburgers/all' element={<ListHamburgers/>} />
@@ -62,11 +62,9 @@ export default function App(){
           <Route path='/order/hamburgers' element={<ListOrder login={login} setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu}/>} />
           {!login && <Route path='/login' element={<LoginUser updateQuantity={updateQuantity} setProfileAvatar={setProfileAvatar} login={login} setLogin={setLogin} setAdmin={setAdmin} />} />}
           <Route path='/login/create-account' element={<AddUser setLogin={setLogin} setAdmin={setAdmin}  setProfileAvatar={setProfileAvatar}/>} />
-          
         </Routes>
-      </body>
-      <Footer/>
-    
-    </html>
+        <Footer/>
+      </div>
+
   )
 }

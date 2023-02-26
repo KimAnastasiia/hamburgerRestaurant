@@ -48,7 +48,7 @@ export default function Menu(props){
 
     const MenuLinks = ({ isOpen }) => {
       return (
-
+   
               <Box
                 display={{ base: isOpen ? "block" : "none",  lg: "block" }}
                 flexBasis={{ base: "100%", lg: "auto" }}
@@ -137,7 +137,7 @@ export default function Menu(props){
 
                 </Stack>
               </Box>
-       
+         
         
       );
 

@@ -7,9 +7,9 @@ import { Button, Stack } from '@chakra-ui/react'
 
 
 export default function AddHamburger(){
+
+
     let [listOfHamburgers, setListOfHamburgers ] = useState([])
-
-
     let [type, setType]=useState("")
     let [price, setPrice]=useState("")
     let [description, setDescription]=useState("")
@@ -84,79 +84,71 @@ export default function AddHamburger(){
 
     return(
             
-        <body>
-            <main>
-                <section>
-                    <article>
+   <div>
 
-                            <Stack minH={"30vh"} direction="column" spacing={3} align="flex-start">
-                                <Text w={["100%"]}  textAlign="center" >Make new Hamburger</Text>
-                                <Input
-                                    isInvalid
-                                    errorBorderColor='crimson'
-                                    placeholder='new Hamburger'
-                                    onChange={addType}
-                                /> 
-                                
-                                <Input
-                                    isInvalid
-                                    errorBorderColor='crimson'
-                                    placeholder='Price'
-                                    onChange={addPrice}
-                                /> 
-                                
-                                <Input
-                                    isInvalid
-                                    errorBorderColor='crimson'
-                                    placeholder='Description'
-                                    onChange={addDescription}
-                                />
-                                <Button colorScheme='teal' variant='outline' onClick={addHamburger} >
-                                    Add Hamburder
-                                </Button>
-                            </Stack>
-                    </article>
-                </section>
-                <section>
-                    <article>
-                        <Table minH={"100vh"}>
-                            <Thead>
-                                    <Tr>
-                                        <Th color="red">
-                                    TYPE
-                                        </Th>
-                                        <Th color="red">
-                                    PRICE
-                                        </Th>
-                                        <Th color="red">
-                                    DESCRIPTION
-                                        </Th>
-                                    </Tr>
-                            </Thead>
+    <Stack minH={"30vh"} direction="column" spacing={3} align="flex-start" mt={"20px"}>
+        <Text w={["100%"]}  textAlign="center" >Make new Hamburger</Text>
+        <Input
+            isInvalid
+            errorBorderColor='crimson'
+            placeholder='new Hamburger'
+            onChange={addType}
+            w={["10%","50%","40%","30%","20%"]}
+        /> 
+        
+        <Input
+            isInvalid
+            errorBorderColor='crimson'
+            placeholder='Price'
+            onChange={addPrice}
+            w={["10%","50%","40%","30%","20%"]}
+        /> 
+        
+        <Input
+            isInvalid
+            errorBorderColor='crimson'
+            placeholder='Description'
+            onChange={addDescription}
+            w={["10%","50%","40%","30%","20%"]}
+        />
+        <Button colorScheme='teal' variant='outline' onClick={addHamburger} >
+            Add Hamburder
+        </Button>
+    </Stack>
 
-                            <Tbody>
-                                    {listOfHamburgers.map((hamburger)=>
-                                    <Tr>
-                                        <Th>
-                                            {hamburger.type}
-                                        </Th>
-                                        <Th>
-                                            {hamburger.price}
-                                        </Th>
-                                        <Th>
-                                            {hamburger.description}
-                                        </Th>
-                                        <Th>
-                                            {hamburger.id}
-                                        </Th>
-                                    </Tr>
-                                    )}
-                            </Tbody>
-                        </Table>
-                    </article>
-                </section>
-            </main>
-        </body>   
-  
+<Table minH={"100vh"}>
+    <Thead>
+            <Tr>
+                <Th color="red">
+            TYPE
+                </Th>
+                <Th color="red">
+            PRICE
+                </Th>
+                <Th color="red">
+            DESCRIPTION
+                </Th>
+            </Tr>
+    </Thead>
+
+    <Tbody>
+            {listOfHamburgers.map((hamburger)=>
+            <Tr key={hamburger.Id} >
+                <Th>
+                    {hamburger.type}
+                </Th>
+                <Th>
+                    {hamburger.price}
+                </Th>
+                <Th>
+                    {hamburger.description}
+                </Th>
+             
+            </Tr>
+            )}
+    </Tbody>
+</Table>
+ </div>
+
     )
 }

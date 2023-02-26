@@ -61,7 +61,7 @@ export default function ListDoneOrders(props){
         numberOfPages = Math.ceil(numberOfPages)
 
         for(let i=0; i<numberOfPages; i++){
-            listOfButtons.push(<Button onClick={e=>doneOrders(i+1)} >{i+1}</Button>)
+            listOfButtons.push(<Button onClick={e=>doneOrders(i+1)} key={i} >{i+1}</Button>)
         }
 
         setListOfButtons(listOfButtons) 
@@ -83,7 +83,7 @@ export default function ListDoneOrders(props){
                     </Thead>
                     <Tbody>
                     {  listOfDoneOrders.map((order)=>
-                    <Tr>
+                    <Tr key={order.key}>
                         <Td>{order.date}</Td>
                         <Td>{order.orderPackId}</Td>
                         <Td>{order.total}</Td>

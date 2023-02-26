@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 export default function DetailsDoneOrders(props){
 
     let [listOfDoneOrdersDetails, setListOfDoneOrdersDetails] = useState([])
-    const {doneOrdersDetailsId: doneOrdersDetailsId}= useParams()
+    const {doneOrdersDetailsId}= useParams()
     let date 
     
     useEffect(()=>{
@@ -68,7 +68,7 @@ export default function DetailsDoneOrders(props){
                     </Thead>
                     <Tbody>
                         {  listOfDoneOrdersDetails.map((order)=>
-                        <Tr>
+                        <Tr key={order.key} >
                             <Td>{order.type}</Td>
                             <Td>{order.number}</Td>
                             <Td>{order.price}</Td>

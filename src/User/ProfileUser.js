@@ -124,14 +124,14 @@ export default function ProfileUser(props){
     }
     return(
        
-        <Box fontFamily={"Gerbera"}  bg={"lightBlue"} minH={"100vh"} >
+        <Box fontFamily={"Gerbera"}  bg={"lightBlue"} minH={"100vh"}  >
 
-            <Box flexWrap={"wrap"}  display={"flex"} justifyContent="flex-start" ml={"20%"}  mr={"20%"} pt="5%">
-                <Box display={"flex"} w="100%" justifyContent={"space-between"} alignItems="center">
+            <Box flexWrap={"wrap"}  display={"flex"} justifyContent="flex-start" ml={"20%"}  mr={"20%"} pt="5%" >
+                <Box display={"flex"} w="100%" justifyContent={"space-between"} alignItems="center" >
                     <Text fontSize='6xl'>Hello, {user.name} {user.surname} ! </Text>
                     <Link to="/ty" ><Text fontSize='25px'>Log out of profile</Text></Link>
                 </Box>
-                <Box w={"100%"} display={"flex"}>
+                <Box w={"100%"} display={"flex"} >
                     <Box w="15%">
                         <Link marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Your Orders")}>Your orders</Link>
                         <Text marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Adresses")}>Adresses</Text>
@@ -140,126 +140,110 @@ export default function ProfileUser(props){
                     </Box>
 
                     <Box w="85%" bg={"white"} ml="5%" fontSize='30px'>
-
-                    {(componentShow=="Your Orders") && <ListDoneOrders login={props.login} />}
-
-
-
-               
+                            {(componentShow=="Your Orders") && 
+                                <ListDoneOrders login={props.login} />
+                            }
+                            {( componentShow=="Private Data") && 
+                        <Box p="5%" >
                 
-               {( componentShow=="Private Data") && 
-               <Box p="5%" >
- 
-                    <Box display={"flex"} w={"100%"}   mb="20px" flexDirection="column"  justifyContent={"space-between"}>
-                        
-                        {nameError &&                 
-                        <Box display={"flex"}  justifyContent="center" alignItems={"center"}   >
-                                    <Alert status='error' width={"500px"}  >
-                                        <AlertIcon />
-                                        <AlertTitle>{nameError}</AlertTitle>
-                                    </Alert>
-                        </Box>}
-                        <Box display={"flex"} justifyContent={"space-between"}>
-                            <Text w={"20%"} fontSize='30px'>Name:</Text>
-                            <Box display={"flex"} w={"75%"} >
-                                <Input 
-                                    value={user.name}
-                                    onChange={addName}
-                                    placeholder="Change your name"
-                                    h={"50px"}
-                                ></Input>
-                                <Button onClick={e=>save("name")}  isDisabled ={nameError}><CheckIcon/></Button>
+                            <Box display={"flex"} w={"100%"}   mb="20px" flexDirection="column"  justifyContent={"space-between"}>
+                                
+                                {nameError &&                 
+                                <Box display={"flex"}  justifyContent="center" alignItems={"center"}   >
+                                            <Alert status='error' width={"500px"}  >
+                                                <AlertIcon />
+                                                <AlertTitle>{nameError}</AlertTitle>
+                                            </Alert>
+                                </Box>}
+                                <Box display={"flex"} justifyContent={"space-between"}>
+                                    <Text w={"20%"} fontSize='30px'>Name:</Text>
+                                    <Box display={"flex"} w={"75%"} >
+                                        <Input 
+                                            value={user.name}
+                                            onChange={addName}
+                                            placeholder="Change your name"
+                                            h={"50px"}
+                                        ></Input>
+                                        <Button onClick={e=>save("name")}  isDisabled ={nameError}><CheckIcon/></Button>
+                                    </Box>
+                                </Box>
                             </Box>
-                        </Box>
-                    </Box>
 
-                    <Box display={"flex"}  w={"100%"}  flexDirection="column" justifyContent={"space-between"} mb="20px">
-                    {surnameError &&                 
-                        <Box display={"flex"}  justifyContent="center" alignItems={"center"}   >
-                                    <Alert status='error' width={"500px"}  >
-                                        <AlertIcon />
-                                        <AlertTitle>{surnameError}</AlertTitle>
-                                    </Alert>
-                        </Box>}
-                        
-                        <Box display={"flex"} justifyContent={"space-between"}>   
-                            <Text  w={"20%"} fontSize='30px'>Surname: </Text>
-                           
-                            <Box display={"flex"} w={"75%"} >
-                                <Input 
-                                value={user.surname}
-                                onChange={addSurname}
-                                placeholder="Change your surname"
-                                h={"50px"}
-                                ></Input>
-                                <Button onClick={e=>save("surname", )} isDisabled = {surnameError}><CheckIcon/></Button>
+                            <Box display={"flex"}  w={"100%"}  flexDirection="column" justifyContent={"space-between"} mb="20px">
+                            {surnameError &&                 
+                                <Box display={"flex"}  justifyContent="center" alignItems={"center"}   >
+                                            <Alert status='error' width={"500px"}  >
+                                                <AlertIcon />
+                                                <AlertTitle>{surnameError}</AlertTitle>
+                                            </Alert>
+                                </Box>}
+                                
+                                <Box display={"flex"} justifyContent={"space-between"}>   
+                                    <Text  w={"20%"} fontSize='30px'>Surname: </Text>
+                                
+                                    <Box display={"flex"} w={"75%"} >
+                                        <Input 
+                                        value={user.surname}
+                                        onChange={addSurname}
+                                        placeholder="Change your surname"
+                                        h={"50px"}
+                                        ></Input>
+                                        <Button onClick={e=>save("surname", )} isDisabled = {surnameError}><CheckIcon/></Button>
+                                    </Box>
+                                
+                                </Box>
                             </Box>
-                           
-                        </Box>
-                    </Box>
 
-               
-
-                    <Box display={"flex"} w={"100%"}  mb="20px" flexDirection="column" justifyContent={"space-between"}>
-                        {emailError &&                 
-                        <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
-                            <Alert status='error' width={"500px"}  >
-                                <AlertIcon />
-                                <AlertTitle>{emailError}</AlertTitle>
-                            </Alert>
-                        </Box>}
-                        <Box display={"flex"} justifyContent={"space-between"}>
-                            <Text  w={"20%"} fontSize='30px'> Email:  </Text>
-                           
-                            <Box display={"flex"} w={"75%"} >
-                                <Input 
-                                value={user.email}
-                                onChange={addEmail}
-                                placeholder="Change your email"
-                                ></Input>
-                                <Button onClick={e=>save("email")} isDisabled = {emailError}><CheckIcon/></Button>
-                            </Box>
                             
-                             
-                        </Box>
-                    </Box>
+
+                            <Box display={"flex"} w={"100%"}  mb="20px" flexDirection="column" justifyContent={"space-between"}>
+                                {emailError &&                 
+                                <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
+                                    <Alert status='error' width={"500px"}  >
+                                        <AlertIcon />
+                                        <AlertTitle>{emailError}</AlertTitle>
+                                    </Alert>
+                                </Box>}
+                                <Box display={"flex"} justifyContent={"space-between"}>
+                                    <Text  w={"20%"} fontSize='30px'> Email:  </Text>
+                                    <Box display={"flex"} w={"75%"} >
+                                        <Input 
+                                        value={user.email}
+                                        onChange={addEmail}
+                                        placeholder="Change your email"
+                                        ></Input>
+                                        <Button onClick={e=>save("email")} isDisabled = {emailError}><CheckIcon/></Button>
+                                    </Box>
+                                </Box>
+                            </Box>
 
 
-                    <Box  mb="20px" display={"flex"}  w={"100%"}  justifyContent={"space-between"}>
-                        <Text  w={"20%"} fontSize='30px'>Country:</Text>
-                        <Box display={"flex"}  w={"75%"} justifyContent="flex-end">
-                                <Select onChange={addCountry}  >
-                                    {listOfCountries.map((country)=> <option selected={user.country===country} value={country}>{country}</option>)}
-                                </Select>
-                               <Button onClick={e=>save("country")}><CheckIcon/></Button>
-                        </Box>
-                  
-                    </Box>
+                            <Box  mb="20px" display={"flex"}  w={"100%"}  justifyContent={"space-between"}>
+                                <Text  w={"20%"} fontSize='30px'>Country:</Text>
+                                <Box display={"flex"}  w={"75%"} justifyContent="flex-end">
+                                        <Select onChange={addCountry}  >
+                                            {listOfCountries.map((country)=> <option key={country} defaultValue={user.country===country} value={country}>{country}</option>)}
+                                        </Select>
+                                    <Button onClick={e=>save("country")}><CheckIcon/></Button>
+                                </Box>
+                            </Box>
 
 
-                    <Box  mb="20px" display={"flex"} w={"100%"}   justifyContent={"space-between"}>
-                        <Text w={"20%"} fontSize='30px'>Payment:</Text>
-                        <Box display={"flex"} w={"75%"}>
-                            <Select onChange={addPayment} >
-                                <option value="Cash"  selected={user.payment==="Cash"}>Cash</option>
-                                <option value='Cart'  selected={user.payment==="Cart"}>Cart</option>
-                                <option value='Pay Pal'  selected={user.payment==="Pay Pal"}>Pay Pal</option>
-                            </Select>
-                            <Button onClick={e=>save("payment")}> <CheckIcon/></Button>
-                        </Box>
-                     
+                            <Box  mb="20px" display={"flex"} w={"100%"}   justifyContent={"space-between"}>
+                                <Text w={"20%"} fontSize='30px'>Payment:</Text>
+                                <Box display={"flex"} w={"75%"}>
+                                    <Select onChange={addPayment} >
+                                        <option value="Cash"  defaultValue={user.payment==="Cash"}>Cash</option>
+                                        <option value='Cart'  defaultValue={user.payment==="Cart"}>Cart</option>
+                                        <option value='Pay Pal'  defaultValue={user.payment==="Pay Pal"}>Pay Pal</option>
+                                    </Select>
+                                    <Button onClick={e=>save("payment")}> <CheckIcon/></Button>
+                                </Box>
+                            </Box>
+                        </Box>}
                     </Box>
                 </Box>
-                }
-                    </Box>
-                </Box>
-            
-             
-
-              
-              
-            </Box>
-                
+            </Box> 
         </Box>
     )
 

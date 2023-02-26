@@ -40,7 +40,7 @@ export default function ListHamburgers(){
 
             <Tbody>
                     {listOfHamburgers.map((hamburger)=>
-                    <Tr>
+                    <Tr key={hamburger.Id}>
                         <Th>
                         <img src={"/images/"+hamburger.type+".png"} />
                             {hamburger.type}
@@ -50,9 +50,6 @@ export default function ListHamburgers(){
                         </Th>
                         <Th>
                             {hamburger.description}
-                        </Th>
-                        <Th>
-                            {hamburger.id}
                         </Th>
                     </Tr>
                     )}

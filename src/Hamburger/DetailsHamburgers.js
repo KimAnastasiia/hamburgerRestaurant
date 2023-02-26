@@ -143,17 +143,18 @@ export default function DetailsHamburgers(props){
    
     return(
     <div>
-        <Stack align='start'>
-            <Button  marginLeft={"600px"} leftIcon={<ArrowBackIcon />} colorScheme='teal' variant='outline'><Link to="/hamburgers" >
-                Back
-            </Link>
+        <Stack align='start' mt={"20px"}>
+            <Button  marginLeft={["0","100px","200px","300px","400px","600px"]} leftIcon={<ArrowBackIcon />} colorScheme='teal' variant='outline'>
+                <Link to="/hamburgers" >
+                    Back
+                </Link>
             </Button>
         </Stack>
         <Box  minH={"100vh"} display={"flex"} justifyContent="center" alignItems={"center"} flexDirection="column" >
-            <Image w={["100%", "30%"]} src={"/images/"+hamburger.type+".png"} ></Image>
-            <Box display={"flex"} flexDirection="column" justifyContent="center" alignItems="center" h="400" w="30%">
-                <Text h="30%" w="100%"  >{hamburger.description}</Text>
-                <Text w="100%" >price: {hamburger.price} euro</Text>
+            <Image  w={["100%","90%","70%", "50%","30%"]} src={"/images/"+hamburger.type+".png"} ></Image>
+            <Box display={"flex"} flexDirection="column" justifyContent="center" alignItems="center" h="400" w={["80%","70%","60%","50%","40%","30%"]}>
+                <Text w="100%"  >{hamburger.description}</Text>
+                <Text w="100%" color="red" >price: {hamburger.price} euro</Text>
 
                 {props.login && 
                 <Box>

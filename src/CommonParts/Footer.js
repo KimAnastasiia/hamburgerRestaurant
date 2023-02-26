@@ -18,23 +18,32 @@ export default function Footer(props){
                 flexWrap={"wrap"}
                 height={"20%"}
                 bg={["primary.500", "primary.500", "primary.500", "primary.500"]} 
+                minHeight={"70px"}
                 >
-                    <Box display={"flex"} justifyContent="center" w={["100%", "100%", "30%"]}> 
-                        <PhoneIcon style={{ fontSize: ['40px'] }}/>
-                        <Text  fontSize={["21px", "21px","16px"]} marginLeft={"6px"}>También puedes pedir por teléfono:  91 1933933 / 902 411 114</Text>
+                    <Box display={"flex"} justifyContent="center" w={["100%", "100%", "30%"]}  mb={["2px","2px","20px"]} mt={"20px"}> 
+                        <PhoneIcon style={{ fontSize: ["20px"] }}/>
+                        <Text  fontSize={["12px","12px","16px"]} marginLeft={"6px"}>También puedes pedir por teléfono:  91 1933933 / 902 411 114</Text>
                     </Box>
 
-                    <Box  display={"flex"} justifyContent="center" w={[ "100%","100%", "30%"]}  > 
-                        <Text fontSize={["21px", "21px","16px"]} >TM & 2020 Burger King Corporation. Todos los derechos reservados.</Text>
+                    <Box  display={"flex"} justifyContent="center" w={[ "100%","100%", "30%"]}  mb={"20px"} mt={"20px"}> 
+                        <Text fontSize={["12px","12px","16px"]} >TM & 2020 Burger King Corporation. Todos los derechos reservados.</Text>
                     </Box>
 
-                    <Box  display={"flex"} justifyContent="center" w={[ "100%", "100%","30%"]} >
-                        <Link to="https://www.facebook.com/">
-                        <FacebookOutlined style={{ fontSize: '40px'  }}/>
-                        </Link>
-                        <InstagramOutlined style={{ fontSize: '40px' }}/>
-                        <TwitterOutlined  style={{ fontSize: '40px' }}/>
-                        <YoutubeOutlined  style={{ fontSize: '40px' }}/>
+                    <Box  display={"flex"} justifyContent="center" w={[ "100%", "100%","30%"]}  mt={["2px","2px","20px"]} mb={["20px","2px","20px"]} >
+                        <Box marginRight={"20px"} >
+                            <Link to="https://www.facebook.com/">
+                                <FacebookOutlined style={{ fontSize: '30px'  }} />
+                            </Link>
+                        </Box>
+                        <Box marginRight={["20px"]} >
+                            <InstagramOutlined style={{ fontSize: '30px' }}/>
+                        </Box>
+                        <Box marginRight={"20px"} >
+                            <TwitterOutlined  style={{ fontSize: '30px' }}/>
+                        </Box>
+                        <Box marginRight={"20px"} >
+                            <YoutubeOutlined  style={{ fontSize: '30px' }}/>
+                        </Box>
                     </Box>
 
                 </Flex>

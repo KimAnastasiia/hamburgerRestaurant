@@ -45,7 +45,7 @@ export default function ListOrder(props){
         if(listOfOrders.length===0){
             return
         }
-        let  data 
+        let data 
         let total = 0
         listOfOrders.map((order)=>total = total + (order.number * order.price))
        
