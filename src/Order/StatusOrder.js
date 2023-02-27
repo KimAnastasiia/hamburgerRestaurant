@@ -10,7 +10,7 @@ import {
     TableCaption,
     TableContainer,
     Box,
-    Button,Text,Select
+    Button,Text,Select,Hide,Badge
 } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
 import objectApiKey from "../Utility/ApiKey"
@@ -71,7 +71,9 @@ export default function StatusOrder(props){
             <Thead>
             <Tr>
                 <Th>Date</Th>
-                <Th>Pack Id</Th>
+                <Hide below='md'>
+                    <Th>Pack Id</Th>
+                </Hide>
                 <Th>Total</Th>
                 <Th>Check details</Th>
                 <Th>Status</Th>
@@ -81,14 +83,16 @@ export default function StatusOrder(props){
             {  listOfDoneOrders.map((order)=>
             <Tr key={order.orderPackId} >
                 <Td>{order.date}</Td>
-                <Td>{order.orderPackId}</Td>
+                <Hide below='md'>
+                    <Td>{order.orderPackId}</Td>
+                </Hide>
                 <Td>{order.total}</Td>
                 <Td><Link to={"/order/details/"+order.orderPackId} ><Button>Details</Button></Link></Td>
                 <Td><Select onChange={e =>chanheStatusOfOrder(e, order.orderPackId)} >
-                    <option value="Pending" defaultValue={order.status==="Pending"}>Pending</option>
-                    <option value="Cancel" >Cancel</option>
-                    <option value="In Progress" defaultValue={order.status==="In Progress"}>In Progress</option>
-                    <option value="Finished">Finished</option>
+                    <option value="Pending"  defaultValue={order.status==="Pending"}><Badge colorScheme='green'>Pending</Badge></option>
+                    <option value="Cancel" colorScheme='red' >Cancel</option>
+                    <option value="In Progress" colorScheme='purple' defaultValue={order.status==="In Progress"}>In Progress</option>
+                    <option value="Finished" colorScheme='blue'>Finished</option>
                 </Select></Td>
             </Tr>
             )}
@@ -98,7 +102,9 @@ export default function StatusOrder(props){
             <Tfoot>
             <Tr>
                 <Th>Date</Th>
-                <Th>Pack Id</Th>
+                <Hide below='md'>
+                    <Th>Pack Id</Th>
+                </Hide>
                 <Th>Total</Th>
                 <Th>Check details</Th>
                 <Th>Status</Th>

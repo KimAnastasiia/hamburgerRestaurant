@@ -127,19 +127,22 @@ export default function ProfileUser(props){
         <Box fontFamily={"Gerbera"}  bg={"lightBlue"} minH={"100vh"}  >
 
             <Box flexWrap={"wrap"}  display={"flex"} justifyContent="flex-start" ml={"20%"}  mr={"20%"} pt="5%" >
-                <Box display={"flex"} w="100%" justifyContent={"space-between"} alignItems="center" >
-                    <Text fontSize='6xl'>Hello, {user.name} {user.surname} ! </Text>
-                    <Link to="/ty" ><Text fontSize='25px'>Log out of profile</Text></Link>
+
+                <Box display={"flex"} flexWrap="wrap" w="100%" justifyContent={"space-between"} alignItems="center" >
+                    <Text  fontSize={["40px","40px","40px","60px"]}>Hello, {user.name} {user.surname} ! </Text>
+                    <Button onClick={props.logOut} ><Text fontSize='25px'>Log out of profile</Text></Button>
                 </Box>
-                <Box w={"100%"} display={"flex"} >
-                    <Box w="15%">
+
+
+                <Box w={"100%"} display={"flex"} flexWrap="wrap" >
+                    <Box  w={["80%","100%","40%","30%","30%","13%"]}>
                         <Link marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Your Orders")}>Your orders</Link>
                         <Text marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Adresses")}>Adresses</Text>
                         <Text marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Points")}>Points</Text>
                         <Link marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Private Data")} >Private data</Link>
                     </Box>
 
-                    <Box w="85%" bg={"white"} ml="5%" fontSize='30px'>
+                    <Box w={["70%"]} bg={"white"} ml="5%" fontSize='30px'>
                             {(componentShow=="Your Orders") && 
                                 <ListDoneOrders login={props.login} />
                             }

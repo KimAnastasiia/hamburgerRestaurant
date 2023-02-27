@@ -10,7 +10,8 @@ import {
     TableCaption,
     TableContainer,
     Box,
-    Button,Text
+    Button,Text,
+    Hide,Show
 } from '@chakra-ui/react'
 import { useParams } from "react-router-dom";
 import objectApiKey from "../Utility/ApiKey"
@@ -47,59 +48,80 @@ export default function DetailsDoneOrders(props){
         totall+= order.price*order.number
     )
     return(
-        <div>
-            <Button  marginLeft={"400px"} leftIcon={<ArrowBackIcon />} colorScheme='teal' variant='outline'>
+        <Box minH={"100vh"}>
+            <Button  mt={"20px"} marginLeft={["50px","100px","100px","300px","400px","600px"]} leftIcon={<ArrowBackIcon />} colorScheme='teal' variant='outline'>
                 <Link to="/orderPack" >
                     Back
                 </Link>
             </Button>
-            <TableContainer marginLeft={"400"} marginTop="100" w={"60%"}  minH={"100vh"}>
-                <Table variant='striped' colorScheme='teal'>
-                    <TableCaption>Your order</TableCaption>
-                    <Thead>
-                        <Tr>
-                            <Th>Type</Th>
-                            <Th>Quantity</Th>
-                            <Th>Price</Th>
-                            <Th>In check</Th>
-                            <Th>Date</Th>
-                            <Th>Totall</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {  listOfDoneOrdersDetails.map((order)=>
-                        <Tr key={order.key} >
-                            <Td>{order.type}</Td>
-                            <Td>{order.number}</Td>
-                            <Td>{order.price}</Td>
-                            <Td>{order.price*order.number} euro</Td>
-                        </Tr>
-                        
-                        )}
-                        <Tr>
-                            <Td></Td>
-                            <Td></Td>
-                            <Td></Td>
-                            <Td></Td>
-                            <Td>{date}</Td>
-                            <Td>{totall} euro</Td>
-                        </Tr>
-                    </Tbody>
 
-                    <Tfoot>
-                        <Tr>
-                            <Th>Type</Th>
-                            <Th>Quantity</Th>
-                            <Th>Price</Th>
-                            <Th>In check</Th>
-                            <Th>Date</Th>
-                            <Th>Total</Th>
-                        </Tr>
-                    </Tfoot>
-                </Table>
-            
-            </TableContainer>
-          
-            </div>
+
+        <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
+                <TableContainer w={["100%","100%","100%","70%","60%"]} >
+                    <Table variant='striped' colorScheme='teal'>
+
+                        <TableCaption>Your order</TableCaption>
+                       
+                        <Thead>
+
+                            <Tr>
+                                <Th >Type</Th>
+                                <Th >Quantity</Th>
+                                <Th >Price</Th>
+                                <Hide below='md'>
+                                    <Th >In check</Th>
+                                    <Th>Date</Th>
+                                    <Th>Total</Th>
+                                </Hide>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {  listOfDoneOrdersDetails.map((order)=>
+                            <Tr key={order.key} >
+                                <Td>{order.type}</Td>
+                                <Td>{order.number}</Td>
+                                <Td>{order.price}</Td>
+                                <Hide below='md'>   
+                                    <Td>{order.price*order.number} euro</Td>
+                                    <Td></Td>
+                                    <Td></Td>
+                                </Hide>
+                            </Tr>
+                            
+                            )}
+                            <Tr>
+                                <Td></Td>
+                                <Td></Td>
+                                <Td></Td>
+                                
+                                <Hide below='md'>
+                                    <Td></Td>
+                                    <Td >{date}</Td>
+                                    <Td>{totall} euro</Td>
+                                </Hide>
+                                
+                            </Tr>
+                        </Tbody>
+
+                        <Tfoot>
+                            <Tr>
+                                <Th>Type</Th>
+                                <Th>Quantity</Th>
+                                <Th >Price</Th>
+                                <Hide below='md'>
+                                    <Th>In check</Th>
+                                    <Th>Date</Th>
+                                    <Th>Total</Th>
+                                </Hide>
+                            </Tr>
+                        </Tfoot>
+                    </Table>
+                   
+                    <Box display={["block","block","none","none","none"]} fontSize={"20px"} >
+                        Total: {totall} euro
+                    </Box>
+                </TableContainer>
+            </Box>  
+        </Box>
     )
 }

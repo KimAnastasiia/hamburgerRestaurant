@@ -5,6 +5,7 @@ import { Box, Flex, Text, Button, Stack, Img, Badge,Avatar } from "@chakra-ui/re
 import { Link } from "react-router-dom";
 import { useNavigate   } from "react-router-dom";
 import objectApiKey from "../Utility/ApiKey"
+import ProfileUser from "../User/ProfileUser";
 
 
 
@@ -48,7 +49,7 @@ export default function Menu(props){
 
     const MenuLinks = ({ isOpen }) => {
       return (
-   
+       
               <Box
                 display={{ base: isOpen ? "block" : "none",  lg: "block" }}
                 flexBasis={{ base: "100%", lg: "auto" }}
@@ -136,6 +137,7 @@ export default function Menu(props){
               
 
                 </Stack>
+                
               </Box>
          
         

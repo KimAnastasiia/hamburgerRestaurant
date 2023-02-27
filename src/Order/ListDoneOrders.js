@@ -10,7 +10,7 @@ import {
     TableCaption,
     TableContainer,
     Box,
-    Button,Text
+    Button,Text,Hide,Badge
 } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
 import objectApiKey from "../Utility/ApiKey"
@@ -75,7 +75,9 @@ export default function ListDoneOrders(props){
                     <Thead>
                     <Tr>
                         <Th>Date</Th>
-                        <Th>Pack Id</Th>
+                        <Hide below='md'>
+                            <Th>Pack Id</Th>
+                        </Hide>
                         <Th>Total</Th>
                         <Th>Check details</Th>
                         <Th>Status</Th>
@@ -85,10 +87,18 @@ export default function ListDoneOrders(props){
                     {  listOfDoneOrders.map((order)=>
                     <Tr key={order.key}>
                         <Td>{order.date}</Td>
-                        <Td>{order.orderPackId}</Td>
+                        <Hide below='md'>
+                            <Td>{order.orderPackId}</Td>
+                        </Hide>
+                        
                         <Td>{order.total}</Td>
                         <Td><Link to={"/order/details/"+order.orderPackId} ><Button>Details</Button></Link></Td>
-                        <Th>{order.status}</Th>
+                        <Th>
+                            { order.status === "Pending" && <Badge colorScheme='yellow'>{order.status}</Badge>}
+                            { order.status === "Cancel" && <Badge colorScheme='red'>{order.status}</Badge>}
+                            { order.status === "In Progress" && <Badge colorScheme='orange'>{order.status}</Badge>}
+                            { order.status === "Finished" && <Badge colorScheme='green'>{order.status}</Badge>}
+                        </Th>
                     </Tr>
                     )}
 
@@ -97,7 +107,9 @@ export default function ListDoneOrders(props){
                     <Tfoot>
                     <Tr>
                         <Th>Date</Th>
-                        <Th>Pack Id</Th>
+                        <Hide below='md'>
+                            <Th>Pack Id</Th>
+                        </Hide>
                         <Th>Total</Th>
                         <Th>Check details</Th>
                         <Th>Status</Th>
