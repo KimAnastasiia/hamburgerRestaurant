@@ -14,7 +14,7 @@ import {
     Hide,Show
 } from '@chakra-ui/react'
 import { useParams } from "react-router-dom";
-import objectApiKey from "../Utility/ApiKey"
+import { useCookies } from 'react-cookie'; 
 import { PhoneIcon, ArrowBackIcon,  ArrowForwardIcon} from '@chakra-ui/icons'
 import { Link } from "react-router-dom";
 
@@ -23,14 +23,14 @@ export default function DetailsDoneOrders(props){
     let [listOfDoneOrdersDetails, setListOfDoneOrdersDetails] = useState([])
     const {doneOrdersDetailsId}= useParams()
     let date 
-    
+    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
     useEffect(()=>{
         doneOrdersDetails()
     
     }, [])
 
     let doneOrdersDetails =async()=>{
-        let response = await fetch("http://localhost:2000/order/details/"+doneOrdersDetailsId+"?apiKey="+objectApiKey.apiKey)
+        let response = await fetch("http://localhost:2000/order/details/"+doneOrdersDetailsId+"?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){

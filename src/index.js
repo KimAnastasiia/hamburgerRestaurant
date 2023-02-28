@@ -5,16 +5,19 @@ import App from './App';
 import { Button, Space } from 'antd';
 import { ChakraProvider } from '@chakra-ui/react'
 import customTheme from "./themes";
-
+import {CookiesProvider}  from "react-cookie"
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
-  <ChakraProvider>
-    <BrowserRouter>
-      <React.StrictMode>
-        <ChakraProvider theme={customTheme}>
-          <App />
-        </ChakraProvider>
-      </React.StrictMode>
-    </BrowserRouter>
-  </ChakraProvider>
+  <CookiesProvider>
+    <ChakraProvider>
+      <BrowserRouter>
+        <React.StrictMode>
+          <ChakraProvider theme={customTheme}>
+            <App />
+          </ChakraProvider>
+        </React.StrictMode>
+      </BrowserRouter>
+    </ChakraProvider>
+  </CookiesProvider>
 );

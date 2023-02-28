@@ -5,7 +5,7 @@ import { Input, AlertIcon,InputGroup,InputRightElement,Alert,AlertTitle,
      FormControl, Select, Option, Radio, RadioGroup, Stack } from '@chakra-ui/react'
 
 import listOfCountries from "../Utility/ListOfCountries";
-import objectApiKey from "../Utility/ApiKey"
+import { useCookies } from 'react-cookie'; 
 
 export default function AddUser(props){
 
@@ -26,7 +26,7 @@ export default function AddUser(props){
     let [surname, setSurname]=useState("")
     let [payment, setPayment]=useState('Cash')
     let [country, setCountry]=useState(listOfCountries[0])
-
+    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
     const navigate  = useNavigate();
  
     let addEmail =(e)=>{
@@ -125,20 +125,13 @@ export default function AddUser(props){
             if(response.ok){
                 let data = await response.json()
                 if(data.apiKey){
-                    if(data.messege === "user"){
-                        objectApiKey.apiKey=data.apiKey 
-                        objectApiKey.userId=data.userId  
-                        props.setLogin(true)
-                        navigate("/hamburgers/all")
-                    }
                     if(data.messege === "admin"){
-                        objectApiKey.apiKey=data.apiKey
-                        objectApiKey.userId=data.userId
-                        props.setLogin(true)  
                         props.setAdmin(true)              
-                        navigate("/hamburgers/all")
                     }
-                props.setProfileAvatar(data.name)  
+                    setObjectApiKey("apiKey", data.apiKey, { path: '/' } )
+                    props.setLogin(true)
+                    navigate("/hamburgers/all")
+                    props.setProfileAvatar(data.name)  
             }
            
         }

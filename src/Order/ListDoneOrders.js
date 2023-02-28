@@ -13,12 +13,12 @@ import {
     Button,Text,Hide,Badge
 } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
-import objectApiKey from "../Utility/ApiKey"
+import { useCookies } from 'react-cookie'; 
 import { useNavigate   } from "react-router-dom";
 
 
 export default function ListDoneOrders(props){
-
+    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
     let [listOfDoneOrders, setListOfDoneOrders] = useState([])
     let [listOfButtons,setListOfButtons]=useState([])
     const navigate  = useNavigate();
@@ -36,7 +36,7 @@ export default function ListDoneOrders(props){
 
 
     let doneOrders=async(p)=>{
-        let response = await fetch("http://localhost:2000/orderPack?p="+p+"&apiKey="+objectApiKey.apiKey)
+        let response = await fetch("http://localhost:2000/orderPack?p="+p+"&apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){
@@ -50,7 +50,7 @@ export default function ListDoneOrders(props){
     let createListOfButtons=async()=>{
         let listOfButtons=[]
         let numberOfRows=0
-        let response = await fetch("http://localhost:2000/orderPack/count?apiKey="+objectApiKey.apiKey)
+        let response = await fetch("http://localhost:2000/orderPack/count?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){

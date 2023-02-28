@@ -4,16 +4,15 @@ import { HamburgerIcon, CloseIcon,ArrowForwardIcon} from '@chakra-ui/icons';
 import { Box, Flex, Text, Button, Stack, Img, Badge,Avatar } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useNavigate   } from "react-router-dom";
-import objectApiKey from "../Utility/ApiKey"
 import ProfileUser from "../User/ProfileUser";
-
+import { useCookies } from 'react-cookie'; 
 
 
 
 export default function Menu(props){
   
   const navigate  = useNavigate();
-
+  const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
 
   useEffect(()=>{
       props.updateQuantity()
@@ -21,7 +20,7 @@ export default function Menu(props){
 
 
   let logOut=async()=>{
-      let response = await fetch ("http://localhost:2000/login/log-out?apiKey="+objectApiKey.apiKey,{
+      let response = await fetch ("http://localhost:2000/login/log-out?apiKey="+cookieObjectApiKey.apiKey,{
           method: 'POST',
           headers: {
           'Content-Type': 'application/json'
@@ -33,8 +32,8 @@ export default function Menu(props){
             props.setLogin(false)   
             props.setAdmin(false) 
             props.setProfileAvatar("User")
-            objectApiKey.apiKey=1
-            objectApiKey.userId=-1
+            removeCookiObjectApiKey("apiKey", { path: '/' } )
+            removeCookiObjectApiKey("userId",  { path: '/' })
             navigate("/hamburgers/all")
         }
           

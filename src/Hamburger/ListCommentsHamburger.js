@@ -6,11 +6,11 @@ import { Button,
 import { Link } from "react-router-dom";
 import {  ExternalLinkIcon, DeleteIcon, EditIcon, CheckIcon} from '@chakra-ui/icons'
 import { useParams } from "react-router-dom";
-import objectApiKey from "../Utility/ApiKey"
+import { useCookies } from 'react-cookie'; 
 
 export default function ListCommentsHamburger(props){
 
-
+    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
     let [listOfComments, setListOfComments]=useState([])
     let [changeButtons, setChangeButtons]=useState(false)
     let [comments, setComments]=useState("")
@@ -56,7 +56,7 @@ export default function ListCommentsHamburger(props){
     
     let addComments=async()=>{
         if(props.login){
-            let response = await fetch ("http://localhost:2000/users/comments?apiKey="+objectApiKey.apiKey,{
+            let response = await fetch ("http://localhost:2000/users/comments?apiKey="+cookieObjectApiKey.apiKey,{
 
                 method: 'POST',
                 headers: {
@@ -78,7 +78,7 @@ export default function ListCommentsHamburger(props){
 
     }
     let deleteComment=async(comment)=>{
-        let response = await fetch ("http://localhost:2000/users/"+comment.id+"/"+comment.hamburgerId+"?apiKey="+objectApiKey.apiKey,{
+        let response = await fetch ("http://localhost:2000/users/"+comment.id+"/"+comment.hamburgerId+"?apiKey="+cookieObjectApiKey.apiKey,{
             method: 'DELETE' 
         })
         listComments()
@@ -105,7 +105,7 @@ export default function ListCommentsHamburger(props){
     }
     
     let onChangeData = async()=>{
-        let response = await fetch ("http://localhost:2000/users/"+selectedCommentId.current+"?apiKey="+objectApiKey.apiKey,{
+        let response = await fetch ("http://localhost:2000/users/"+selectedCommentId.current+"?apiKey="+cookieObjectApiKey.apiKey,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -156,14 +156,14 @@ return(
 
                         <Box display={"flex"}  justifyContent={"space-between"} >
                             <Text>{comment.comment}</Text>
-                            {(objectApiKey.userId==comment.userId) && <Box>
+                            {(props.userId==comment.userId) && <Box>
                                 <Button onClick={(e)=>deleteComment(comment)} ><DeleteIcon/></Button>  
                                 <Button onClick={(e)=>changeData(comment)} ><EditIcon/></Button>
                             </Box>}
                         </Box>}
 
 
-                        {(objectApiKey.userId==comment.userId && selectedCommentId.current==comment.id) &&
+                        {(props.userId==comment.userId && selectedCommentId.current==comment.id) &&
                             <Box display={"flex"}>
                                <Input 
                                ref={inputCommentRef}

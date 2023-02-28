@@ -5,16 +5,15 @@ Text, Image, Box, Stack,  } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import {  ArrowBackIcon} from '@chakra-ui/icons'
 import { Link } from "react-router-dom";
-import objectApiKey from "../Utility/ApiKey"
 import ListCommentsHamburger from "./ListCommentsHamburger";
-
+import { useCookies } from 'react-cookie'; 
 
 export default function DetailsHamburgers(props){
 
     const {id} = useParams()
     let [hamburger, setHamburger ] = useState([])
     let [quantity, setQuantity] = useState(0)
-
+    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
     useEffect (()=>{ 
         showAll()
         informationAboutHamburger()
@@ -30,7 +29,7 @@ export default function DetailsHamburgers(props){
         }
     }
     let informationAboutHamburger=async()=>{
-        let response = await fetch("http://localhost:2000/order/"+id+"?apiKey="+objectApiKey.apiKey)
+        let response = await fetch("http://localhost:2000/order/"+id+"?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){
@@ -46,14 +45,14 @@ export default function DetailsHamburgers(props){
     }
 
     let makeOrder= async()=>{
-       let response = await fetch("http://localhost:2000/order/"+id+"?apiKey="+objectApiKey.apiKey)
+       let response = await fetch("http://localhost:2000/order/"+id+"?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){
               let listOfOrders = data;
               if(listOfOrders.length==0){
 
-                    let response = await fetch ("http://localhost:2000/order?apiKey="+objectApiKey.apiKey,{
+                    let response = await fetch ("http://localhost:2000/order?apiKey="+cookieObjectApiKey.apiKey,{
                         method: 'POST',
                         headers: {
                         'Content-Type': 'application/json'
@@ -71,7 +70,7 @@ export default function DetailsHamburgers(props){
                    
                 }else{
                    
-                    let response = await fetch ("http://localhost:2000/order/"+id+"?apiKey="+objectApiKey.apiKey,{
+                    let response = await fetch ("http://localhost:2000/order/"+id+"?apiKey="+cookieObjectApiKey.apiKey,{
 
                     method: 'PUT',
                     headers: {
@@ -98,14 +97,14 @@ export default function DetailsHamburgers(props){
     }
     
     let minus = async()=>{
-        let response = await fetch("http://localhost:2000/order/"+id+"?apiKey="+objectApiKey.apiKey)
+        let response = await fetch("http://localhost:2000/order/"+id+"?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){
               let listOfOrders = data;
               if(listOfOrders[0].number>0){
                    
-                    let response = await fetch ("http://localhost:2000/order/"+id+"?apiKey="+objectApiKey.apiKey,{
+                    let response = await fetch ("http://localhost:2000/order/"+id+"?apiKey="+cookieObjectApiKey.apiKey,{
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -127,7 +126,7 @@ export default function DetailsHamburgers(props){
                     }
                 }
                 if(listOfOrders[0].number===1){
-                    let response = await fetch ("http://localhost:2000/order/"+id+"?apiKey="+objectApiKey.apiKey,{
+                    let response = await fetch ("http://localhost:2000/order/"+id+"?apiKey="+cookieObjectApiKey.apiKey,{
                         method: 'DELETE',
                     })
                     props.setQuantityInMenu(props.quantityInMenu-1)
@@ -176,7 +175,7 @@ export default function DetailsHamburgers(props){
         </Box>
 
         <Box display={"flex"} justifyContent="center">
-            <ListCommentsHamburger login={props.login}/>
+            <ListCommentsHamburger login={props.login} userId={props.userId}/>
         </Box>
         
     </div>

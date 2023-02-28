@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from "react"
-import objectApiKey from "../Utility/ApiKey"
+import { useCookies } from 'react-cookie';
 import { Badge,Flex, Avatar, Text, Box, Select, Button,Input, AlertIcon,Alert,AlertTitle,Link} from '@chakra-ui/react'
 import { DeleteIcon, EditIcon, CheckIcon} from '@chakra-ui/icons'
 import listOfCountries from "../Utility/ListOfCountries";
@@ -9,7 +9,7 @@ import ListDoneOrders from '../Order/ListDoneOrders';
 
 export default function ProfileUser(props){
 
-
+    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
     let [user, setUser ] = useState({})
 
     let [emailError, setEmailError]=useState(false)
@@ -28,7 +28,7 @@ export default function ProfileUser(props){
     },[])
 
     let getInformationAboutUser=async()=>{  
-        let response = await fetch("http://localhost:2000/users/profile?apiKey="+objectApiKey.apiKey)
+        let response = await fetch("http://localhost:2000/users/profile?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){
@@ -104,7 +104,7 @@ export default function ProfileUser(props){
 
    
     let onChangeData = async(c,v)=>{
-        let response = await fetch ("http://localhost:2000/users/editProfileInfo?apiKey="+objectApiKey.apiKey,{
+        let response = await fetch ("http://localhost:2000/users/editProfileInfo?apiKey="+cookieObjectApiKey.apiKey,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

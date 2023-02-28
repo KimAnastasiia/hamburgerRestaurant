@@ -13,12 +13,13 @@ import {
     Button,Text,Select,Hide,Badge
 } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
-import objectApiKey from "../Utility/ApiKey"
+import { useCookies } from 'react-cookie'; 
+
 import { useNavigate   } from "react-router-dom";
 
 
 export default function StatusOrder(props){
-
+    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey', "userId"]);
     let [listOfDoneOrders, setListOfDoneOrders] = useState([])
   
     const navigate  = useNavigate();
@@ -36,7 +37,7 @@ export default function StatusOrder(props){
 
 
     let doneOrders=async()=>{
-        let response = await fetch("http://localhost:2000/orderPack/status?apiKey="+objectApiKey.apiKey)
+        let response = await fetch("http://localhost:2000/orderPack/status?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){
@@ -51,7 +52,7 @@ export default function StatusOrder(props){
         let statusOfOrder= e.target.value
      
         //id
-        let response = await fetch ("http://localhost:2000/orderPack?apiKey="+objectApiKey.apiKey,{
+        let response = await fetch ("http://localhost:2000/orderPack?apiKey="+cookieObjectApiKey.apiKey,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

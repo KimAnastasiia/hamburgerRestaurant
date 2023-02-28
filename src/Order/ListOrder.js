@@ -12,21 +12,19 @@ import {
     Box,
     Button,Text
 } from '@chakra-ui/react'
-import objectApiKey from "../Utility/ApiKey"
-
-
+import { useCookies } from 'react-cookie';
 
 export default function ListOrder(props){
 
     let [listOfOrders, setListOfOrders]=useState([]) 
-
+    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey', "userId"]);
     useEffect(()=>{
         checkListOfOrders()
     
     }, [])
 
     let checkListOfOrders =async()=>{
-        let response = await fetch("http://localhost:2000/order/hamburgers?apiKey="+objectApiKey.apiKey)
+        let response = await fetch("http://localhost:2000/order/hamburgers?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){
@@ -49,7 +47,7 @@ export default function ListOrder(props){
         let total = 0
         listOfOrders.map((order)=>total = total + (order.number * order.price))
        
-        let responseOrderPack = await fetch ("http://localhost:2000/orderPack?apiKey="+objectApiKey.apiKey,{
+        let responseOrderPack = await fetch ("http://localhost:2000/orderPack?apiKey="+cookieObjectApiKey.apiKey,{
 
             method: 'POST',
             headers: {
@@ -65,7 +63,7 @@ export default function ListOrder(props){
             data = await responseOrderPack.json()
             console.log(data.rows.insertId)
         }
-        let response = await fetch("http://localhost:2000/order/complete?apiKey="+objectApiKey.apiKey,  
+        let response = await fetch("http://localhost:2000/order/complete?apiKey="+cookieObjectApiKey.apiKey,  
             {
                 method: 'PUT',
                 headers: {
@@ -89,14 +87,14 @@ export default function ListOrder(props){
     )
 
     let minus = async(idOfHamburger)=>{
-        let response = await fetch("http://localhost:2000/order/"+idOfHamburger+"?apiKey="+objectApiKey.apiKey)
+        let response = await fetch("http://localhost:2000/order/"+idOfHamburger+"?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){
               let listOfOrders = data;
               if(listOfOrders[0].number>0){
                    
-                    let response = await fetch ("http://localhost:2000/order/"+idOfHamburger+"?apiKey="+objectApiKey.apiKey,{
+                    let response = await fetch ("http://localhost:2000/order/"+idOfHamburger+"?apiKey="+cookieObjectApiKey.apiKey,{
 
                     method: 'PUT',
                     headers: {
@@ -113,7 +111,7 @@ export default function ListOrder(props){
                     checkListOfOrders()
                 }
                 if(listOfOrders[0].number===1){
-                    let response = await fetch ("http://localhost:2000/order/"+idOfHamburger+"?apiKey="+objectApiKey.apiKey,{
+                    let response = await fetch ("http://localhost:2000/order/"+idOfHamburger+"?apiKey="+cookieObjectApiKey.apiKey,{
                         method: 'DELETE',
                     })
                     checkListOfOrders()
@@ -125,12 +123,12 @@ export default function ListOrder(props){
     }
 
     let plus=async(idOfHamburger)=>{
-        let response = await fetch("http://localhost:2000/order/"+idOfHamburger+"?apiKey="+objectApiKey.apiKey)
+        let response = await fetch("http://localhost:2000/order/"+idOfHamburger+"?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){
                 let listOfOrders = data;
-                let response = await fetch ("http://localhost:2000/order/"+idOfHamburger+"?apiKey="+objectApiKey.apiKey,{
+                let response = await fetch ("http://localhost:2000/order/"+idOfHamburger+"?apiKey="+cookieObjectApiKey.apiKey,{
 
                     method: 'PUT',
                     headers: {

@@ -1,9 +1,8 @@
 import React,{useState, useEffect} from "react"
 import { useNavigate   } from "react-router-dom";
-import objectApiKey from "../Utility/ApiKey"
 import { Input,  Alert,AlertIcon,AlertTitle, AlertDescription, InputGroup,InputRightElement, Button, Box, Text} from '@chakra-ui/react'
 import { Link } from "react-router-dom";
-
+import { useCookies } from 'react-cookie'; 
 
 export default function LoginUser(props){
 
@@ -12,7 +11,9 @@ export default function LoginUser(props){
     let [sms, setSms] = useState("")
     let [alert, setAlert] = useState(false)
     const navigate  = useNavigate();
+    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
 
+;
 
     let addEmail =(e)=>{
         setEmail(e.target.value)
@@ -40,22 +41,14 @@ export default function LoginUser(props){
         if(response.ok){
             let data = await response.json()
             if(data.apiKey){
-                if(data.messege === "user"){
-                    objectApiKey.apiKey=data.apiKey 
-                    objectApiKey.userId=data.userId  
-                    props.setLogin(true)
-                    props.updateQuantity();  
-                    navigate("/hamburgers/all")
-                }
                 if(data.messege === "admin"){
-                    objectApiKey.apiKey=data.apiKey
-                    objectApiKey.userId=data.userId
-                    props.setLogin(true)  
-                    props.setAdmin(true)  
-                    props.updateQuantity();            
-                    navigate("/hamburgers/all")
+                    props.setAdmin(true)          
                 }
-              props.setProfileAvatar(data.name)  
+                setObjectApiKey("apiKey", data.apiKey,{ path: '/'} )
+                props.setProfileAvatar(data.name)  
+                props.setLogin(true) 
+                props.updateQuantity(); 
+                navigate("/hamburgers/all")
             }
             else if(!data.apiKey){
                 if(data.messege ==="Incorrect email or password"){
