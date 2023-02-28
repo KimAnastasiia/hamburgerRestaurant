@@ -38,9 +38,7 @@ export default function App(props){
             if(data[0].number==null){
               setQuantityInMenu(0)
             }
-            if(data[0].id){
-              setUserId(data[0].id)
-            }
+         
           }
       }
   }
@@ -58,6 +56,9 @@ export default function App(props){
         if(admin=="true"){
           setAdmin(true)
         }
+        if(data[0].id){
+          setUserId(data[0].id)
+        }
       }
     }
   }
@@ -69,6 +70,7 @@ export default function App(props){
       setLogin(true)  
       //setProfileAvatar(cookieObjectApiKey.userName)
       getInformationUser()
+
     }
 
     updateQuantity()

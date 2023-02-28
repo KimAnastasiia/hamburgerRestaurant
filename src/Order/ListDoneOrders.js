@@ -67,6 +67,16 @@ export default function ListDoneOrders(props){
         setListOfButtons(listOfButtons) 
     }
 
+    let formatDate = (timestamp) => {
+        let myDate = new Date(Number(timestamp))
+        var yyyy = myDate.getFullYear();
+        var mm = myDate.getMonth() + 1; // getMonth() is zero-based
+        var dd = myDate.getDate();
+        var hours = myDate.getHours()
+        var minute = myDate.getMinutes()
+        var seconds= myDate.getSeconds()
+        return yyyy+"/"+mm+"/"+dd+" "+hours+":"+minute+":"+seconds
+    }
     return(
         <Box >
             <TableContainer w={"100%"} >
@@ -86,7 +96,7 @@ export default function ListDoneOrders(props){
                     <Tbody>
                     {  listOfDoneOrders.map((order)=>
                     <Tr key={order.key}>
-                        <Td>{order.date}</Td>
+                        <Td>{formatDate(order.date)}</Td>
                         <Hide below='md'>
                             <Td>{order.orderPackId}</Td>
                         </Hide>
