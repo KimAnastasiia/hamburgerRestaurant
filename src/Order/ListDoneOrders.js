@@ -10,12 +10,12 @@ import {
     TableCaption,
     TableContainer,
     Box,
-    Button,Text,Hide,Badge
+    Button,Text,Hide,Badge,Show
 } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
 import { useCookies } from 'react-cookie'; 
 import { useNavigate   } from "react-router-dom";
-
+import Commons from "../Utility/Commons";
 
 export default function ListDoneOrders(props){
     const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
@@ -36,7 +36,7 @@ export default function ListDoneOrders(props){
 
 
     let doneOrders=async(p)=>{
-        let response = await fetch("http://localhost:2000/orderPack?p="+p+"&apiKey="+cookieObjectApiKey.apiKey)
+        let response = await fetch(Commons.baseUrl+"/orderPack?p="+p+"&apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){
@@ -50,7 +50,7 @@ export default function ListDoneOrders(props){
     let createListOfButtons=async()=>{
         let listOfButtons=[]
         let numberOfRows=0
-        let response = await fetch("http://localhost:2000/orderPack/count?apiKey="+cookieObjectApiKey.apiKey)
+        let response = await fetch(Commons.baseUrl+"/orderPack/count?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){
@@ -78,58 +78,83 @@ export default function ListDoneOrders(props){
         return yyyy+"/"+mm+"/"+dd+" "+hours+":"+minute+":"+seconds
     }
     return(
+ 
         <Box >
-            <TableContainer w={"100%"} >
-                <Table variant='striped' colorScheme='teal'>
-                    <TableCaption>  {listOfButtons}</TableCaption>
-                    <Thead>
-                    <Tr>
-                        <Th>Date</Th>
-                        <Hide below='md'>
-                            <Th>Pack Id</Th>
-                        </Hide>
-                        <Th>Total</Th>
-                        <Th>Check details</Th>
-                        <Th>Status</Th>
-                    </Tr>
-                    </Thead>
-                    <Tbody>
-                    {  listOfDoneOrders.map((order)=>
-                    <Tr key={order.key}>
-                        <Td>{formatDate(order.date)}</Td>
-                        <Hide below='md'>
-                            <Td>{order.orderPackId}</Td>
-                        </Hide>
-                        
-                        <Td>{order.total}</Td>
-                        <Td><Link to={"/order/details/"+order.orderPackId} ><Button>Details</Button></Link></Td>
-                        <Th>
-                            { order.status === "Pending" && <Badge colorScheme='yellow'>{order.status}</Badge>}
-                            { order.status === "Cancel" && <Badge colorScheme='red'>{order.status}</Badge>}
-                            { order.status === "In Progress" && <Badge colorScheme='orange'>{order.status}</Badge>}
-                            { order.status === "Finished" && <Badge colorScheme='green'>{order.status}</Badge>}
-                        </Th>
-                    </Tr>
-                    )}
+            <Hide below="md">
+                    <TableContainer w={"100%"} >
+                        <Table variant='striped' colorScheme='teal'>
+                            <TableCaption>  {listOfButtons}</TableCaption>
+                            <Thead>
+                            <Tr>
+                                <Th>Date</Th>
+                                <Hide below='md'>
+                                    <Th>Pack Id</Th>
+                                </Hide>
+                                <Th>Total</Th>
+                                <Th>Check details</Th>
+                                <Th>Status</Th>
+                            </Tr>
+                            </Thead>
+                            <Tbody>
+                            {  listOfDoneOrders.map((order)=>
+                            <Tr key={order.key}>
+                                <Td>{formatDate(order.date)}</Td>
+                                <Hide below='md'>
+                                    <Td>{order.orderPackId}</Td>
+                                </Hide>
+                                
+                                <Td>{order.total}</Td>
+                                <Td><Link to={"/order/details/"+order.orderPackId} ><Button>Details</Button></Link></Td>
+                                <Th>
+                                    { order.status === "Pending" && <Badge colorScheme='yellow'>{order.status}</Badge>}
+                                    { order.status === "Cancel" && <Badge colorScheme='red'>{order.status}</Badge>}
+                                    { order.status === "In Progress" && <Badge colorScheme='orange'>{order.status}</Badge>}
+                                    { order.status === "Finished" && <Badge colorScheme='green'>{order.status}</Badge>}
+                                </Th>
+                            </Tr>
+                            )}
 
-                    </Tbody>
+                            </Tbody>
 
-                    <Tfoot>
-                    <Tr>
-                        <Th>Date</Th>
-                        <Hide below='md'>
-                            <Th>Pack Id</Th>
-                        </Hide>
-                        <Th>Total</Th>
-                        <Th>Check details</Th>
-                        <Th>Status</Th>
-                    </Tr>
-                    </Tfoot>
-            </Table>
+                            <Tfoot>
+                            <Tr>
+                                <Th>Date</Th>
+                                <Hide below='md'>
+                                    <Th>Pack Id</Th>
+                                </Hide>
+                                <Th>Total</Th>
+                                <Th>Check details</Th>
+                                <Th>Status</Th>
+                            </Tr>
+                            </Tfoot>
+                        </Table>
+                    </TableContainer>
+            </Hide>
+            
+            <Show below='md'>
+                <Box>
+                        {  listOfDoneOrders.map((order)=>
+                        <Box bg="lightblue" borderRadius='lg' flexDirection={"column"} m="20px" p={"10px"}   display={"flex"} justifyContent="center" alignItems={"center"}>
+                            <Box mb={"5px"} display={"flex"} justifyContent="space-around" w={"90%"}>
+                                <Box  display={"flex"} flexDirection="column" justifyContent={"space-around"} w="100%" >
+                                    <Box >Order №{order.orderPackId }</Box>
+                                    <Box > {formatDate(order.date)}</Box>
+                                </Box>
+                                <Box display={"flex"} flexDirection="column" alignItems="flex-start" >
+                                    <Box display={"flex"} alignItems={"flex-end"}> {order.total}euro</Box>
+                                    { order.status === "Pending" && <Box><Badge colorScheme='yellow'>Status: {order.status}</Badge></Box>}
+                                    { order.status === "Cancel" &&  <Box><Badge colorScheme='red'>Status: {order.status}</Badge></Box>}
+                                    { order.status === "In Progress" &&  <Box><Badge colorScheme='orange'>Status: {order.status}</Badge></Box>}
+                                    { order.status === "Finished" &&  <Box><Badge colorScheme='green'>Status: {order.status}</Badge></Box>}
+                                </Box>
+                            </Box>
+                            <Box w="100%" ><Link to={"/order/details/"+order.orderPackId} ><Button w={"100%"}>Details</Button></Link></Box>
+                        </Box>  
+                            
+                        )}
+                </Box>
 
-          
-        </TableContainer>
-        
+            </Show>
     </Box>
     )
 }

@@ -1,11 +1,10 @@
 import React,{useState, useEffect} from "react"
 import { useCookies } from 'react-cookie';
-import { Badge,Flex, Avatar, Text, Box, Select, Button,Input, AlertIcon,Alert,AlertTitle,Link} from '@chakra-ui/react'
+import { Badge,Flex, Avatar, Text, Box, Select, Button,Input, AlertIcon,Alert,AlertTitle,Link,Stat,StatLabel,StatNumber,StatHelpText} from '@chakra-ui/react'
 import { DeleteIcon, EditIcon, CheckIcon} from '@chakra-ui/icons'
 import listOfCountries from "../Utility/ListOfCountries";
-
 import ListDoneOrders from '../Order/ListDoneOrders';
-
+import Commons from "../Utility/Commons";
 
 export default function ProfileUser(props){
 
@@ -16,11 +15,10 @@ export default function ProfileUser(props){
     let [surnameError, setSurnameError]=useState(false)
     let [nameError, setNameError]=useState(false)
 
-   
     let [componentShow, setComponentShow] = useState("Your Orders")
 
     let editProfile=(nameOfComponent)=>{
-         setComponentShow(nameOfComponent)
+        setComponentShow(nameOfComponent)
     }
 
     useEffect (()=>{ 
@@ -28,7 +26,7 @@ export default function ProfileUser(props){
     },[])
 
     let getInformationAboutUser=async()=>{  
-        let response = await fetch("http://localhost:2000/users/profile?apiKey="+cookieObjectApiKey.apiKey)
+        let response = await fetch(Commons.baseUrl+"/users/profile?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){
@@ -104,7 +102,7 @@ export default function ProfileUser(props){
 
    
     let onChangeData = async(c,v)=>{
-        let response = await fetch ("http://localhost:2000/users/editProfileInfo?apiKey="+cookieObjectApiKey.apiKey,{
+        let response = await fetch (Commons.baseUrl+"/users/editProfileInfo?apiKey="+cookieObjectApiKey.apiKey,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -124,28 +122,43 @@ export default function ProfileUser(props){
     }
     return(
        
-        <Box fontFamily={"Gerbera"}  bg={"lightBlue"} minH={"100vh"}  >
+        <Box fontFamily={"Gerbera"}  minH={"100vh"}  >
 
-            <Box flexWrap={"wrap"}  display={"flex"} justifyContent="flex-start" ml={"20%"}  mr={"20%"} pt="5%" >
+            <Box flexWrap={"wrap"}  display={"flex"} justifyContent="flex-start" pt="5%" >
 
-                <Box display={"flex"} flexWrap="wrap" w="100%" justifyContent={"space-between"} alignItems="center" >
+                <Box display={"flex"} flexWrap="wrap" w="100%" justifyContent={"center"} alignItems="center" >
                     <Text  fontSize={["40px","40px","40px","60px"]}>Hello, {user.name} {user.surname} ! </Text>
-                    <Button onClick={props.logOut} ><Text fontSize='25px'>Log out of profile</Text></Button>
+                   
                 </Box>
 
 
-                <Box w={"100%"} display={"flex"} flexWrap="wrap" >
-                    <Box  w={["80%","100%","40%","30%","30%","13%"]}>
+                <Box w={"100%"} display={"flex"} justifyContent="center" >
+                    <Box  w={["80%","100%","40%","30%","30%","16%"]}>
                         <Link marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Your Orders")}>Your orders</Link>
                         <Text marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Adresses")}>Adresses</Text>
-                        <Text marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Points")}>Points</Text>
+                        <Text marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Points")}>
+                            Points       
+                            <Badge ml='1' colorScheme='yellow'>
+                                {user.points}
+                            </Badge>
+                        </Text>
                         <Link marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Private Data")} >Private data</Link>
                     </Box>
 
-                    <Box w={["70%"]} bg={"white"} ml="5%" fontSize='30px'>
+                    <Box w={["80%"]} bg={"white"}  fontSize='30px' border={"1px"} borderColor="lightGray" borderRadius='lg' >
+                            
                             {(componentShow=="Your Orders") && 
                                 <ListDoneOrders login={props.login} />
                             }
+
+                            {( componentShow=="Points") && 
+                            
+                            <Stat p="5%" >
+                                <StatNumber w={"100%"} fontSize="40px" >You have {user.points} points!</StatNumber>
+                                <StatHelpText w={"100%"} fontSize="20px" >{user.points} points  = {user.points} Euro</StatHelpText>
+                            </Stat>}
+
+
                             {( componentShow=="Private Data") && 
                         <Box p="5%" >
                 
@@ -225,7 +238,7 @@ export default function ProfileUser(props){
                                 <Text  w={"20%"} fontSize='30px'>Country:</Text>
                                 <Box display={"flex"}  w={"75%"} justifyContent="flex-end">
                                         <Select onChange={addCountry}  >
-                                            {listOfCountries.map((country)=> <option key={country} defaultValue={user.country===country} value={country}>{country}</option>)}
+                                            {listOfCountries.map((country)=> <option key={country} selected={user.country==country} value={country}>{country}</option>)}
                                         </Select>
                                     <Button onClick={e=>save("country")}><CheckIcon/></Button>
                                 </Box>
@@ -236,9 +249,9 @@ export default function ProfileUser(props){
                                 <Text w={"20%"} fontSize='30px'>Payment:</Text>
                                 <Box display={"flex"} w={"75%"}>
                                     <Select onChange={addPayment} >
-                                        <option value="Cash"  defaultValue={user.payment==="Cash"}>Cash</option>
-                                        <option value='Cart'  defaultValue={user.payment==="Cart"}>Cart</option>
-                                        <option value='Pay Pal'  defaultValue={user.payment==="Pay Pal"}>Pay Pal</option>
+                                        <option value="Cash"  selected={user.payment==="Cash"}>Cash</option>
+                                        <option value='Cart'  selected={user.payment==="Cart"}>Cart</option>
+                                        <option value='Pay Pal'  selected={user.payment==="Pay Pal"}>Pay Pal</option>
                                     </Select>
                                     <Button onClick={e=>save("payment")}> <CheckIcon/></Button>
                                 </Box>

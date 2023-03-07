@@ -3,6 +3,7 @@ import { useNavigate   } from "react-router-dom";
 import { Input,  Alert,AlertIcon,AlertTitle, AlertDescription, InputGroup,InputRightElement, Button, Box, Text} from '@chakra-ui/react'
 import { Link } from "react-router-dom";
 import { useCookies } from 'react-cookie'; 
+import Commons from "../Utility/Commons";
 
 export default function LoginUser(props){
 
@@ -27,7 +28,7 @@ export default function LoginUser(props){
 
     let loginToProfile=async()=>{
             
-        let response = await fetch ("http://localhost:2000/login",{
+        let response = await fetch (Commons.baseUrl+"/login",{
         
             method: 'POST',
             headers: {
@@ -42,13 +43,16 @@ export default function LoginUser(props){
             let data = await response.json()
             if(data.apiKey){
                 if(data.messege === "admin"){
-                    props.setAdmin(true)          
+                    props.setAdmin(true)  
                 }
                 setObjectApiKey("apiKey", data.apiKey,{ path: '/'} )
                 props.setProfileAvatar(data.name)  
                 props.setLogin(true) 
-                props.updateQuantity(); 
+                props.updateQuantity();
+                props.setUserId(data.userId)
+                props.setPercent("80%") 
                 navigate("/hamburgers/all")
+                
             }
             else if(!data.apiKey){
                 if(data.messege ==="Incorrect email or password"){
@@ -66,7 +70,7 @@ export default function LoginUser(props){
     return(
         <div> 
 
-             <Box  minH={"100vh"} display={"flex"}  justifyContent="center" alignItems={"center"} flexDirection="column" >
+             <Box  minH={["0","100vh","100vh","100vh","100vh"]} display={"flex"}  justifyContent={["start","center","center","center","center"]}alignItems={["center"]} flexDirection="column" >
                 { alert &&
                 <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
                     <Alert status='error' width={"300px"}  >
@@ -74,19 +78,20 @@ export default function LoginUser(props){
                         <AlertTitle>{alert}</AlertTitle>
                     </Alert>
                 </Box>}
-                <Box  w={"100%"} display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center" >        
+                <Box   w={"100%"} display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center" >        
                     <Text m={"30"} >Login</Text>
                     <Input onChange={addEmail}
                         pr='4.5rem'
                         type={"email"}
                         placeholder='Enter email'
-                        w={["100%","70%","50%","20%"]}
+                        w={["80%","70%","50%","20%"]}
+                        mb="10px"
                     />
                     <Input onChange={addPassword}
                         type="password"
                         pr='4.5rem'
                         placeholder='Enter password'
-                        w={["100%","70%","50%","20%"]}
+                        w={["80%","70%","50%","20%"]}
                     />
                     <br></br>
                     <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]} color="white" onClick={loginToProfile} w={["80%","50%","30%","20%"]}  m={"2"}>

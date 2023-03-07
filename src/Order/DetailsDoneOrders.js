@@ -17,6 +17,7 @@ import { useParams } from "react-router-dom";
 import { useCookies } from 'react-cookie'; 
 import { PhoneIcon, ArrowBackIcon,  ArrowForwardIcon} from '@chakra-ui/icons'
 import { Link } from "react-router-dom";
+import Commons from "../Utility/Commons";
 
 export default function DetailsDoneOrders(props){
 
@@ -30,7 +31,7 @@ export default function DetailsDoneOrders(props){
     }, [])
 
     let doneOrdersDetails =async()=>{
-        let response = await fetch("http://localhost:2000/order/details/"+doneOrdersDetailsId+"?apiKey="+cookieObjectApiKey.apiKey)
+        let response = await fetch(Commons.baseUrl+"/order/details/"+doneOrdersDetailsId+"?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){
@@ -47,6 +48,16 @@ export default function DetailsDoneOrders(props){
     listOfDoneOrdersDetails.map((order)=>
         totall+= order.price*order.number
     )
+    let formatDate = (timestamp) => {
+        let myDate = new Date(Number(timestamp))
+        var yyyy = myDate.getFullYear();
+        var mm = myDate.getMonth() + 1; // getMonth() is zero-based
+        var dd = myDate.getDate();
+        var hours = myDate.getHours()
+        var minute = myDate.getMinutes()
+        var seconds= myDate.getSeconds()
+        return yyyy+"/"+mm+"/"+dd+" "+hours+":"+minute+":"+seconds
+    }
     return(
         <Box minH={"100vh"}>
             <Button  mt={"20px"} marginLeft={["50px","100px","100px","300px","400px","600px"]} leftIcon={<ArrowBackIcon />} colorScheme='teal' variant='outline'>
@@ -96,7 +107,7 @@ export default function DetailsDoneOrders(props){
                                 
                                 <Hide below='md'>
                                     <Td></Td>
-                                    <Td >{date}</Td>
+                                    <Td >{formatDate(date)}</Td>
                                     <Td>{totall} euro</Td>
                                 </Hide>
                                 

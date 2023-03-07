@@ -8,16 +8,17 @@ import customTheme from "./themes";
 import {CookiesProvider}  from "react-cookie"
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-root.render(
-  <CookiesProvider>
-    <ChakraProvider>
-      <BrowserRouter>
-        <React.StrictMode>
-          <ChakraProvider theme={customTheme}>
-            <App />
-          </ChakraProvider>
-        </React.StrictMode>
-      </BrowserRouter>
-    </ChakraProvider>
-  </CookiesProvider>
+ReactDOM.render(
+  <BrowserRouter>
+    <CookiesProvider>
+      <ChakraProvider>
+          <React.StrictMode>
+            <ChakraProvider theme={customTheme}>
+              <App />
+            </ChakraProvider>
+          </React.StrictMode>
+      </ChakraProvider>
+    </CookiesProvider>
+  </BrowserRouter>,
+ document.getElementById('root')
 );

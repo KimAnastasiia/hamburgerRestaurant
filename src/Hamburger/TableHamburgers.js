@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from "react"
 import { Table, Thead, Tbody, Tr, Th, Td, chakra, Flex, Spacer, Text, Center, Square, Box, Image} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-
+import Commons from "../Utility/Commons";
 export default function TableHamburgers(){
 
     let [listOfHamburgers, setListOfHamburgers ] = useState([])
@@ -11,7 +11,7 @@ export default function TableHamburgers(){
     },[])
 
     let showAll=async()=>{
-        let response = await fetch("http://localhost:2000/hamburgers")
+        let response = await fetch(Commons.baseUrl+"/hamburgers")
         if(response.ok){
             let data = await response.json()
             if(!data.error){

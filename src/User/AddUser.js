@@ -6,6 +6,7 @@ import { Input, AlertIcon,InputGroup,InputRightElement,Alert,AlertTitle,
 
 import listOfCountries from "../Utility/ListOfCountries";
 import { useCookies } from 'react-cookie'; 
+import Commons from "../Utility/Commons";
 
 export default function AddUser(props){
 
@@ -87,7 +88,7 @@ export default function AddUser(props){
 
     let checkIfEmailExists=async()=>{
      
-        let response = await fetch ("http://localhost:2000/login?email="+email)
+        let response = await fetch (Commons.baseUrl+"/login?email="+email)
         if(response.ok){
             let data = await response.json()
             if(data.error){
@@ -105,7 +106,7 @@ export default function AddUser(props){
         let emailExists = await checkIfEmailExists()
        
         if ( !passwordError && emailInput && !emailExists){
-            let response = await fetch ("http://localhost:2000/login/create-account",{
+            let response = await fetch (Commons.baseUrl+"/login/create-account",{
 
             method: 'POST',
             headers: {

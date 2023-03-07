@@ -3,15 +3,16 @@ import React,{useState, useEffect} from "react"
 import { HamburgerIcon, CloseIcon,ArrowForwardIcon} from '@chakra-ui/icons';
 import { Box, Flex, Text, Button, Stack, Img, Badge,Avatar } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { useNavigate   } from "react-router-dom";
+
 import ProfileUser from "../User/ProfileUser";
 import { useCookies } from 'react-cookie'; 
-
+import ListOrder from "../Order/ListOrder";
+import Commons from "../Utility/Commons";
 
 
 export default function Menu(props){
   
-  const navigate  = useNavigate();
+  //const navigate  = useNavigate();
   const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
 
   useEffect(()=>{
@@ -20,7 +21,7 @@ export default function Menu(props){
 
 
   let logOut=async()=>{
-      let response = await fetch ("http://localhost:2000/login/log-out?apiKey="+cookieObjectApiKey.apiKey,{
+      let response = await fetch (Commons.baseUrl+"/login/log-out?apiKey="+cookieObjectApiKey.apiKey,{
           method: 'POST',
           headers: {
           'Content-Type': 'application/json'
@@ -34,7 +35,8 @@ export default function Menu(props){
             props.setProfileAvatar("User")
             removeCookiObjectApiKey("apiKey", { path: '/' } )
             removeCookiObjectApiKey("userId",  { path: '/' })
-            navigate("/hamburgers/all")
+            props.setPercent("100%") 
+            //navigate("/hamburgers/all")
         }
           
       }  
@@ -50,17 +52,22 @@ export default function Menu(props){
       return (
        
               <Box
-                display={{ base: isOpen ? "block" : "none",  lg: "block" }}
+                display={{ base: isOpen ? "flex" : "none",  lg: "flex" }}
                 flexBasis={{ base: "100%", lg: "auto" }}
+                justifyContent="flex-end"
+               
+                
               >
                 <Stack
+                  
                   spacing={8}
                   align="center"
-                  justify={"center"}
+                  justify={"end"}
                   direction={["column", "column", "column","row", "row"]}
                   pt={[4, 4, 0, 0]}
-                  marginRight={["0px","0px","0px","200px"]}
+               
                   w={'100%'}
+                 
                 >
                     <Text display="block" >
                       <Link to="/hamburgers/all">
@@ -94,13 +101,6 @@ export default function Menu(props){
                   </Text>
                   
 
-                  {props.login &&
-                    <Text display="block" >
-                      <Link to="/order/hamburgers">
-                        My order  <Badge colorScheme='red'>{props.quantityInMenu} </Badge>
-                      </Link>
-                    </Text>
-                  }
 
                 
                   {props.login &&
@@ -132,11 +132,8 @@ export default function Menu(props){
                     <Button  bg={"none"} onClick={logOut}  >
                       Log out <ArrowForwardIcon/>
                     </Button>
-                  }
-              
-
+                  }   
                 </Stack>
-                
               </Box>
          
         
@@ -146,18 +143,22 @@ export default function Menu(props){
 
     return (
       <header>
-          <Flex  as="nav" align="center" justify="space-between"
-              wrap="wrap"  w="100%"  p={3} 
+          <Flex  as="nav" align="center" justify={["space-between" ,"space-between" ,"space-between" ,"space-around" , "space-around"]} position={"fixed"}
+               w={["100%","100%","100%","100%",props.percent]}  p={3} 
               bg={["primary.500", "primary.500", "primary.500", "primary.500"]}
               color={["white", "white", "white", "white"]}>
-            <Img marginLeft={["100px" ,"100px" ,"100px" ,"50px" ,"200px" ]}src="/images/logo.png" alt="Logo restaurant" />
+
+            <Img mr={"40px"} src="/images/logo.png" alt="Logo restaurant" ml={ ["50px","50px","50px","0","0"]}/>
+            
             <Box 
               display={{ base: "block", lg: "none" }} onClick={toggle} >
               {isOpen ? <CloseIcon w={8} h={8}/> : <HamburgerIcon  w={8} h={8}/>}
             </Box>
+
             <MenuLinks
               isOpen={isOpen} />
           </Flex>
+          
       </header>
     )
   }

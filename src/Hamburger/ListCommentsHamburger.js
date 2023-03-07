@@ -2,17 +2,17 @@
 import React,{useState, useEffect, useRef} from "react"
 import { Button, 
     Text, Box,  Input,Avatar,
-    Textarea, Alert, AlertTitle,AlertIcon  } from "@chakra-ui/react";
+    Textarea, Alert, AlertTitle,AlertIcon,Container  } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import {  ExternalLinkIcon, DeleteIcon, EditIcon, CheckIcon} from '@chakra-ui/icons'
 import { useParams } from "react-router-dom";
 import { useCookies } from 'react-cookie'; 
-
+import Commons from "../Utility/Commons";
 export default function ListCommentsHamburger(props){
 
     const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
     let [listOfComments, setListOfComments]=useState([])
-    let [changeButtons, setChangeButtons]=useState(false)
+
     let [comments, setComments]=useState("")
     let [originalComment, setOriginalComment]=useState("")
     let inputCommentRef = useRef(null)
@@ -43,7 +43,7 @@ export default function ListCommentsHamburger(props){
     }
 
     let listComments=async()=>{
-        let response = await fetch("http://localhost:2000/comments")
+        let response = await fetch(Commons.baseUrl+"/comments")
         if(response.ok){
             let data = await response.json()
             if(!data.error){
@@ -56,7 +56,7 @@ export default function ListCommentsHamburger(props){
     
     let addComments=async()=>{
         if(props.login){
-            let response = await fetch ("http://localhost:2000/users/comments?apiKey="+cookieObjectApiKey.apiKey,{
+            let response = await fetch (Commons.baseUrl+"/users/comments?apiKey="+cookieObjectApiKey.apiKey,{
 
                 method: 'POST',
                 headers: {
@@ -78,7 +78,7 @@ export default function ListCommentsHamburger(props){
 
     }
     let deleteComment=async(comment)=>{
-        let response = await fetch ("http://localhost:2000/users/"+comment.id+"/"+comment.hamburgerId+"?apiKey="+cookieObjectApiKey.apiKey,{
+        let response = await fetch (Commons.baseUrl+"/users/"+comment.id+"/"+comment.hamburgerId+"?apiKey="+cookieObjectApiKey.apiKey,{
             method: 'DELETE' 
         })
         listComments()
@@ -101,11 +101,11 @@ export default function ListCommentsHamburger(props){
     let changeData=async(comment)=>{
         selectedCommentId.current = comment.id
         setComments(comment.comment)
-        setChangeButtons(true)
+
     }
     
     let onChangeData = async()=>{
-        let response = await fetch ("http://localhost:2000/users/"+selectedCommentId.current+"?apiKey="+cookieObjectApiKey.apiKey,{
+        let response = await fetch (Commons.baseUrl+"/users/"+selectedCommentId.current+"?apiKey="+cookieObjectApiKey.apiKey,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -116,74 +116,91 @@ export default function ListCommentsHamburger(props){
                 })
         })
         listComments()
-        setChangeButtons(false)
+      
         setComments("")
         selectedCommentId.current =-1
     }
 
 return(
-    <Box>
-              { alert && <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
-                    <Alert status='error' width={"400px"}  >
-                        <AlertIcon />
-                        <AlertTitle>For add comments enter your profile   <Link to="/login" ><ExternalLinkIcon/></Link>  </AlertTitle>
-                    </Alert>
-                </Box>}
-                <Text textAlign={"center"} fontSize={"25"} >Rewiews</Text>
+    <Box w={"100%"} display={"flex"} alignItems={"center"} flexDirection={"column"} >
+            { alert && 
+            <Box display={"flex"}  justifyContent="center" alignItems={"center"} mt="20px"  >
+                <Alert status='error' width={"400px"}  >
+                    <AlertIcon />
+                    <AlertTitle>For add comments enter your profile   <Link to="/login" ><ExternalLinkIcon/></Link>  </AlertTitle>
+                </Alert>
+            </Box>}
+            <Box w={"100%"} display={"flex"} alignItems={"center"} flexDirection={"column"} >   
+                <Text textAlign={"center"} fontSize={"25"} m="20px" >Rewiews</Text>
                 <Textarea  
                     placeholder="Comments this hamburge Shoul be 3 items and more"
-                    w={400}
+                    w={["90%","80%","70%","60%","30%"]}
                     onChange={addFirstComment}
                     value={originalComment}
-                    
                 />
-                <Button onClick={addComments} isDisabled={!originalComment} >Sent</Button>
-              
+                <Button mt="20px" onClick={addComments} isDisabled={!originalComment}  w={["50%","40%","30%","20%","10%"]}>Sent</Button>
+            </Box  >   
                 { 
                 listOfComments.sort((a, b) => b.date-a.date )
                 .map((comment)=>{
 
 
                     if(comment.hamburgerId == id){
-                       return <Box key={comment.id} >
-                        <Box display={"flex"}  >
-                            <Avatar size='sm' name={comment.name} /> 
-                            <Text ml={"3"} >{comment.name}</Text>       
-                        </Box>  
-
-
-                      { !changeButtons && 
-
-                        <Box display={"flex"}  justifyContent={"space-between"} >
-                            <Text>{comment.comment}</Text>
-                            {(props.userId==comment.userId) && <Box>
-                                <Button onClick={(e)=>deleteComment(comment)} ><DeleteIcon/></Button>  
-                                <Button onClick={(e)=>changeData(comment)} ><EditIcon/></Button>
-                            </Box>}
-                        </Box>}
-
-
-                        {(props.userId==comment.userId && selectedCommentId.current==comment.id) &&
-                            <Box display={"flex"}>
-                               <Input 
-                               ref={inputCommentRef}
-                               placeholder="Change your comment"
-                               value={comments}
-                               onChange={userComment}
-                               ></Input>
-                               { changeButtons && 
-                               <Button onClick={onChangeData} isDisabled={!comments}><CheckIcon/></Button>}
+                       return (
+                    <Box w={"100%"}  justifyContent="space-between" display={"flex"} p="20px" alignItems={"center"} flexDirection={"column"} key={comment.id}   >
+                        <Box w={"100%"} justifyContent="center" flexDirection={"column"}  display={"flex"} alignItems={"center"}  >  
+                           
+                            <Box w={["90%","80%","70%","60%","30%"]}  display={"flex"} justifyContent="space-between">
+                                <Box display={"flex"}>
+                                    <Avatar size='sm' name={comment.name} /> 
+                                    <Text ml={"3"} >{comment.name} </Text>    
+                                </Box>
+                                <Text ml="30px">Date: { 
+                                    formatDate(comment.date)}
+                                </Text>  
                             </Box>
-                        }
+                                
+                         
 
 
-                            <Text>Date: { 
-                              formatDate(comment.date)}
-                            </Text>
-                        </Box>
-                    }
+                            {(props.userId==comment.userId && selectedCommentId.current==comment.id) &&
+                                <Box mt={"10px"}  w={["90%","80%","70%","60%","30%"]} display={"flex"} >
+                                    <Textarea 
+                                    minH="150px"
+                                    ref={inputCommentRef}
+                                    placeholder="Change your comment"
+                                    value={comments}
+                                    onChange={userComment}
+                                    />
+                                  
+                                    <Button onClick={onChangeData} isDisabled={!comments}><CheckIcon/></Button>
+                                </Box>
+                            }
+
+                            { (selectedCommentId.current != comment.id ) &&
+
+                            <Box w={["90%","80%","70%","60%","30%"]}  >
+                                <Container >
+                                    <Text   mt={"10px"}>{comment.comment} </Text>
+                                </Container>
+                            </Box>}
+
+                        
+                        {( selectedCommentId.current != comment.id && props.userId==comment.userId ) && 
+                            <Box w={["90%","80%","70%","60%","30%"]} display="flex" justifyContent={"end"}  >
+                                <Box  display={"flex"} justifyContent="end" >
+                                    <Button onClick={(e)=>deleteComment(comment)} mr="2px" ><DeleteIcon/></Button>  
+                                    <Button onClick={(e)=>changeData(comment)} ml="2px"><EditIcon/></Button>
+                                </Box>
+                            </Box>}
+
+                       
+
+                        </Box>  
+                    
+                    </Box>)}
                     
                 })}
-            </Box>)
+    </Box>)
 }
 

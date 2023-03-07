@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
 import { useCookies } from 'react-cookie'; 
-
+import Commons from "../Utility/Commons";
 import { useNavigate   } from "react-router-dom";
 
 
@@ -37,7 +37,7 @@ export default function StatusOrder(props){
 
 
     let doneOrders=async()=>{
-        let response = await fetch("http://localhost:2000/orderPack/status?apiKey="+cookieObjectApiKey.apiKey)
+        let response = await fetch(Commons.baseUrl+"/orderPack/status?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
             if(!data.error){
@@ -52,7 +52,7 @@ export default function StatusOrder(props){
         let statusOfOrder= e.target.value
      
         //id
-        let response = await fetch ("http://localhost:2000/orderPack?apiKey="+cookieObjectApiKey.apiKey,{
+        let response = await fetch (Commons.baseUrl+"/orderPack?apiKey="+cookieObjectApiKey.apiKey,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

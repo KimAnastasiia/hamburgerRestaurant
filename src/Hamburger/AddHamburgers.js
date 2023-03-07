@@ -1,8 +1,8 @@
 import React,{useState, useEffect} from "react"
 import { Table, Thead, Tbody, Tr, Th, Td, chakra } from "@chakra-ui/react";
-import { Input, Text } from '@chakra-ui/react'
+import { Input, Text,Box } from '@chakra-ui/react'
 import { Button, Stack } from '@chakra-ui/react'
-
+import Commons from "../Utility/Commons";
 
 
 
@@ -34,7 +34,7 @@ export default function AddHamburger(){
  
     
     let showAll=async()=>{
-        let response = await fetch("http://localhost:2000/hamburgers")
+        let response = await fetch(Commons.baseUrl+"/hamburgers")
         if(response.ok){
             let data = await response.json()
             if(!data.error){
@@ -45,7 +45,7 @@ export default function AddHamburger(){
 
 
     let addHamburger=async()=>{
-        let response = await fetch ("http://localhost:2000/hamburgers",{
+        let response = await fetch (Commons.baseUrl+"/hamburgers",{
 
         method: 'POST',
         headers: {
@@ -86,35 +86,42 @@ export default function AddHamburger(){
             
    <div>
 
-    <Stack minH={"30vh"} direction="column" spacing={3} align="flex-start" mt={"20px"}>
-        <Text w={["100%"]}  textAlign="center" >Make new Hamburger</Text>
-        <Input
-            isInvalid
-            errorBorderColor='crimson'
-            placeholder='new Hamburger'
-            onChange={addType}
-            w={["10%","50%","40%","30%","20%"]}
-        /> 
-        
-        <Input
-            isInvalid
-            errorBorderColor='crimson'
-            placeholder='Price'
-            onChange={addPrice}
-            w={["10%","50%","40%","30%","20%"]}
-        /> 
-        
-        <Input
-            isInvalid
-            errorBorderColor='crimson'
-            placeholder='Description'
-            onChange={addDescription}
-            w={["10%","50%","40%","30%","20%"]}
-        />
-        <Button colorScheme='teal' variant='outline' onClick={addHamburger} >
-            Add Hamburder
-        </Button>
-    </Stack>
+    <Box mt={"20px"} w="100%" display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center" >
+    
+            <Text mb="10px" textAlign="center" >Make new Hamburger</Text>
+            <Input
+                isInvalid
+                errorBorderColor='crimson'
+                placeholder='new Hamburger'
+                onChange={addType}
+                w={["80%","50%","40%","30%","20%"]}
+                mb="10px"
+            /> 
+            
+            <Input
+                isInvalid
+                errorBorderColor='crimson'
+                placeholder='Price'
+                onChange={addPrice}
+                w={["80%","50%","40%","30%","20%"]}
+                mb="10px"
+            /> 
+            
+            <Input
+                isInvalid
+                errorBorderColor='crimson'
+                placeholder='Description'
+                onChange={addDescription}
+                w={["80%","50%","40%","30%","20%"]}
+                mb="10px"
+            />
+        </Box>
+     
+        <Box display={"flex"} justifyContent={"center"} w={"100%"} mt="10px">
+            <Button  colorScheme='teal' variant='outline' onClick={addHamburger} >
+                Add
+            </Button>
+        </Box>
 
 <Table minH={"100vh"}>
     <Thead>
