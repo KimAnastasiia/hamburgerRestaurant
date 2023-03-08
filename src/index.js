@@ -8,7 +8,7 @@ import customTheme from "./themes";
 import {CookiesProvider}  from "react-cookie"
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-ReactDOM.render(
+root.render(
   <BrowserRouter>
     <CookiesProvider>
       <ChakraProvider>
@@ -19,6 +19,5 @@ ReactDOM.render(
           </React.StrictMode>
       </ChakraProvider>
     </CookiesProvider>
-  </BrowserRouter>,
- document.getElementById('root')
+  </BrowserRouter>
 );

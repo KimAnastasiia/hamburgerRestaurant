@@ -1,9 +1,9 @@
 
 import React,{useState, useEffect} from "react"
 import { HamburgerIcon, CloseIcon,ArrowForwardIcon} from '@chakra-ui/icons';
-import { Box, Flex, Text, Button, Stack, Img, Badge,Avatar } from "@chakra-ui/react";
+import { Box, Flex, Text, Button, Stack, Img, Badge,Avatar,Hide,Show } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-
+import { useNavigate   } from "react-router-dom";
 import ProfileUser from "../User/ProfileUser";
 import { useCookies } from 'react-cookie'; 
 import ListOrder from "../Order/ListOrder";
@@ -12,7 +12,7 @@ import Commons from "../Utility/Commons";
 
 export default function Menu(props){
   
-  //const navigate  = useNavigate();
+  const navigate  = useNavigate();
   const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
 
   useEffect(()=>{
@@ -36,7 +36,7 @@ export default function Menu(props){
             removeCookiObjectApiKey("apiKey", { path: '/' } )
             removeCookiObjectApiKey("userId",  { path: '/' })
             props.setPercent("100%") 
-            //navigate("/hamburgers/all")
+            navigate("/hamburgers/all")
         }
           
       }  
@@ -145,18 +145,21 @@ export default function Menu(props){
       <header>
           <Flex  as="nav" align="center" justify={["space-between" ,"space-between" ,"space-between" ,"space-around" , "space-around"]} position={"fixed"}
                w={["100%","100%","100%","100%",props.percent]}  p={3} 
-              bg={["primary.500", "primary.500", "primary.500", "primary.500"]}
+                bg={["primary.500", "primary.500", "primary.500", "primary.500"]}
               color={["white", "white", "white", "white"]}>
 
             <Img mr={"40px"} src="/images/logo.png" alt="Logo restaurant" ml={ ["50px","50px","50px","0","0"]}/>
             
             <Box 
               display={{ base: "block", lg: "none" }} onClick={toggle} >
-              {isOpen ? <CloseIcon w={8} h={8}/> : <HamburgerIcon  w={8} h={8}/>}
+              {isOpen ? <CloseIcon w={8} h={8}  onClick={()=>{ navigate("/hamburgers/all")}}  /> : <HamburgerIcon onClick={()=>{ navigate("/menu")}}  w={8} h={8}/>}
+              
             </Box>
+           
+              <MenuLinks
+                isOpen={isOpen} />
+         
 
-            <MenuLinks
-              isOpen={isOpen} />
           </Flex>
           
       </header>

@@ -57,7 +57,7 @@ export default function ListHamburgers(){
             </Table>
         </Hide>
 
-        <Show below='md'> 
+        <Show below='md'  minH={"100vh"}> 
             {listOfHamburgers.map((hamburger)=>     
             <Box mb={"20px"} w={"95%"} display={"flex"} flexDirection="column" justifyContent="center" alignItems="center" key={hamburger.Id}>
         

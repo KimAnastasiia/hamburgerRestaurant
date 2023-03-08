@@ -84,7 +84,7 @@ export default function AddHamburger(){
 
     return(
             
-   <div>
+   <Box minH={"100vh"}>
 
     <Box mt={"20px"} w="100%" display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center" >
     
@@ -155,7 +155,7 @@ export default function AddHamburger(){
             )}
     </Tbody>
 </Table>
- </div>
+ </Box>
 
     )
 }

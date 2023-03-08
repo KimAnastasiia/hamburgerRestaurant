@@ -70,7 +70,7 @@ export default function LoginUser(props){
     return(
         <div> 
 
-             <Box  minH={["0","100vh","100vh","100vh","100vh"]} display={"flex"}  justifyContent={["start","center","center","center","center"]}alignItems={["center"]} flexDirection="column" >
+             <Box  minH={["100vh","100vh","100vh","100vh","100vh"]} display={"flex"}  justifyContent={["start","center","center","center","center"]}alignItems={["center"]} flexDirection="column" >
                 { alert &&
                 <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
                     <Alert status='error' width={"300px"}  >

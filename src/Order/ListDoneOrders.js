@@ -81,7 +81,7 @@ export default function ListDoneOrders(props){
  
         <Box >
             <Hide below="md">
-                    <TableContainer w={"100%"} >
+                    <TableContainer w={"100%"} minH={"100vh"}>
                         <Table variant='striped' colorScheme='teal'>
                             <TableCaption>  {listOfButtons}</TableCaption>
                             <Thead>
@@ -132,8 +132,9 @@ export default function ListDoneOrders(props){
             </Hide>
             
             <Show below='md'>
-                <Box>
+                <Box minH={"100vh"}>
                         {  listOfDoneOrders.map((order)=>
+                 
                         <Box bg="lightblue" borderRadius='lg' flexDirection={"column"} m="20px" p={"10px"}   display={"flex"} justifyContent="center" alignItems={"center"}>
                             <Box mb={"5px"} display={"flex"} justifyContent="space-around" w={"90%"}>
                                 <Box  display={"flex"} flexDirection="column" justifyContent={"space-around"} w="100%" >
@@ -149,9 +150,8 @@ export default function ListDoneOrders(props){
                                 </Box>
                             </Box>
                             <Box w="100%" ><Link to={"/order/details/"+order.orderPackId} ><Button w={"100%"}>Details</Button></Link></Box>
-                        </Box>  
-                            
-                        )}
+                        </Box>)}
+                        <Box  display={"flex"} justifyContent="center" > {listOfButtons}</Box>
                 </Box>
 
             </Show>

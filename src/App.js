@@ -16,6 +16,7 @@ import { useCookies } from 'react-cookie';
 import StatusOrder from './Order/StatusOrder';
 import {Box, Hide, Show} from '@chakra-ui/react'
 import Commons from './Utility/Commons';
+import PhoneMenu from './CommonParts/PhoneMenu';
 
 export default function App(props){
   let [percent, setPercent]=useState("80%")
@@ -90,7 +91,9 @@ export default function App(props){
   return (
     <Box display={"flex"}>
       <Box w={["100%","100%","100%","100%",percent]} >
+      <Hide below="md">
         <Menu percent={percent} setPercent={setPercent} updateQuantity={updateQuantity} setLogin={setLogin} login={login} admin={admin} setAdmin={setAdmin} setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu} profileAvatar={profileAvatar} setProfileAvatar={setProfileAvatar}/>
+      </Hide>  
         <Box pt={["100px","100px","100px","100px"]}>
           <Routes>
             <Route path='/' element={<ListHamburgers/>} />
@@ -105,8 +108,10 @@ export default function App(props){
             {!login && <Route path='/login' element={<LoginUser  setPercent={setPercent} setUserId={setUserId} updateQuantity={updateQuantity} setProfileAvatar={setProfileAvatar} login={login} setLogin={setLogin} setAdmin={setAdmin} />} />}
             <Route path='/login/create-account' element={<AddUser setLogin={setLogin} setAdmin={setAdmin}  setProfileAvatar={setProfileAvatar}/>} />
             {login && <Route path='/user' element={<ProfileUser login={login} setProfileAvatar={setProfileAvatar} />} />}
+            <Route path='/menu' element={<PhoneMenu admin={admin}  profileAvatar={profileAvatar}  login={login} setPercent={setPercent} setProfileAvatar={setProfileAvatar} setLogin={setLogin} setAdmin={setAdmin} />} />
           </Routes>
         </Box>
+        <Footer/>
       </Box>
 
       <Box  display={{ base: "none", xl: "block" }} > {login && 
