@@ -157,7 +157,7 @@ export default function Menu(props){
             </Box>
            
               <MenuLinks
-                isOpen={isOpen} />
+                />
          
 
           </Flex>

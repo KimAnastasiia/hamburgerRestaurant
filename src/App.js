@@ -18,6 +18,7 @@ import {Box, Hide, Show} from '@chakra-ui/react'
 import Commons from './Utility/Commons';
 import PhoneMenu from './CommonParts/PhoneMenu';
 
+
 export default function App(props){
   let [percent, setPercent]=useState("80%")
   let [quantity, setQuantity] = useState(0)
@@ -91,9 +92,9 @@ export default function App(props){
   return (
     <Box display={"flex"}>
       <Box w={["100%","100%","100%","100%",percent]} >
-      <Hide below="md">
+   
         <Menu percent={percent} setPercent={setPercent} updateQuantity={updateQuantity} setLogin={setLogin} login={login} admin={admin} setAdmin={setAdmin} setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu} profileAvatar={profileAvatar} setProfileAvatar={setProfileAvatar}/>
-      </Hide>  
+  
         <Box pt={["100px","100px","100px","100px"]}>
           <Routes>
             <Route path='/' element={<ListHamburgers/>} />

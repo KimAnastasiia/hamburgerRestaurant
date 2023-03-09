@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Button, Stack, Img, Badge,Avatar,Link } from "@chakra-ui/react";
+import { Box, Flex, Text, Button, Stack, Img, Badge,Avatar,Link,Show } from "@chakra-ui/react";
 import { PhoneIcon, CloseIcon, WarningIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import Commons from "../Utility/Commons";
 import { useCookies } from 'react-cookie'; 
@@ -31,6 +31,7 @@ export default function PhoneMenu(props){
         }  
     }
     return(
+        <Show below='md'>
     <Box minH={"100vh"}>
 
     
@@ -79,11 +80,11 @@ export default function PhoneMenu(props){
         </Box>}
 
         {props.login &&
-        <Box h={"40px"} ml="30px" mr="30px"  display={"flex"} justifyContent="space-between" >
+        <Box onClick={()=>{navigate('/user') }} h={"40px"} ml="30px" mr="30px"  display={"flex"} justifyContent="space-between" >
             <Text>
                 Profile
             </Text>
-            <ChevronRightIcon/> 
+            <ChevronRightIcon /> 
         </Box>}
 
         <Box  w={"100%"} h={"70px"} display={"flex"} justifyContent="center" alignItems={"center"} >
@@ -91,6 +92,7 @@ export default function PhoneMenu(props){
             {!props.login &&<Button w={"70%"} onClick={()=>{navigate("/login") }} > Login </Button>}
         </Box> 
     </Box>
+    </Show>
     )
 
 
