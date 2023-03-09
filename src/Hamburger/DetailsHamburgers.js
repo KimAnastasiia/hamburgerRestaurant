@@ -8,11 +8,13 @@ import { Link } from "react-router-dom";
 import ListCommentsHamburger from "./ListCommentsHamburger";
 import { useCookies } from 'react-cookie'; 
 import Commons from "../Utility/Commons";
+import { useNavigate   } from "react-router-dom";
+
 export default function DetailsHamburgers(props){
 
     const {id} = useParams()
     let [hamburger, setHamburger ] = useState([])
-    
+    const navigate  = useNavigate();
     const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
 
     useEffect (()=>{ 
@@ -30,7 +32,7 @@ export default function DetailsHamburgers(props){
             }
         }
     }
-    let checkListOfOrders =async()=>{
+    let checkListOfOrders = async()=>{
         let response = await fetch(Commons.baseUrl+"/order/hamburgers?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
             let data = await response.json()
@@ -153,15 +155,19 @@ export default function DetailsHamburgers(props){
     }
 
 
+    let updateUrlForMenu=()=>{
+        navigate("/hamburgers")
+        props.setUrl("/hamburgers")
+    }
 
    
     return(
     <Box minH={"100vh"} >
         <Stack align='start' mt={"20px"}>
-            <Button mb="20px"  marginLeft={["10","100px","200px","300px","400px","600px"]} leftIcon={<ArrowBackIcon />} colorScheme='teal' variant='outline'>
-                <Link to="/hamburgers" >
+            <Button onClick={updateUrlForMenu} mb="20px"  marginLeft={["10","100px","200px","300px","400px","600px"]} leftIcon={<ArrowBackIcon />} colorScheme='teal' variant='outline'>
+               
                     Back
-                </Link>
+               
             </Button>
         </Stack>
         <Box display={"flex"} justifyContent="center" alignItems={"center"} flexDirection="column" >

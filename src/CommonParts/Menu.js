@@ -15,6 +15,9 @@ export default function Menu(props){
   const navigate  = useNavigate();
   const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
 
+  const toggle = () => props.setIsOpen(!props.isOpen);
+
+
   useEffect(()=>{
       props.updateQuantity()
   },[])
@@ -43,12 +46,10 @@ export default function Menu(props){
   }
 
     
-    const [isOpen, setIsOpen] = React.useState(false);
-
-    const toggle = () => setIsOpen(!isOpen);
 
 
-    const MenuLinks = ({ isOpen }) => {
+
+    const MenuLinks = ({isOpen }) => {
       return (
        
               <Box
@@ -152,12 +153,10 @@ export default function Menu(props){
             
             <Box 
               display={{ base: "block", lg: "none" }} onClick={toggle} >
-              {isOpen ? <CloseIcon w={8} h={8}  onClick={()=>{ navigate("/hamburgers/all")}}  /> : <HamburgerIcon onClick={()=>{ navigate("/menu")}}  w={8} h={8}/>}
+              {props.isOpen ? <CloseIcon w={8} h={8}  onClick={()=>{ navigate(props.url)}}  /> : <HamburgerIcon onClick={()=>{ navigate("/menu")}}  w={8} h={8}/>}
               
             </Box>
-           
-              <MenuLinks
-                />
+            <MenuLinks/>
          
 
           </Flex>
