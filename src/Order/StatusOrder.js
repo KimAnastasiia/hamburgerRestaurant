@@ -90,7 +90,8 @@ export default function StatusOrder(props){
             </Tr>
             </Thead>
             <Tbody>
-            {  listOfDoneOrders.map((order)=>
+            {  listOfDoneOrders.sort((a, b) => b.date-a.date)
+            .map((order)=>
             <Tr key={order.orderPackId} >
                 <Td>{formatDate(order.date)}</Td>
                 <Hide below='md'>

@@ -54,11 +54,11 @@ export default function ListDoneOrders(props){
         if(response.ok){
             let data = await response.json()
             if(!data.error){
-                numberOfRows = data[0].number
+                numberOfRows = data[0].number 
             }
         }
-        let numberOfPages = numberOfRows/4
-        numberOfPages = Math.ceil(numberOfPages)
+        let numberOfPages = numberOfRows/4 
+        numberOfPages = Math.ceil(numberOfPages) 
 
         for(let i=0; i<numberOfPages; i++){
             listOfButtons.push(<Button onClick={e=>doneOrders(i+1)} key={i} >{i+1}</Button>)
