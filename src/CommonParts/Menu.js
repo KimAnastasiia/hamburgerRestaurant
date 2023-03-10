@@ -96,7 +96,7 @@ export default function Menu(props){
 
                  
                   <Text display="block" >
-                    <Link to="/hamburgers">
+                    <Link aria-label="hamburgers" to="/hamburgers">
                       Hamburgers
                     </Link>
                   </Text>
@@ -114,7 +114,7 @@ export default function Menu(props){
 
                   {!props.login &&
                     <Text display="block" >
-                      <Link to="/login">
+                      <Link aria-label="login" to="/login">
                         Login
                       </Link>
                     </Text>

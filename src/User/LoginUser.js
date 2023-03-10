@@ -82,25 +82,30 @@ export default function LoginUser(props){
                     <Text m={"30"} >Login</Text>
                     <Input onChange={addEmail}
                         pr='4.5rem'
-                        type={"email"}
+                        type="email"
                         placeholder='Enter email'
                         w={["80%","70%","50%","20%"]}
                         mb="10px"
+                        aria-label="email"
                     />
-                    <Input onChange={addPassword}
-                        type="password"
+                    <Input 
+                        aria-label="pd"
+                        onChange={addPassword}
+                        type="text"
                         pr='4.5rem'
                         placeholder='Enter password'
                         w={["80%","70%","50%","20%"]}
+                       
                     />
-                    <br></br>
-                    <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]} color="white" onClick={loginToProfile} w={["80%","50%","30%","20%"]}  m={"2"}>
+                    
+                    <Button aria-label="cm" bg={["primary.500", "primary.500", "primary.500", "primary.500"]} color="white" onClick={loginToProfile} w={["80%","50%","30%","20%"]}  m={"2"}>
                         Continium
                     </Button> 
-                    <Button  w={["80%","50%","30%","20%","10%"]} bg={"blue.200"} >
+    
+
+                    <Button data-testid="create-button" w={["80%","50%","30%","20%","10%"]} bg={"blue.200"} >
                         <Link to="/login/create-account" >Create account</Link>
                     </Button>
-                
                 </Box> 
             </Box> 
         </div>

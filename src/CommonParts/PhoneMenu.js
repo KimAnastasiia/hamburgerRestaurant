@@ -4,6 +4,9 @@ import Commons from "../Utility/Commons";
 import { useCookies } from 'react-cookie'; 
 import { useNavigate   } from "react-router-dom";
 import { useState } from "react";
+import { HourglassOutlined, HomeOutlined, FileDoneOutlined, 
+    UserOutlined,PlusSquareOutlined,ContainerOutlined,EuroOutlined } from '@ant-design/icons';
+
 
 export default function PhoneMenu(props){
 
@@ -47,55 +50,71 @@ export default function PhoneMenu(props){
         <Box minH={"100vh"}>
 
         
-            <Box display={"flex"} justifyContent="center" alignItems={"center"}>
+            <Box display={"flex"} justifyContent="center" alignItems={"center"} m="35px">
                 <Text  as='b'>
-                Hi  {props.profileAvatar} !
+                    Hi  {props.profileAvatar} !
                 </Text>
             </Box>
 
-            <Box onClick={()=>{goToComponent("/hamburgers/all") }}  h={"40px"}  m="30px"   display={"flex"} justifyContent="space-between" >
-                <Text>
-                Home
-                </Text>
+            <Box m={"10px"} borderRadius="lg" borderWidth={"2px"} onClick={()=>{goToComponent("/hamburgers/all") }}  h={"40px"}  p="30px"   display={"flex"} justifyContent="space-between" alignItems={"center"} >
+                <Box display={"flex"}  alignItems={"center"}> 
+                    <HomeOutlined/> 
+                    <Text ml={"20px"} >Home</Text>
+                </Box>
                 <ChevronRightIcon /> 
             </Box>
 
             {props.admin &&
-            <Box  onClick={()=>{goToComponent("/hamburgers/addNew") }} h={"40px"} m="30px"  display={"flex"} justifyContent="space-between" >
-                <Text>
-                    Add new Hamburger
-                </Text>
+            <Box  alignItems={"center"} borderWidth={"2px"} m={"10px"}  borderRadius="lg" onClick={()=>{goToComponent("/hamburgers/addNew") }} h={"40px"} p="30px" display={"flex"} justifyContent="space-between" >
+                <Box display={"flex"}  alignItems={"center"}> 
+                    <PlusSquareOutlined />
+                    <Text ml={"20px"} >Add new Hamburger</Text> 
+                </Box>
                 <ChevronRightIcon/> 
             </Box>}
             
             {props.admin &&
-            <Box onClick={()=>{goToComponent("/hamburgers/status") }} h={"40px"}  m="30px"   display={"flex"} justifyContent="space-between" >
-                <Text>
-                    Status of orders
-                </Text>
+            <Box  alignItems={"center"}borderWidth={"2px"} m={"10px"}  borderRadius="lg" onClick={()=>{goToComponent("/hamburgers/status") }} h={"40px"}  p="30px"   display={"flex"} justifyContent="space-between" >
+                <Box display={"flex"}  alignItems={"center"}> 
+                    <HourglassOutlined /> 
+                    <Text ml={"20px"} >Status of orders</Text> 
+                </Box>
                 <ChevronRightIcon /> 
             </Box>}
             
 
-            <Box onClick={()=>{goToComponent("/hamburgers") }} h={"40px"}  m="30px"   display={"flex"} justifyContent="space-between" >
-                <Text>
-                    Hamburgers
-                </Text>
+            <Box  alignItems={"center"}borderWidth={"2px"} m={"10px"}  borderRadius="lg" onClick={()=>{goToComponent("/hamburgers") }} h={"40px"}  p="30px"   display={"flex"} justifyContent="space-between" >
+                <Box display={"flex"}  alignItems={"center"}> 
+                    <ContainerOutlined /> 
+                    <Text ml={"20px"} >Hamburgers</Text> 
+                </Box>
                 <ChevronRightIcon /> 
             </Box>
+
             {props.login &&    
-            <Box  onClick={()=>{goToComponent("/orderPack") }} h={"40px"}  m="30px"  display={"flex"} justifyContent="space-between" >
-                <Text>
-                    History of orders
-                </Text>
+            <Box  alignItems={"center"}borderWidth={"2px"} m={"10px"}  borderRadius="lg" onClick={()=>{goToComponent("/orderPack") }} h={"40px"}  p="30px"  display={"flex"} justifyContent="space-between" >
+                <Box display={"flex"}  alignItems={"center"}> 
+                    <FileDoneOutlined /> 
+                    <Text ml={"20px"} >History of orders</Text> 
+                </Box>
+                <ChevronRightIcon/> 
+            </Box>}
+            
+            {props.login &&    
+            <Box  alignItems={"center"} borderWidth={"2px"} m={"10px"}  borderRadius="lg" onClick={()=>{goToComponent("/user/points") }} h={"40px"}  p="30px"  display={"flex"} justifyContent="space-between" >
+                <Box display={"flex"}  alignItems={"center"}> 
+                    <EuroOutlined /> 
+                    <Text ml={"20px"} >Points</Text> 
+                </Box>
                 <ChevronRightIcon/> 
             </Box>}
 
             {props.login &&
-            <Box onClick={()=>{goToComponent('/user') }} h={"40px"}  m="30px"  display={"flex"} justifyContent="space-between" >
-                <Text>
-                    Profile
-                </Text>
+            <Box  alignItems={"center"}borderWidth={"2px"} m={"10px"}  borderRadius="lg" onClick={()=>{goToComponent('/user') }} h={"40px"}  p="30px"  display={"flex"} justifyContent="space-between" >
+                <Box display={"flex"}  alignItems={"center"}> 
+                    <UserOutlined />
+                    <Text ml={"20px"} > Profile </Text> 
+                </Box>
                 <ChevronRightIcon /> 
             </Box>}
 

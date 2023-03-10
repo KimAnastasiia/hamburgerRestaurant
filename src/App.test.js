@@ -1,36 +1,88 @@
-import {render, screen, userEvent} from "@testing-library/react"
-import App from "./App"
-import Menu from "./CommonParts/Menu";
-import LoginUser from "./User/LoginUser";
-import { Route, Routes, useHref } from "react-router-dom"
-import {BrowserRouter, MemoryRouter} from 'react-router-dom'
-import {CookiesProvider}  from "react-cookie"
-import { ChakraProvider } from '@chakra-ui/react'
- let list =["home", "casa"]
-test('full app rendering/navigating', async () => {
+import { render, screen, fireEvent} from '@testing-library/react';
+import App from './App';
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import ListHamburgers from './Hamburger/ListHamburgers';
+import { ThemeWrapper } from "./testUtils";
+import '@testing-library/jest-dom'
+import { CookiesProvider } from 'react-cookie';
+
+const matchMediaPolyfill = () => ({
+    matches: false,
+    addListener: () => {},
+    removeListener: () => {},
+  });
+
+window.matchMedia = window.matchMedia || matchMediaPolyfill;
+
+
+test('In / check if load word DESCRIPCION', () => {
+    
     render(
-        <CookiesProvider>
-            <ChakraProvider>
-                <LoginUser />
-            </ChakraProvider>
-        </CookiesProvider>
-    , {wrapper: BrowserRouter})
-    const user = userEvent.setup()
-  
-    // verify page content for default route
-    expect(screen.getByText(/Login/i)).toBeInTheDocument()
-  
-    // verify page content for expected route after navigating
-    //await user.click(screen.getByText(/about/i))
-    //expect(screen.getByText(/you are on the about page/i)).toBeInTheDocument()
-  })
+      <MemoryRouter initialEntries={['/']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    const textElement = screen.getByText('DESCRIPTION');
+    expect(textElement).toBeInTheDocument();
+});
 
 
-  describe("Test 2", ()=>{
-    it("list render", ()=>{
-        render( <App list={list} />)
-        expect(screen.getByRole("list")).toBeInTheDocument()
-        
-    })
-  })
+test('Click in menu option Login and check if Text Continium appears', () => {
 
+    render(
+        <MemoryRouter initialEntries={['/']}>
+        <App />
+        </MemoryRouter>
+    );
+
+    
+    const linkElement = screen.getByRole('link', { name: 'login' });
+    fireEvent.click(linkElement)
+
+    const textElement = screen.getByText('Continium');
+    expect(textElement).toBeInTheDocument();
+});
+
+test('Click in menu option Hamburgers and check if Text The king Bacon 1 appears', () => {
+    
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <App />
+      </MemoryRouter>
+    );
+
+
+    const linkElement = screen.getByRole('link', { name: 'hamburgers' });
+    fireEvent.click(linkElement)
+
+    const textElement = screen.getByTestId('table-hamburguer')
+    expect(textElement).toBeInTheDocument();
+});
+
+
+test('Do login', () => {
+    
+    render(
+      <MemoryRouter initialEntries={['/']}>
+            <App />
+      </MemoryRouter>
+    );
+
+    const linkElement = screen.getByRole('link', { name: 'login' });
+    fireEvent.click(linkElement)
+
+    const inputEmail = screen.getByRole('textbox', { name: /email/i });
+    fireEvent.change(inputEmail, { target: { value: 'f' } });
+
+    const inputPassword = screen.getByRole('textbox', { name: 'pd' });
+    fireEvent.change(inputPassword, { target: { value: 'opa' } });
+
+    const loginButton = screen.getByRole('button', {name: 'cm'})
+
+    fireEvent.click(loginButton)
+    
+
+    const textElement = screen.getByText('VEGETAL')
+    expect(textElement).toBeInTheDocument();
+});
