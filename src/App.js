@@ -18,6 +18,7 @@ import {Box, Hide, Show} from '@chakra-ui/react'
 import Commons from './Utility/Commons';
 import PhoneMenu from './CommonParts/PhoneMenu';
 import PointsOfUser from './User/PointsOfUser';
+import CompleteOrder from './Order/CompleteOrder';
 
 
 export default function App(props){
@@ -109,6 +110,7 @@ export default function App(props){
             <Route path='/login/create-account' element={<AddUser setLogin={setLogin} setAdmin={setAdmin}  setProfileAvatar={setProfileAvatar}/>} />
             {login && <Route path='/user' element={<ProfileUser login={login} setProfileAvatar={setProfileAvatar} />} />}
             {login && <Route path='/user/points' element={<PointsOfUser />} />}
+            {login && <Route path='/completeOrder' element={<CompleteOrder setProfileAvatar={setProfileAvatar} setListOfOrders={setListOfOrders} setQuantityInMenu={setQuantityInMenu} setQuantity={setQuantity}   listOfOrders={listOfOrders}/>} />}
             <Route path='/menu' element={<PhoneMenu  setUrl={setUrl}  isOpen={isOpen} setIsOpen={setIsOpen} admin={admin}  profileAvatar={profileAvatar}  login={login} setPercent={setPercent} setProfileAvatar={setProfileAvatar} setLogin={setLogin} setAdmin={setAdmin} />} />
           </Routes>
         </Box>
