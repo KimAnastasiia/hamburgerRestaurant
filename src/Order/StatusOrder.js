@@ -6,11 +6,11 @@ import {
     Tfoot,
     Tr,
     Th,
-    Td,
+    Td,Heading,
     TableCaption,
-    TableContainer,
-    Box,
-    Button,Text,Select,Hide,Badge
+    TableContainer,Stack,
+    Box,Divider,ButtonGroup,Show,
+    Button,Text,Select,Hide,Badge,Card, CardHeader, CardBody, CardFooter
 } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
 import { useCookies } from 'react-cookie'; 
@@ -75,56 +75,98 @@ export default function StatusOrder(props){
         return yyyy+"/"+mm+"/"+dd+" "+hours+":"+minute+":"+seconds
     }
     return(
+        <div>
+    <Hide below="md">
         <TableContainer w={"100%"}  minH={"100vh"}>
-        <Table variant='striped' colorScheme='teal'>
-            <TableCaption>Your order</TableCaption>
-            <Thead>
-            <Tr>
-                <Th>Date</Th>
-                <Hide below='md'>
-                    <Th>Pack Id</Th>
-                </Hide>
-                <Th>Total</Th>
-                <Th>Check details</Th>
-                <Th>Status</Th>
-            </Tr>
-            </Thead>
-            <Tbody>
-            {  listOfDoneOrders.sort((a, b) => b.date-a.date)
-            .map((order)=>
-            <Tr key={order.orderPackId} >
-                <Td>{formatDate(order.date)}</Td>
-                <Hide below='md'>
-                    <Td>{order.orderPackId}</Td>
-                </Hide>
-                <Td>{order.total}</Td>
-                <Td><Link to={"/order/details/"+order.orderPackId} ><Button>Details</Button></Link></Td>
-                <Td><Select onChange={e =>chanheStatusOfOrder(e, order.orderPackId)} >
-                    <option value="Pending"  defaultValue={order.status==="Pending"}><Badge colorScheme='green'>Pending</Badge></option>
-                    <option value="Cancel" colorScheme='red' >Cancel</option>
-                    <option value="In Progress" colorScheme='purple' defaultValue={order.status==="In Progress"}>In Progress</option>
-                    <option value="Finished" colorScheme='blue'>Finished</option>
-                </Select></Td>
-            </Tr>
-            )}
+            <Table variant='striped' colorScheme='teal'>
+                <TableCaption>Your order</TableCaption>
+                <Thead>
+                <Tr>
+                    <Th>Date</Th>
+                    <Hide below='md'>
+                        <Th>Pack Id</Th>
+                    </Hide>
+                    <Th>Total</Th>
+                    <Th>Check details</Th>
+                    <Th>Status</Th>
+                </Tr>
+                </Thead>
+                <Tbody>
+                {  listOfDoneOrders.sort((a, b) => b.date-a.date)
+                .map((order)=>
+                <Tr key={order.orderPackId} >
+                    <Td>{formatDate(order.date)}</Td>
+                    <Hide below='md'>
+                        <Td>{order.orderPackId}</Td>
+                    </Hide>
+                    <Td>{order.total} euro</Td>
+                    <Td><Link to={"/order/details/"+order.orderPackId} ><Button>Details</Button></Link></Td>
+                    <Td><Select onChange={e =>chanheStatusOfOrder(e, order.orderPackId)} >
+                        <option value="Pending"  defaultValue={order.status==="Pending"}><Badge colorScheme='green'>Pending</Badge></option>
+                        <option value="Cancel" colorScheme='red' >Cancel</option>
+                        <option value="In Progress" colorScheme='purple' defaultValue={order.status==="In Progress"}>In Progress</option>
+                        <option value="Finished" colorScheme='blue'>Finished</option>
+                    </Select></Td>
+                </Tr>
+                )}
 
-            </Tbody>
+                </Tbody>
 
-            <Tfoot>
-            <Tr>
-                <Th>Date</Th>
-                <Hide below='md'>
-                    <Th>Pack Id</Th>
-                </Hide>
-                <Th>Total</Th>
-                <Th>Check details</Th>
-                <Th>Status</Th>
-            </Tr>
-            </Tfoot>
-    </Table>
+                <Tfoot>
+                <Tr>
+                    <Th>Date</Th>
+                    <Hide below='md'>
+                        <Th>Pack Id</Th>
+                    </Hide>
+                    <Th>Total</Th>
+                    <Th>Check details</Th>
+                    <Th>Status</Th>
+                </Tr>
+                </Tfoot>
+        </Table>
     
     </TableContainer>
+</Hide>
 
-    
+    <Show below='md'>
+        <Box w={"100%"}  minH={"100vh"}>
+                        {  listOfDoneOrders.sort((a, b) => b.date-a.date)
+                                    .map((order)=>
+                <Card m={"40px"} maxW='sm' key={order.orderPackId}  >
+                    <CardBody>
+                        <Stack mt='6' spacing='3'>
+                        <Heading size='md'>{formatDate(order.date)}</Heading>
+                        <Text>
+                        Total: {order.total} euro
+                        </Text>
+                        <Text color='blue.600' fontSize='2xl'>
+                        Pack id: {order.orderPackId}  
+                        </Text>
+                        </Stack>
+                    </CardBody>
+                    <Divider />
+                    <CardFooter>
+                        <ButtonGroup spacing='2'>
+                        <Link to={"/order/details/"+order.orderPackId} >
+                            <Button variant='solid' colorScheme='blue'>
+                                Details
+                            </Button>
+                        </Link>
+                        <Select variant='ghost' colorScheme='blue' onChange={e =>chanheStatusOfOrder(e, order.orderPackId)} >
+                            <option value="Pending"  defaultValue={order.status==="Pending"}><Badge colorScheme='green'>Pending</Badge></option>
+                            <option value="Cancel" colorScheme='red' >Cancel</option>
+                            <option value="In Progress" colorScheme='purple' defaultValue={order.status==="In Progress"}>In Progress</option>
+                            <option value="Finished" colorScheme='blue'>Finished</option>
+                        </Select>
+                
+                        </ButtonGroup>
+                    </CardFooter>
+                </Card>
+                            
+                        )}           
+
+        </Box>
+    </Show>
+    </div>
     )
 }

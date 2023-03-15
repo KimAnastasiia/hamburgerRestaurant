@@ -86,8 +86,8 @@ export default function Menu(props){
                   }
                   
                   {props.admin &&
-                    <Text display="block" >
-                      <Link to="/hamburgers/status">
+                    <Text display="block" onClick={()=>props.setUrlGoBackAfterDetailsOrder("/hamburgers/status" )} >
+                      <Link to="/hamburgers/status" >
                       Status of orders
                       </Link>
                     </Text>
@@ -105,7 +105,7 @@ export default function Menu(props){
 
                 
                   {props.login &&
-                    <Text display="block" >
+                    <Text display="block" onClick={()=>props.setUrlGoBackAfterDetailsOrder("/orderPack")}>
                       <Link to="/orderPack">
                         History of orders
                       </Link>

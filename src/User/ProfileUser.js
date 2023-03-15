@@ -17,7 +17,7 @@ export default function ProfileUser(props){
     let [surnameError, setSurnameError]=useState(false)
     let [nameError, setNameError]=useState(false)
 
-    let [componentShow, setComponentShow] = useState("Your Orders")
+    let [componentShow, setComponentShow] = useState("Private Data")
 
     let editProfile=(nameOfComponent)=>{
         setComponentShow(nameOfComponent)
@@ -136,8 +136,8 @@ export default function ProfileUser(props){
 
                     <Box w={"100%"} display={"flex"} justifyContent="center" >
                         <Box  w={["80%","100%","40%","30%","30%","16%"]}>
-                            <Link marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Your Orders")}>Your orders</Link>
-                            <Text marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Adresses")}>Adresses</Text>
+                           
+                            <Text marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Address")}>Address</Text>
                             <Text marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Points")}>
                                 Points       
                                 <Badge ml='1' colorScheme='yellow'>
@@ -149,9 +149,7 @@ export default function ProfileUser(props){
 
                         <Box w={["80%"]} bg={"white"}  fontSize='30px' border={"1px"} borderColor="lightGray" borderRadius='lg' >
                                 
-                                {(componentShow=="Your Orders") && 
-                                    <ListDoneOrders login={props.login} />
-                                }
+                              
 
                                 {( componentShow=="Points") && 
                                 
@@ -160,6 +158,13 @@ export default function ProfileUser(props){
                                     <StatHelpText w={"100%"} fontSize="20px" >{user.points} points  = {user.points} Euro</StatHelpText>
                                 </Stat>}
 
+                                {( componentShow=="Address") && 
+
+                                <Box m={"20px"} w={"100%"} display={"flex"} justifyContent={"center"} alignItems="center" flexDirection="column" >
+                                    <Text>Your address: </Text>
+                                    <Text>{user.address}</Text>
+                                </Box> 
+                                }
 
                                 {( componentShow=="Private Data") && 
                             <Box p="5%" >

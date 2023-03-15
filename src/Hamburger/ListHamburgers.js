@@ -42,7 +42,7 @@ export default function ListHamburgers(){
                         {listOfHamburgers.map((hamburger)=>
                         <Tr key={hamburger.Id}>
                             <Th>
-                            <img src={"/images/"+hamburger.type+".png"} />
+                            <img src={Commons.baseUrl+"/images/"+hamburger.type+".png"} />
                                 {hamburger.type}
                             </Th>
                             <Th>
@@ -60,16 +60,14 @@ export default function ListHamburgers(){
         <Show below='md'  minH={"100vh"}> 
             {listOfHamburgers.map((hamburger)=>     
             <Box mb={"20px"} w={"95%"} display={"flex"} flexDirection="column" justifyContent="center" alignItems="center" key={hamburger.Id}>
-        
                 <Box w={"80%"} mb="20px" >
-                    <img src={"/images/"+hamburger.type+".png"} /> 
+                    <img src={Commons.baseUrl+"/images/"+hamburger.type+".png"} /> 
                 </Box>
                 <Box mb={"20px"} w={"80%"} display={"flex"} justifyContent="space-between">
                     <Box> {hamburger.type}</Box>
                     <Box> {hamburger.price} euro</Box>
                 </Box>
                 <Box w={"80%"} >{hamburger.description}</Box>
-        
             </Box>
             )}
         </Show>  

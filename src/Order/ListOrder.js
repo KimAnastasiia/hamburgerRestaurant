@@ -12,6 +12,8 @@ import {
     Box,
     Button,Text
 } from '@chakra-ui/react'
+import { Space } from 'antd';
+import { ReadOutlined} from '@ant-design/icons';
 import { useNavigate   } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 import {DeleteIcon} from '@chakra-ui/icons'
@@ -136,7 +138,20 @@ export default function ListOrder(props){
 
     return(
       <div>
-            <Box bg={["primary.500", "primary.500", "primary.500", "primary.500"]}  w="20%" h={"100vh"}  position="fixed"  >
+          { ( props.listOfOrders.length == 0) &&<Box  w="20%" h={"100vh"}  position="fixed"  >
+                <Box  bg={["primary.500", "primary.500", "primary.500", "primary.500"]} border={"1px"} borderColor={"gray"} display={"flex"} justifyContent="center" alignItems={"center"} h={"8.2%"} >
+                    <Text fontSize={"25px"} color="white"> Your order </Text> 
+                </Box>
+                <Box borderLeft={"1px"} borderColor={"gray"} alignItems="center" flexDirection={"column"} justifyContent={"center"} display={"flex"} h={"92%"}>
+                    <Text mb={"20px"} fontSize={["16px","16px","16px","16px","16px","19px","23px","25px"]} >You haven't placed any order yet</Text>
+                    <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]}  w="80%" onClick={()=>{navigate("/hamburgers")}}>
+                        <ReadOutlined style={{ fontSize: '20px', color: 'white' }} /> 
+                        <Text color={"white"} ml="10px">See menu </Text>
+                    </Button>
+                </Box>
+            </Box>}
+            { ( props.listOfOrders.length > 0) &&<Box bg={["primary.500", "primary.500", "primary.500", "primary.500"]}  w="20%" h={"100vh"}  position="fixed"  >
+            
                 <Box border={"1px"} borderColor={"gray"} display={"flex"} justifyContent="space-around" alignItems={"center"} h={"8%"} >
                     <Text color="white"> Your order </Text> 
                     <Button onClick={deleteAllOrder}> <DeleteIcon mr="10px"/> Delete all  </Button>
@@ -144,7 +159,7 @@ export default function ListOrder(props){
                 <Box  h={"80%"} overflow="scroll" >
                 {  props.listOfOrders.map((order)=>
                     <Box mt={"20px"} display={"flex"} justifyContent="space-around" >
-                        <Box w={"25%"}> <img src={"/images/"+order.type+".png"} /></Box>
+                        <Box w={"25%"}> <img src={Commons.baseUrl+"/images/"+order.type+".png"} /></Box>
                         <Box   display={"flex"} justifyContent="space-around" w={"75%"}>
                             <Box  display={"flex"} flexDirection="column" justifyContent="center" w={"50%"} >
                                 <Box color={"white"}> {order.type}</Box>
@@ -169,7 +184,7 @@ export default function ListOrder(props){
                    </Box>
                    
                 </Box>
-            </Box>
+            </Box>}
    </div> )
 
 }

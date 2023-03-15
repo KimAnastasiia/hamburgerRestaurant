@@ -61,7 +61,7 @@ export default function DetailsDoneOrders(props){
     return(
         <Box minH={"100vh"}>
             <Button  mt={"20px"} marginLeft={["50px","100px","100px","300px","400px","600px"]} leftIcon={<ArrowBackIcon />} colorScheme='teal' variant='outline'>
-                <Link to="/orderPack" >
+                <Link to={props.urlGoBackAfterDetailsOrder} >
                     Back
                 </Link>
             </Button>
@@ -128,8 +128,8 @@ export default function DetailsDoneOrders(props){
                         </Tfoot>
                     </Table>
                    
-                    <Box display={["block","block","none","none","none"]} fontSize={"20px"} >
-                        Total: {totall} euro
+                    <Box display={["flex","flex","none","none","none"]} justifyContent="center" fontSize={"20px"} >
+                        <Text bg="red" color={"white"} >Total: {totall} euro</Text>
                     </Box>
                 </TableContainer>
             </Box>  

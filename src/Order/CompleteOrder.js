@@ -21,12 +21,14 @@ export default function CompleteOrder(props){
     const [floor, setFloor]=useState("")
     const [apartment, setApartment]=useState("")
     const [intercom, setIntercom]=useState("")
-
-
+    const [call, setCall]=useState(false)
+    const [time, setTime]=useState("in time")
+    const [date, setDate]=useState("in time")
 
 
     useEffect (()=>{ 
         getInformationAboutUser()
+        
     },[])
 
     let getInformationAboutUser=async()=>{  
@@ -41,6 +43,7 @@ export default function CompleteOrder(props){
     }
     let showSlider=()=>{
         setSpendPoints(!spendPoints)
+        setSliderValue(0)
     }
 
     let totall= false
@@ -76,7 +79,10 @@ export default function CompleteOrder(props){
             },
             body:
             JSON.stringify( { 
-               total: total
+               total: total,
+               call:call,
+               deliveryTime:time,
+               deliveryDate:date
             })
 
         })
@@ -125,12 +131,20 @@ export default function CompleteOrder(props){
 
     )}
 
+    
+
+    let controlPoints=(val)=>{
+        
+        if(val<totall){
+            setSliderValue(val)
+        }
+    }
     return(
-        <Box minH={"100vh"} pl="300px" pr="300px" pt={"50px"}>
-            <Text mb="20px" fontSize={"50px"} >Your order</Text>
-            <Box fontSize={"20px"}  display={"flex"}  justifyContent="space-between"  w="100%">
-                <Box w="60%" >
-                    <Box mb={"30px"}  h={"400px"}  p={"20px"} bg={"lightblue"} >
+        <Box minH={"100vh"} pl={["300px","0px","90px","100px","300px"] } pr={["300px","300px","0px","300px","300px"]} pt={"50px"}>
+            <Text mb="20px" fontSize={"50px"} w="100%">Your order</Text>
+            <Box fontSize={"20px"}  display={["flex","block","flex","flex","flex"]}  justifyContent="space-between"  w="100%">
+                <Box w={["60%","100%","60%","60%","60%"]}>
+                    <Box  mb={"30px"}  minH={"400px"}  p={"20px"} bg={"lightblue"} >
                         <Text fontSize={"25px"} mb="10px">Adress</Text>
                         <Input required onChange={(e)=>setStreet(e.target.value)} placeholder="street" mb={"10px"} ></Input>
                         <Box  display={"flex"} justifyContent="space-between" w={"100%"} mb="10px">
@@ -140,11 +154,13 @@ export default function CompleteOrder(props){
                             <Input onChange={(e)=>setIntercom(e.target.value)} w={"23%"} placeholder="intercom" ></Input>
                         </Box>
                         <Textarea  mb="10px" placeholder="comments for adress" ></Textarea>
-                        <Checkbox defaultChecked  mb="15px" >Do not call to check the order </Checkbox>
+                        <Checkbox defaultChecked  mb="15px" onChange={()=>setCall(!call)} >Do not call to check the order </Checkbox>
                         <Text fontSize={"25px"} mb="10px" >Delivery time</Text>
                         <Select placeholder='As fast as possible'>
                             <option value='option1'>Delayed Delivery</option>
                         </Select>
+                        <Input  mt="10px" w={"23%"} type="date" onChange={(e)=>setDate(e.target.value)}  mr={"10px"}></Input>
+                        <Input  mt="10px" w={"23%"} type="time" onChange={(e)=>setTime(e.target.value)}  ></Input>
                     </Box>
 
                     <Box p={"20px"} mb="20px" bg={"lightblue"} >
@@ -153,7 +169,7 @@ export default function CompleteOrder(props){
                         <Input w={"90%"} placeholder="comment for order" ></Input>
                         {  props.listOfOrders.map((order)=>
                             <Box mt={"20px"} display={"flex"} justifyContent="space-around" >
-                                <Box w={"25%"}> <img src={"/images/"+order.type+".png"} /></Box>
+                                <Box w={"25%"}> <img src={Commons.baseUrl+"/images/"+order.type+".png"} /></Box>
                                 <Box   display={"flex"} justifyContent="space-around" w={"75%"}>
                                     <Box  display={"flex"} flexDirection="column" justifyContent="center" w={"50%"} >
                                         <Box color={"white"}> {order.type}</Box>
@@ -168,7 +184,7 @@ export default function CompleteOrder(props){
                     </Box>
                 </Box>
         
-                <Box ml={"35%"} position="fixed"  h={"400px"}  p={"20px"} bg={"lightblue"} w="30%">
+                <Box ml={["0%","0%","60%","45%","25%","31%","35%"]} position={["none", "none", "fixed", "fixed", "fixed" ]} h={"400px"}  p={"20px"} bg={"lightblue"} w="30%">
                     <Text  fontSize={"25px"} mb="10px">Payment</Text>
                     <Select mb="10px" placeholder='Cash to courier'>
                         <option value='By card online'>By card online</option>
@@ -186,7 +202,7 @@ export default function CompleteOrder(props){
 
                   { spendPoints &&  
                     <Box>
-                        <Slider aria-label='slider-ex-1' defaultValue={0}  onChange={(val)=>setSliderValue(val)}  value={sliderValue}  min={0} max={10}>
+                        <Slider aria-label='slider-ex-1' defaultValue={0}  onChange={(val)=>{controlPoints(val)}}  value={sliderValue}  min={0} max={10}>
                             <SliderTrack>
                                 <SliderFilledTrack />
                             </SliderTrack>

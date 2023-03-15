@@ -171,7 +171,7 @@ export default function DetailsHamburgers(props){
             </Button>
         </Stack>
         <Box display={"flex"} justifyContent="center" alignItems={"center"} flexDirection="column" >
-            <Image  w={["90%","90%","70%", "50%","30%"]} src={"/images/"+hamburger.type+".png"} ></Image>
+            <Image  w={["90%","90%","70%", "50%","30%"]} src={Commons.baseUrl+"/images/"+hamburger.type+".png"} ></Image>
             <Box display={"flex"} flexDirection="column" justifyContent="center" alignItems="center"  w={["80%","70%","60%","50%","40%","30%"]}>
                 <Text w="100%"  >{hamburger.description}</Text>
                 <Text w="100%" color="red" >price: {hamburger.price} euro</Text>
