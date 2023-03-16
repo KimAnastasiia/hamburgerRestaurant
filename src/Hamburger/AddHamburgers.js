@@ -1,7 +1,5 @@
 import React,{useState, useEffect} from "react"
-import { Table, Thead, Tbody, Tr, Th, Td, chakra,Form } from "@chakra-ui/react";
-import { Input, Text,Box } from '@chakra-ui/react'
-import { Button, Stack } from '@chakra-ui/react'
+import { Table, Thead, Tbody, Tr, Th, Td, chakra,Form,Alert,Input, Text,Box ,Button, Stack,AlertIcon,AlertTitle } from "@chakra-ui/react";
 import Commons from "../Utility/Commons";
 
 
@@ -14,6 +12,8 @@ export default function AddHamburger(){
     let [price, setPrice]=useState("")
     let [description, setDescription]=useState("")
     const [selectedFile, setSelectedFile] = useState(null);
+    const [alert, setAlert]=useState(false)
+
 
     let addType =(e)=>{
         setType(e.target.value)
@@ -51,7 +51,7 @@ export default function AddHamburger(){
 
     let createNewHamburger=async()=>{
 
-
+      
         const formData = new FormData();
         formData.append('name', type);
         formData.append('price', price);
@@ -65,20 +65,24 @@ export default function AddHamburger(){
     
             if(response.ok){
                 let data = await response.json()
-                
-    
                 console.log(data)
                 if(!data.error){
-                    setListOfHamburgers((prev) => 
-                        [...prev, {
-                            name: type,
-                            price: price,
-                            description:description,
-                            id: data.rows.insertId
-                        }]
-                        
-                    )
+
+                    if(data.messege=="done"){ 
+                        setListOfHamburgers((prev) => 
+                            [...prev, {
+                                name: type,
+                                price: price,
+                                description:description,
+                                id: data.rows.insertId
+                            }]
+                            
+                        )
+                    }else{
+                        setAlert(data.messege)
+                    }
                 }
+               
             } 
         
     }
@@ -89,8 +93,16 @@ export default function AddHamburger(){
             
 <Box minH={"100vh"}>
     <Box display={"flex"} justifyContent="center" >
-        <Stack direction="column" spacing={3} align="flex-start" w={["80%","70%","60%","50%","50%"]}>
+        <Stack direction="column" spacing={3} align="center" w={["80%","70%","60%","50%","50%"]}>
                 <Text w={["100%"]}  textAlign="center" >Make new Hamburger</Text>
+                {alert &&                 
+                <Box w={["90%","90%","80%","80%","60%"]} display={"flex"}  justifyContent="center" alignItems={"center"}  >
+                            <Alert status='error'  borderRadius='10px' width={"500px"}  >
+                                <AlertIcon />
+                                <AlertTitle>{alert}</AlertTitle>
+                            </Alert>
+                </Box>
+                }
                 <Input
                     name="name"
                     errorBorderColor='crimson'
