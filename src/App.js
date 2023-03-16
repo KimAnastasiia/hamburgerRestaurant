@@ -19,7 +19,7 @@ import Commons from './Utility/Commons';
 import PhoneMenu from './CommonParts/PhoneMenu';
 import PointsOfUser from './User/PointsOfUser';
 import CompleteOrder from './Order/CompleteOrder';
-
+import AddressInPhone from './User/AddresInPhone';
 
 export default function App(props){
   const [percent, setPercent]=useState("80%")
@@ -33,6 +33,8 @@ export default function App(props){
   const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
   const [listOfOrders, setListOfOrders]=useState([]) 
   const [isOpen, setIsOpen] = useState(false);
+
+  
   const [url, setUrl]= useState("")
   const [urlGoBackAfterDetailsOrder, setUrlGoBackAfterDetailsOrder]=useState("")
 
@@ -111,6 +113,7 @@ export default function App(props){
             <Route path='/login/create-account' element={<AddUser setLogin={setLogin} setAdmin={setAdmin}  setProfileAvatar={setProfileAvatar}/>} />
             {login && <Route path='/user' element={<ProfileUser login={login} setProfileAvatar={setProfileAvatar} />} />}
             {login && <Route path='/user/points' element={<PointsOfUser />} />}
+            {login && <Route path='/user/address' element={<AddressInPhone />} />}
             {login && <Route path='/completeOrder' element={<CompleteOrder setProfileAvatar={setProfileAvatar} setListOfOrders={setListOfOrders} setQuantityInMenu={setQuantityInMenu} setQuantity={setQuantity}   listOfOrders={listOfOrders}/>} />}
             <Route path='/menu' element={<PhoneMenu  setUrl={setUrl}  isOpen={isOpen} setIsOpen={setIsOpen} admin={admin}  profileAvatar={profileAvatar}  login={login} setPercent={setPercent} setProfileAvatar={setProfileAvatar} setLogin={setLogin} setAdmin={setAdmin} />} />
           </Routes>

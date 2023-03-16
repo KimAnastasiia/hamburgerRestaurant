@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react"
+import React,{useState, useEffect, useRef} from "react"
 import { Table, Thead, Tbody, Tr, Th, Td, chakra,Form,Alert,Input, Text,Box ,Button, Stack,AlertIcon,AlertTitle } from "@chakra-ui/react";
 import Commons from "../Utility/Commons";
 
@@ -8,15 +8,16 @@ export default function AddHamburger(){
 
 
     let [listOfHamburgers, setListOfHamburgers ] = useState([])
-    let [type, setType]=useState("")
+    let [name, setName]=useState("")
     let [price, setPrice]=useState("")
     let [description, setDescription]=useState("")
     const [selectedFile, setSelectedFile] = useState(null);
     const [alert, setAlert]=useState(false)
+    const [alertDone, setAlertDone]=useState(false)
+    const img = useRef(null)
 
-
-    let addType =(e)=>{
-        setType(e.target.value)
+    let addName =(e)=>{
+        setName(e.target.value)
     }
 
     let addPrice=(e)=>{
@@ -53,7 +54,7 @@ export default function AddHamburger(){
 
       
         const formData = new FormData();
-        formData.append('name', type);
+        formData.append('name', name);
         formData.append('price', price);
         formData.append('description', description);
         formData.append('myImage', selectedFile);
@@ -71,20 +72,25 @@ export default function AddHamburger(){
                     if(data.messege=="done"){ 
                         setListOfHamburgers((prev) => 
                             [...prev, {
-                                name: type,
+                                name: name,
                                 price: price,
                                 description:description,
                                 id: data.rows.insertId
                             }]
                             
                         )
+                        setAlertDone("Hamburger "+ name + " added")
                     }else{
                         setAlert(data.messege)
                     }
                 }
                
             } 
-        
+            setSelectedFile("")
+            setName("")
+            setDescription("")
+            setPrice("")
+            img.current.value=""
     }
 
 
@@ -103,11 +109,20 @@ export default function AddHamburger(){
                             </Alert>
                 </Box>
                 }
+                {alertDone &&                 
+                <Box w={["90%","90%","80%","80%","60%"]} display={"flex"}  justifyContent="center" alignItems={"center"}  >
+                            <Alert status='success'  borderRadius='10px' width={"500px"}  >
+                                <AlertIcon />
+                                <AlertTitle>{alertDone}</AlertTitle>
+                            </Alert>
+                </Box>
+                }
                 <Input
                     name="name"
                     errorBorderColor='crimson'
                     placeholder='Name'
-                    onChange={addType}
+                    onChange={addName}
+                    value={name}
                 /> 
 
                 <Input
@@ -115,13 +130,15 @@ export default function AddHamburger(){
                     errorBorderColor='crimson'
                     placeholder='Price'
                     onChange={addPrice}
+                    value={price}
                 /> 
 
                 <Input
                     name="description"
                     errorBorderColor='crimson'
                     placeholder='Description'
-                    onChange={addDescription}
+                    onChange={addDescription}ç
+                    value={description}
                 />
                 <Input
                     errorBorderColor='crimson'
@@ -129,6 +146,7 @@ export default function AddHamburger(){
                     type="file"
                     accept=".png" 
                     onChange={onChangeFile}
+                    ref={img}
                 />
                 <Box  w="100%"  display={"flex"} justifyContent="center" >
                     <Button colorScheme='teal' variant='outline' onClick={createNewHamburger} >

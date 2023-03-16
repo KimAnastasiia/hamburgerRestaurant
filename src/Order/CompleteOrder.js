@@ -15,12 +15,9 @@ export default function CompleteOrder(props){
     const [user, setUser ] = useState({})
     const [spendPoints, setSpendPoints]=useState(false)
     const [sliderValue, setSliderValue]=useState(0)
-    
-    const [street, setStreet]=useState("")
-    const [entrance, setEntrance]=useState("")
-    const [floor, setFloor]=useState("")
-    const [apartment, setApartment]=useState("")
-    const [intercom, setIntercom]=useState("")
+    const [commentForAddress,setCommentForAddress]=useState("")
+    const [commentForOrder,setCommentForOrder]=useState("")
+
     const [call, setCall]=useState(false)
     const [time, setTime]=useState("in time")
     const [date, setDate]=useState("in time")
@@ -40,6 +37,7 @@ export default function CompleteOrder(props){
             }
             props.setProfileAvatar(data[0].name)
         }  
+        
     }
     let showSlider=()=>{
         setSpendPoints(!spendPoints)
@@ -108,6 +106,8 @@ export default function CompleteOrder(props){
         props.setQuantityInMenu(0)
         props.setQuantity(0)
         updateAdress()
+        setCommentForOrder("")
+        setCommentForAddress("")
     }
 
     let updateAdress=async()=>{
@@ -121,24 +121,26 @@ export default function CompleteOrder(props){
             },
             body:
                 JSON.stringify({ 
-                    street:street,
-                    entrance:entrance,
-                    floor:floor,
-                    apartment:apartment,
-                    intercom:intercom
+                    street:user.street,
+                    entrance:user.entrance,
+                    floor:user.floor,
+                    apartment:user.apartment,
+                    intercom:user.intercom
                 })
             }
 
-    )}
+        )
+    }
 
     
 
     let controlPoints=(val)=>{
-        
         if(val<totall){
             setSliderValue(val)
         }
     }
+
+
     return(
         <Box minH={"100vh"} pl={["300px","0px","90px","100px","300px"] } pr={["300px","300px","0px","300px","300px"]} pt={"50px"}>
             <Text mb="20px" fontSize={"50px"} w="100%">Your order</Text>
@@ -146,14 +148,14 @@ export default function CompleteOrder(props){
                 <Box w={["60%","100%","60%","60%","60%"]}>
                     <Box  mb={"30px"}  minH={"400px"}  p={"20px"} bg={"lightblue"} >
                         <Text fontSize={"25px"} mb="10px">Adress</Text>
-                        <Input required onChange={(e)=>setStreet(e.target.value)} placeholder="street" mb={"10px"} ></Input>
+                        <Input value={user.street} required onChange={(e)=>setUser({...user, street:e.target.value})} placeholder="street" mb={"10px"} ></Input>
                         <Box  display={"flex"} justifyContent="space-between" w={"100%"} mb="10px">
-                            <Input onChange={(e)=>setEntrance(e.target.value)} w={"23%"} placeholder="entrance" ></Input>
-                            <Input onChange={(e)=>setFloor(e.target.value)} w={"23%"} placeholder="floor"></Input>
-                            <Input onChange={(e)=>setApartment(e.target.value)} w={"23%"} placeholder="apartment"></Input>
-                            <Input onChange={(e)=>setIntercom(e.target.value)} w={"23%"} placeholder="intercom" ></Input>
+                            <Input value={user.entrance} onChange={(e)=>setUser({...user, entrance:e.target.value})} w={"23%"} placeholder="entrance" ></Input>
+                            <Input value={user.floor} onChange={(e)=>setUser({...user, floor:e.target.value})} w={"23%"} placeholder="floor"></Input>
+                            <Input value={user.apartment} onChange={(e)=>setUser({...user, apartment:e.target.value})} w={"23%"} placeholder="apartment"></Input>
+                            <Input value={user.intercom} onChange={(e)=>setUser({...user, intercom:e.target.value})} w={"23%"} placeholder="intercom" ></Input>
                         </Box>
-                        <Textarea  mb="10px" placeholder="comments for adress" ></Textarea>
+                        <Textarea value={commentForAddress} onChange={e=>{setCommentForAddress(e.target.value)}}  mb="10px" placeholder="comments for adress" ></Textarea>
                         <Checkbox defaultChecked  mb="15px" onChange={()=>setCall(!call)} >Do not call to check the order </Checkbox>
                         <Text fontSize={"25px"} mb="10px" >Delivery time</Text>
                         <Select placeholder='As fast as possible'>
@@ -166,7 +168,7 @@ export default function CompleteOrder(props){
                     <Box p={"20px"} mb="20px" bg={"lightblue"} >
 
                         <Text fontSize={"25px"} mb="10px" >Dishes in order</Text>
-                        <Input w={"90%"} placeholder="comment for order" ></Input>
+                        <Input w={"90%"} value={commentForOrder} onChange={(e)=>{setCommentForOrder(e.target.value)}} placeholder="comment for order" ></Input>
                         {  props.listOfOrders.map((order)=>
                             <Box mt={"20px"} display={"flex"} justifyContent="space-around" >
                                 <Box w={"25%"}> <img src={Commons.baseUrl+"/images/"+order.type+".png"} /></Box>

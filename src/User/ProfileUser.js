@@ -7,6 +7,7 @@ import { DeleteIcon, EditIcon, CheckIcon} from '@chakra-ui/icons'
 import listOfCountries from "../Utility/ListOfCountries";
 import ListDoneOrders from '../Order/ListDoneOrders';
 import Commons from "../Utility/Commons";
+import AddressInPhone from "./AddresInPhone";
 
 export default function ProfileUser(props){
 
@@ -160,9 +161,9 @@ export default function ProfileUser(props){
 
                                 {( componentShow=="Address") && 
 
-                                <Box m={"20px"} w={"100%"} display={"flex"} justifyContent={"center"} alignItems="center" flexDirection="column" >
-                                    <Text>Your address: </Text>
-                                    <Text>{user.address}</Text>
+                                <Box  m={"20px"} w={"100%"} display={"flex"} justifyContent={"center"} alignItems="center" flexDirection="column" >
+                                   
+                                    <Box  w={"80%"} ><AddressInPhone/> </Box> 
                                 </Box> 
                                 }
 
@@ -283,7 +284,6 @@ export default function ProfileUser(props){
                             <Text w={"20%"} fontSize='20px'>Name</Text>
                             <Box display={"flex"} w={"75%"} justifyContent="space-around" >
                                 <Input 
-                                    
                                     value={user.name}
                                     onChange={addName}
                                     placeholder="Change your name"

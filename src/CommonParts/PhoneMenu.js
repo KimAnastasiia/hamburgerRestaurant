@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate   } from "react-router-dom";
 import { useState } from "react";
 import { HourglassOutlined, HomeOutlined, FileDoneOutlined, 
-    UserOutlined,PlusSquareOutlined,ContainerOutlined,EuroOutlined } from '@ant-design/icons';
+    UserOutlined,PlusSquareOutlined,ContainerOutlined,EuroOutlined,CompassOutlined } from '@ant-design/icons';
 
 
 export default function PhoneMenu(props){
@@ -114,6 +114,14 @@ export default function PhoneMenu(props){
                 <Box display={"flex"}  alignItems={"center"}> 
                     <UserOutlined />
                     <Text ml={"20px"} > Profile </Text> 
+                </Box>
+                <ChevronRightIcon /> 
+            </Box>}
+            {props.login &&
+            <Box  alignItems={"center"} borderWidth={"2px"} m={"10px"}  borderRadius="lg" onClick={()=>{goToComponent('/user/address') }} h={"40px"}  p="30px"  display={"flex"} justifyContent="space-between" >
+                <Box display={"flex"}  alignItems={"center"}> 
+                    <CompassOutlined />
+                    <Text ml={"20px"} > Address </Text> 
                 </Box>
                 <ChevronRightIcon /> 
             </Box>}

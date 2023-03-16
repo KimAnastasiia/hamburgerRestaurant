@@ -24,7 +24,9 @@ export default function DetailsDoneOrders(props){
     let [listOfDoneOrdersDetails, setListOfDoneOrdersDetails] = useState([])
     const {doneOrdersDetailsId}= useParams()
     let date 
+    
     const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
+
     useEffect(()=>{
         doneOrdersDetails()
     
