@@ -19,8 +19,11 @@ export default function CompleteOrder(props){
     const [commentForOrder,setCommentForOrder]=useState("")
 
     const [call, setCall]=useState(false)
+
     const [time, setTime]=useState("in time")
     const [date, setDate]=useState("in time")
+    
+    const [putDate, setPutDate]=useState(false)
 
 
     useEffect (()=>{ 
@@ -105,14 +108,16 @@ export default function CompleteOrder(props){
         checkListOfOrders()
         props.setQuantityInMenu(0)
         props.setQuantity(0)
-        updateAdress()
         setCommentForOrder("")
         setCommentForAddress("")
+        setSliderValue(0)
+        setSpendPoints(false)
+        updateAdress()
     }
 
     let updateAdress=async()=>{
         
-        let response = await fetch(Commons.baseUrl+"/users/adress?apiKey="+cookieObjectApiKey.apiKey,  
+        let response = await fetch(Commons.baseUrl+"/users/address?apiKey="+cookieObjectApiKey.apiKey,  
 
         {
             method: 'PUT',
@@ -125,7 +130,8 @@ export default function CompleteOrder(props){
                     entrance:user.entrance,
                     floor:user.floor,
                     apartment:user.apartment,
-                    intercom:user.intercom
+                    intercom:user.intercom,
+                    points: user.points-sliderValue
                 })
             }
 
@@ -146,7 +152,7 @@ export default function CompleteOrder(props){
             <Text mb="20px" fontSize={"50px"} w="100%">Your order</Text>
             <Box fontSize={"20px"}  display={["flex","block","flex","flex","flex"]}  justifyContent="space-between"  w="100%">
                 <Box w={["60%","100%","60%","60%","60%"]}>
-                    <Box  mb={"30px"}  minH={"400px"}  p={"20px"} bg={"lightblue"} >
+                    <Box  mb={"30px"}  minH={"400px"}  p={"20px"}>
                         <Text fontSize={"25px"} mb="10px">Adress</Text>
                         <Input value={user.street} required onChange={(e)=>setUser({...user, street:e.target.value})} placeholder="street" mb={"10px"} ></Input>
                         <Box  display={"flex"} justifyContent="space-between" w={"100%"} mb="10px">
@@ -158,14 +164,17 @@ export default function CompleteOrder(props){
                         <Textarea value={commentForAddress} onChange={e=>{setCommentForAddress(e.target.value)}}  mb="10px" placeholder="comments for adress" ></Textarea>
                         <Checkbox defaultChecked  mb="15px" onChange={()=>setCall(!call)} >Do not call to check the order </Checkbox>
                         <Text fontSize={"25px"} mb="10px" >Delivery time</Text>
-                        <Select placeholder='As fast as possible'>
+                        <Select placeholder='As fast as possible'  >
                             <option value='option1'>Delayed Delivery</option>
                         </Select>
-                        <Input  mt="10px" w={"23%"} type="date" onChange={(e)=>setDate(e.target.value)}  mr={"10px"}></Input>
-                        <Input  mt="10px" w={"23%"} type="time" onChange={(e)=>setTime(e.target.value)}  ></Input>
+                        {putDate &&
+                        <Box>
+                            <Input  mt="10px" w={"23%"} type="date" onChange={(e)=>setDate(e.target.value)}  mr={"10px"}></Input>
+                            <Input  mt="10px" w={"23%"} type="time" onChange={(e)=>setTime(e.target.value)}  ></Input>
+                        </Box>}
                     </Box>
 
-                    <Box p={"20px"} mb="20px" bg={"lightblue"} >
+                    <Box p={"20px"} mb="20px" >
 
                         <Text fontSize={"25px"} mb="10px" >Dishes in order</Text>
                         <Input w={"90%"} value={commentForOrder} onChange={(e)=>{setCommentForOrder(e.target.value)}} placeholder="comment for order" ></Input>
@@ -186,7 +195,7 @@ export default function CompleteOrder(props){
                     </Box>
                 </Box>
         
-                <Box ml={["0%","0%","60%","45%","25%","31%","35%"]} position={["none", "none", "fixed", "fixed", "fixed" ]} h={"400px"}  p={"20px"} bg={"lightblue"} w="30%">
+                <Box ml={["0%","0%","60%","45%","25%","31%","35%"]} position={["none", "none", "fixed", "fixed", "fixed" ]} h={"400px"}  p={"20px"} w="30%">
                     <Text  fontSize={"25px"} mb="10px">Payment</Text>
                     <Select mb="10px" placeholder='Cash to courier'>
                         <option value='By card online'>By card online</option>
@@ -204,7 +213,7 @@ export default function CompleteOrder(props){
 
                   { spendPoints &&  
                     <Box>
-                        <Slider aria-label='slider-ex-1' defaultValue={0}  onChange={(val)=>{controlPoints(val)}}  value={sliderValue}  min={0} max={10}>
+                        <Slider aria-label='slider-ex-1' defaultValue={0}  onChange={(val)=>{controlPoints(val)}}  value={sliderValue}  min={0} max={user.points}>
                             <SliderTrack>
                                 <SliderFilledTrack />
                             </SliderTrack>

@@ -35,7 +35,7 @@ export default function AddressInPhone(props){
 
     let updateAdress=async()=>{
         
-        let response = await fetch(Commons.baseUrl+"/users/adress?apiKey="+cookieObjectApiKey.apiKey,  
+        let response = await fetch(Commons.baseUrl+"/users/address?apiKey="+cookieObjectApiKey.apiKey,  
 
         {
             method: 'PUT',
@@ -61,23 +61,23 @@ export default function AddressInPhone(props){
                 <Text textAlign="center" w={"100%"} fontSize={"25px"}  mb="10px">Adress</Text>
                 <Box  mb={"10px"} display={"flex"} alignItems="center" >
                     <Text mr={"20px"} w="20%"  mb='8px'>street:</Text>
-                    <Input w={["80%","50%","50%","50%","50%"]} id="street" value={user.street} required onChange={(e)=>setUser({...user, street:e.target.value})} placeholder="street"  ></Input>
+                    <Input w={["80%","60%","50%","50%","50%"]} id="street" value={user.street} required onChange={(e)=>setUser({...user, street:e.target.value})} placeholder="street"  ></Input>
                 </Box>
                 <Box  mb={"10px"} display={"flex"} alignItems="center">
                     <Text  mr={"20px"} w="20%" mb='8px'>entrance:</Text>
-                    <Input w={["80%","50%","50%","50%","50%"]}id="entrance" value={user.entrance} onChange={(e)=>setUser({...user, entrance:e.target.value})}  placeholder="entrance" ></Input>
+                    <Input w={["80%","60%","50%","50%","50%"]}id="entrance" value={user.entrance} onChange={(e)=>setUser({...user, entrance:e.target.value})}  placeholder="entrance" ></Input>
                 </Box>
                 <Box  mb={"10px"}  display={"flex"}alignItems="center">
                     <Text  mr={"20px"} w="20%"mb='8px'>floor:</Text>
-                    <Input w={["80%","50%","50%","50%","50%"]} id="floor" value={user.floor} onChange={(e)=>setUser({...user, floor:e.target.value})} placeholder="floor"></Input>
+                    <Input w={["80%","60%","50%","50%","50%"]} id="floor" value={user.floor} onChange={(e)=>setUser({...user, floor:e.target.value})} placeholder="floor"></Input>
                 </Box>
                 <Box   mb={"10px"} display={"flex"}alignItems="center">
                     <Text mr={"20px"} w="20%" mb='8px'>apartment:</Text>
-                    <Input w={["80%","50%","50%","50%","50%"]} id="apartment" value={user.apartment} onChange={(e)=>setUser({...user, apartment:e.target.value})} placeholder="apartment"></Input>
+                    <Input w={["80%","60%","50%","50%","50%"]} id="apartment" value={user.apartment} onChange={(e)=>setUser({...user, apartment:e.target.value})} placeholder="apartment"></Input>
                 </Box>
                 <Box   mb={"10px"} display={"flex"}alignItems="center">
                     <Text  mr={"20px"} w="20%"mb='8px'>intercom:</Text>
-                    <Input w={["80%","50%","50%","50%","50%"]} id="intercom" value={user.intercom} onChange={(e)=>setUser({...user, intercom:e.target.value})} placeholder="intercom" ></Input>
+                    <Input w={["80%","60%","50%","50%","50%"]} id="intercom" value={user.intercom} onChange={(e)=>setUser({...user, intercom:e.target.value})} placeholder="intercom" ></Input>
                 </Box>
                 <Box display="flex" justifyContent={"center"} ><Button  w={"30%"} onClick={updateAdress} >Complete</Button></Box>
             </Box>

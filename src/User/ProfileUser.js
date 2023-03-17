@@ -163,7 +163,9 @@ export default function ProfileUser(props){
 
                                 <Box  m={"20px"} w={"100%"} display={"flex"} justifyContent={"center"} alignItems="center" flexDirection="column" >
                                    
-                                    <Box  w={"80%"} ><AddressInPhone/> </Box> 
+                                    <Box  w={"80%"} >
+                                        <AddressInPhone/> 
+                                    </Box> 
                                 </Box> 
                                 }
 
