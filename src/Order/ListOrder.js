@@ -138,7 +138,9 @@ export default function ListOrder(props){
 
     return(
       <div>
-          { ( props.listOfOrders.length == 0) &&<Box  w="20%" h={"100vh"}  position="fixed"  >
+          { ( props.listOfOrders.length == 0) &&
+          
+            <Box  w="20%" h={"100vh"}  position="fixed"  >
                 <Box  bg={["primary.500", "primary.500", "primary.500", "primary.500"]} border={"1px"} borderColor={"gray"} display={"flex"} justifyContent="center" alignItems={"center"} h={"8.2%"} >
                     <Text fontSize={"25px"} color="white"> Your order </Text> 
                 </Box>

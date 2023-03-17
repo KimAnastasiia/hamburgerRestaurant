@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { useCookies } from 'react-cookie'; 
 import Commons from "../Utility/Commons";
 import { useNavigate   } from "react-router-dom";
-
+import { FrownOutlined } from '@ant-design/icons';
 
 export default function StatusOrder(props){
     const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey', "userId"]);
@@ -77,6 +77,12 @@ export default function StatusOrder(props){
     return(
         <div>
     <Hide below="md">
+                        {listOfDoneOrders.length==0 &&
+                        <Box minH={"100vh"} w={"100%"} mt={"200px"} display={"flex"} flexDirection="column"  alignItems={"center"} >
+                            <Text fontSize="30px">Now order list empty</Text>
+                            <Box><FrownOutlined style={{ fontSize: '30px', color: "green" }} /></Box>
+                        </Box>}
+                        {listOfDoneOrders.length>0 &&
         <TableContainer w={"100%"}  minH={"100vh"}>
             <Table variant='striped' colorScheme='teal'>
                 <TableCaption>Your order</TableCaption>
@@ -125,12 +131,19 @@ export default function StatusOrder(props){
                 </Tfoot>
         </Table>
     
-    </TableContainer>
+    </TableContainer>}
 </Hide>
 
     <Show below='md'>
+
         <Box w={"100%"}  minH={"100vh"}>
-                        {  listOfDoneOrders.sort((a, b) => b.date-a.date)
+                        {listOfDoneOrders.length==0 &&
+                        <Box w={"100%"} mt={"200px"} h={"50%"} display={"flex"} flexDirection="column" justifyContent="center" alignItems={"center"} >
+                            <Text fontSize="30px">Now order list empty</Text>
+                            <Box><FrownOutlined style={{ fontSize: '30px', color: "green" }} /></Box>
+                        </Box>}
+                        {(listOfDoneOrders.length>0 ) &&
+                         listOfDoneOrders.sort((a, b) => b.date-a.date)
                                     .map((order)=>
                 <Card m={"40px"} maxW='sm' key={order.orderPackId}  >
                     <CardBody>
@@ -163,7 +176,7 @@ export default function StatusOrder(props){
                     </CardFooter>
                 </Card>
                             
-                        )}           
+                        )}         
 
         </Box>
     </Show>

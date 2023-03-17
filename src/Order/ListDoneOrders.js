@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { useCookies } from 'react-cookie'; 
 import { useNavigate   } from "react-router-dom";
 import Commons from "../Utility/Commons";
-
+import { FrownOutlined } from '@ant-design/icons';
 export default function ListDoneOrders(props){
     const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
     let [listOfDoneOrders, setListOfDoneOrders] = useState([])
@@ -81,6 +81,12 @@ export default function ListDoneOrders(props){
  
         <Box >
             <Hide below="md">
+                        { ( listOfDoneOrders.length==0) &&
+                         <Box w={"100%"} mt={"200px"}minH={"100vh"} display={"flex"} flexDirection="column" alignItems={"center"} >
+                            <Text fontSize="30px">You have not made any order yet </Text>
+                            <Box><FrownOutlined style={{ fontSize: '30px', color: "green" }} /></Box>
+                        </Box> } 
+                        { ( listOfDoneOrders.length>0) &&
                     <TableContainer w={"100%"} minH={"100vh"}>
                         <Table variant='striped' colorScheme='teal'>
                             <TableCaption>  {listOfButtons}</TableCaption>
@@ -128,13 +134,19 @@ export default function ListDoneOrders(props){
                             </Tr>
                             </Tfoot>
                         </Table>
-                    </TableContainer>
+                    </TableContainer>}
             </Hide>
             
             <Show below='md'>
                 
                 <Box minH={"100vh"}>
-                        {  listOfDoneOrders.map((order)=>
+                        { ( listOfDoneOrders.length==0) &&
+                         <Box w={"100%"} mt={"200px"} h={"50%"} display={"flex"} flexDirection="column" justifyContent="center" alignItems={"center"} >
+                            <Text fontSize="30px">You have not made any order yet </Text>
+                            <Box><FrownOutlined style={{ fontSize: '30px', color: "green" }} /></Box>
+                        </Box> } 
+                        { ( listOfDoneOrders.length>0) && 
+                        listOfDoneOrders.map((order)=>
                  
                         <Box bg="lightblue" borderRadius='lg' flexDirection={"column"} m="20px" p={"10px"}   display={"flex"} justifyContent="center" alignItems={"center"}>
                             <Box mb={"5px"} display={"flex"} justifyContent="space-around" w={"90%"}>
