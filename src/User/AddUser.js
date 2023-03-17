@@ -76,6 +76,7 @@ export default function AddUser(props){
     let addPayment =(e)=>{
         setPayment(e)
     }
+    
     const blurHandler = (e)=>{
 
         if(e.target.name==="email"){

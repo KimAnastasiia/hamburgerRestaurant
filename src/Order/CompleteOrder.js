@@ -18,19 +18,22 @@ export default function CompleteOrder(props){
     const [commentForAddress,setCommentForAddress]=useState("")
     const [commentForOrder,setCommentForOrder]=useState("")
 
-    const [call, setCall]=useState(false)
+    const [call, setCall]=useState(0)
 
     const [time, setTime]=useState("in time")
     const [date, setDate]=useState("in time")
-    
+
     const [putDate, setPutDate]=useState(false)
 
-
+    const [payment, setPayment]=useState('')
+    
     useEffect (()=>{ 
         getInformationAboutUser()
-        
     },[])
 
+    let addPayment =(e)=>{
+        setPayment(e.target.value)
+    }
     let getInformationAboutUser=async()=>{  
         let response = await fetch(Commons.baseUrl+"/users/profile?apiKey="+cookieObjectApiKey.apiKey)
         if(response.ok){
@@ -46,7 +49,20 @@ export default function CompleteOrder(props){
         setSpendPoints(!spendPoints)
         setSliderValue(0)
     }
+    let callBefore=()=>{
 
+        if(call===0){
+            setCall(1)
+        }else{
+            setCall(0)
+        }
+
+    }
+    let deliveryTime=(e)=>{
+        if(e.target.value==="Delayed Delivery"){
+            setPutDate(true)
+        }
+    }
     let totall= false
     props.listOfOrders.map((order)=>
         totall+= order.price*order.number
@@ -62,6 +78,7 @@ export default function CompleteOrder(props){
         }
       
     }
+    let orderPackid
     let complete =async ()=>{
 
         if(props.listOfOrders.length===0){
@@ -80,16 +97,14 @@ export default function CompleteOrder(props){
             },
             body:
             JSON.stringify( { 
-               total: total,
-               call:call,
-               deliveryTime:time,
-               deliveryDate:date
+               total: total-sliderValue
             })
 
         })
         if(responseOrderPack.ok){
             data = await responseOrderPack.json()
             console.log(data.rows.insertId)
+            orderPackid=data.rows.insertId
         }
 
         let response = await fetch(Commons.baseUrl+"/order/complete?apiKey="+cookieObjectApiKey.apiKey,  
@@ -112,7 +127,7 @@ export default function CompleteOrder(props){
         setCommentForAddress("")
         setSliderValue(0)
         setSpendPoints(false)
-        updateAdress()
+        updateDetailsOfOrserInOrserPack()
     }
 
     let updateAdress=async()=>{
@@ -131,11 +146,37 @@ export default function CompleteOrder(props){
                     floor:user.floor,
                     apartment:user.apartment,
                     intercom:user.intercom,
-                    points: user.points-sliderValue
+                    points: user.points-sliderValue,
+                    payment: payment
                 })
             }
 
         )
+    }
+
+    let updateDetailsOfOrserInOrserPack=async()=>{
+
+        let response = await fetch(Commons.baseUrl+"/orderPack/orderDetails?apiKey="+cookieObjectApiKey.apiKey,  
+
+        {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:
+                JSON.stringify({ 
+                    call:call,
+                    deliveryDate:date,
+                    deliveryTime:time,
+                    commentForAdress:commentForAddress,
+                    commentForOrder:commentForOrder,
+                    id:orderPackid
+                })
+            }
+
+        )
+        setPutDate(false)
+        updateAdress()
     }
 
     
@@ -152,7 +193,7 @@ export default function CompleteOrder(props){
             <Text mb="20px" fontSize={"50px"} w="100%">Your order</Text>
             <Box fontSize={"20px"}  display={["flex","block","flex","flex","flex"]}  justifyContent="space-between"  w="100%">
                 <Box w={["60%","100%","60%","60%","60%"]}>
-                    <Box  mb={"30px"}  minH={"400px"}  p={"20px"}>
+                    <Box  border={"1px"} borderColor="lightGray" borderRadius='lg' mb={"30px"}  minH={"400px"}  p={"20px"}>
                         <Text fontSize={"25px"} mb="10px">Adress</Text>
                         <Input value={user.street} required onChange={(e)=>setUser({...user, street:e.target.value})} placeholder="street" mb={"10px"} ></Input>
                         <Box  display={"flex"} justifyContent="space-between" w={"100%"} mb="10px">
@@ -162,10 +203,11 @@ export default function CompleteOrder(props){
                             <Input value={user.intercom} onChange={(e)=>setUser({...user, intercom:e.target.value})} w={"23%"} placeholder="intercom" ></Input>
                         </Box>
                         <Textarea value={commentForAddress} onChange={e=>{setCommentForAddress(e.target.value)}}  mb="10px" placeholder="comments for adress" ></Textarea>
-                        <Checkbox defaultChecked  mb="15px" onChange={()=>setCall(!call)} >Do not call to check the order </Checkbox>
+                        <Checkbox defaultChecked  mb="15px" onChange={callBefore} >Do not call to check the order </Checkbox>
                         <Text fontSize={"25px"} mb="10px" >Delivery time</Text>
-                        <Select placeholder='As fast as possible'  >
-                            <option value='option1'>Delayed Delivery</option>
+                        <Select onChange={deliveryTime} >
+                            <option value='Delayed Delivery'>Delayed Delivery</option>
+                            <option  selected value='As fast as possible'>As fast as possible</option>
                         </Select>
                         {putDate &&
                         <Box>
@@ -174,10 +216,10 @@ export default function CompleteOrder(props){
                         </Box>}
                     </Box>
 
-                    <Box p={"20px"} mb="20px" >
+                    <Box  border={"1px"} borderColor="lightGray" borderRadius='lg' p={"20px"} mb="20px" >
 
                         <Text fontSize={"25px"} mb="10px" >Dishes in order</Text>
-                        <Input w={"90%"} value={commentForOrder} onChange={(e)=>{setCommentForOrder(e.target.value)}} placeholder="comment for order" ></Input>
+                        <Textarea w={"100%"} value={commentForOrder} onChange={(e)=>{setCommentForOrder(e.target.value)}} placeholder="comment for order" ></Textarea>
                         {  props.listOfOrders.map((order)=>
                             <Box mt={"20px"} display={"flex"} justifyContent="space-around" >
                                 <Box w={"25%"}> <img src={Commons.baseUrl+"/images/"+order.type+".png"} /></Box>
@@ -195,21 +237,22 @@ export default function CompleteOrder(props){
                     </Box>
                 </Box>
         
-                <Box ml={["0%","0%","60%","45%","25%","31%","35%"]} position={["none", "none", "fixed", "fixed", "fixed" ]} h={"400px"}  p={"20px"} w="30%">
+                <Box display={"flex"} justifyContent="center" flexDirection={"column"}  border={"1px"} borderColor="lightGray" borderRadius='lg' ml={["0%","0%","60%","45%","25%","31%","35%"]} position={["none", "none", "fixed", "fixed", "fixed" ]}  p={"20px"} w="30%">
                     <Text  fontSize={"25px"} mb="10px">Payment</Text>
-                    <Select mb="10px" placeholder='Cash to courier'>
-                        <option value='By card online'>By card online</option>
-                        <option value='By card to the courier'>By card to the courier</option>
-                        <option value='Fast payment system'>Fast payment system</option>
+                    <Select onChange={addPayment} >
+                        <option value="Cash"  selected={user.payment==="Cash"}>Cash</option>
+                        <option value='Cart'  selected={user.payment==="Cart"}>Cart</option>
+                        <option value='Pay Pal'  selected={user.payment==="Pay Pal"}>Pay Pal</option>
                     </Select>
                     <>
-                    <Box  display={"flex"} justifyContent="space-around" >
+                   { (user.points>0) &&
+                   <Box  display={"flex"} justifyContent="space-around" >
                         <Text>Spend points  {user.points}</Text>
                         <Stack  align='center' direction='row'>
                         { (totall <= 0 ) && <Switch size='sm' htmlFor='isFocusable'  />}
                         { (totall > 0 ) && <Switch size='sm' onChange={showSlider}  />}
                         </Stack>
-                    </Box>
+                    </Box>}
 
                   { spendPoints &&  
                     <Box>
@@ -219,21 +262,23 @@ export default function CompleteOrder(props){
                             </SliderTrack>
                             <SliderThumb />
                         </Slider>
-                        <Text> {sliderValue} points will be deducted</Text>
+                        <Text textAlign={"center"} > {sliderValue} points will be deducted</Text>
             
                     </Box>
                     }
 
                     </>
-                   
+                    { (user.points>0) &&
+                    <div>
                     <Box mt={"10px"} display={"flex"} justifyContent="space-between" >
                         <Text>Meal cost </Text>
                         <Text> {totall} euro</Text>
                     </Box>
-                    <Box mt={"10px"} display={"flex"} justifyContent="space-between">
+                   <Box mt={"10px"} display={"flex"} justifyContent="space-between">
                         <Text>Points</Text>
                         <Text>{sliderValue} euro</Text>
                     </Box>
+                    </div>}
                     <Box mt={"10px"} display={"flex"} justifyContent="space-between">
                         <Text>To pay</Text>
                         <Text>{totall-sliderValue} euro</Text>
