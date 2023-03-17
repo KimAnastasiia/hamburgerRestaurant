@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate   } from "react-router-dom";
 import { useState } from "react";
 import { HourglassOutlined, HomeOutlined, FileDoneOutlined, 
-    UserOutlined,PlusSquareOutlined,ContainerOutlined,EuroOutlined,CompassOutlined } from '@ant-design/icons';
+    UserOutlined,PlusSquareOutlined,ContainerOutlined,EuroOutlined,CompassOutlined, ShoppingCartOutlined} from '@ant-design/icons';
 
 
 export default function PhoneMenu(props){
@@ -90,6 +90,15 @@ export default function PhoneMenu(props){
                 </Box>
                 <ChevronRightIcon /> 
             </Box>
+
+            {props.login &&    
+            <Box  alignItems={"center"}borderWidth={"2px"} m={"10px"}  borderRadius="lg" onClick={()=>{goToComponent("/completeOrder") }} h={"40px"}  p="30px"  display={"flex"} justifyContent="space-between" >
+                <Box display={"flex"}  alignItems={"center"}> 
+                    <ShoppingCartOutlined style={{ fontSize: '20px'}} />
+                    <Text ml={"20px"} >Cart</Text> 
+                </Box>
+                <ChevronRightIcon/> 
+            </Box>}
 
             {props.login &&    
             <Box  alignItems={"center"}borderWidth={"2px"} m={"10px"}  borderRadius="lg" onClick={()=>{goToComponent("/orderPack") }} h={"40px"}  p="30px"  display={"flex"} justifyContent="space-between" >

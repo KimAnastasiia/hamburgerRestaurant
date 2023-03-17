@@ -6,11 +6,13 @@ import {
     Box,Slider,SliderThumb,SliderFilledTrack,
     Button,Text,Select,Switch,Stack
 } from '@chakra-ui/react'
+import { ReadOutlined} from '@ant-design/icons';
 import Commons from "../Utility/Commons";
 import { useCookies } from 'react-cookie';
+import { useNavigate   } from "react-router-dom";
 
 export default function CompleteOrder(props){
-
+    const navigate  = useNavigate();
     const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
     const [user, setUser ] = useState({})
     const [spendPoints, setSpendPoints]=useState(false)
@@ -189,10 +191,21 @@ export default function CompleteOrder(props){
 
 
     return(
-        <Box minH={"100vh"} pl={["300px","0px","90px","100px","300px"] } pr={["300px","300px","0px","300px","300px"]} pt={"50px"}>
-            <Text mb="20px" fontSize={"50px"} w="100%">Your order</Text>
-            <Box fontSize={"20px"}  display={["flex","block","flex","flex","flex"]}  justifyContent="space-between"  w="100%">
-                <Box w={["60%","100%","60%","60%","60%"]}>
+        <Box minH={"100vh"} pl={["300px","0px","90px","100px","300px"] } pr={["0px","0px","0px","300px","300px"]} pt={"50px"} alignItems="center" justifyContent={"center"} >
+             {(props.listOfOrders.length == 0 )&&
+                <Box h={"600px"} display={"flex"} justifyContent="center" flexDirection={"column"} alignItems="center" > 
+                    <Text mb={"20px"} fontSize={["16px","16px","16px","16px","16px","19px","23px","25px"]} >You haven't placed any order yet</Text>
+                    <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]}  w="80%" onClick={()=>{navigate("/hamburgers")}}>
+                        <ReadOutlined style={{ fontSize: '20px', color: 'white' }} /> 
+                        <Text color={"white"} ml="10px">See menu </Text>
+                    </Button>
+                </Box>
+             }
+            {(props.listOfOrders.length >0 )&&
+            <div>
+            <Text mb="20px" textAlign={"center"} fontSize={"50px"} w="100%">Your order</Text>
+            <Box fontSize={"20px"}  display={["flex"]} alignItems={["center",0,0,"flex-start","flex-start"]} flexDirection={["column","column","row","row","row"]} justifyContent={["center","center","space-between","space-between","space-between"]}  w={["100%"]}>
+                <Box w={["100%","90%","60%","60%","60%"]} display={"flex"} flexDirection="column" justifyContent={["center"]} alignItems="center" >
                     <Box  border={"1px"} borderColor="lightGray" borderRadius='lg' mb={"30px"}  minH={"400px"}  p={"20px"}>
                         <Text fontSize={"25px"} mb="10px">Adress</Text>
                         <Input value={user.street} required onChange={(e)=>setUser({...user, street:e.target.value})} placeholder="street" mb={"10px"} ></Input>
@@ -211,7 +224,7 @@ export default function CompleteOrder(props){
                         </Select>
                         {putDate &&
                         <Box>
-                            <Input  mt="10px" w={"23%"} type="date" onChange={(e)=>setDate(e.target.value)}  mr={"10px"}></Input>
+                            <Input  mt="10px" w={"23%"} type="date" onChange={(e)=>setDate(e.target.value)}  mr={[0,0,0,0,"10px"]}></Input>
                             <Input  mt="10px" w={"23%"} type="time" onChange={(e)=>setTime(e.target.value)}  ></Input>
                         </Box>}
                     </Box>
@@ -237,7 +250,7 @@ export default function CompleteOrder(props){
                     </Box>
                 </Box>
         
-                <Box display={"flex"} justifyContent="center" flexDirection={"column"}  border={"1px"} borderColor="lightGray" borderRadius='lg' ml={["0%","0%","60%","45%","25%","31%","35%"]} position={["none", "none", "fixed", "fixed", "fixed" ]}  p={"20px"} w="30%">
+                <Box display={"flex"} justifyContent="center" flexDirection={"column"}  border={"1px"} borderColor="lightGray" borderRadius='lg' ml={["0%","0%","60%","45%","25%","31%","35%"]} position={["none", "none", "fixed", "fixed", "fixed" ]}  p={"20px"} mb="30px" w={["90%","90%","30%","30%","30%"]}>
                     <Text  fontSize={"25px"} mb="10px">Payment</Text>
                     <Select onChange={addPayment} >
                         <option value="Cash"  selected={user.payment==="Cash"}>Cash</option>
@@ -284,13 +297,14 @@ export default function CompleteOrder(props){
                         <Text>{totall-sliderValue} euro</Text>
                     </Box>
                     <Box mt={"10px"} display={"flex"} justifyContent={"center"}>
-                        <Button w="80%" fontSize={"25px"} onClick={complete}>Order</Button>
+                        <Button w="80%" bg={"lightblue"} fontSize={"25px"} onClick={complete}>Order</Button>
                     </Box>
                 
                   
                 </Box>
         
             </Box>
+            </div>}
         </Box>
     )
 }
