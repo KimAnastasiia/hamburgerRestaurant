@@ -7,10 +7,10 @@ import Commons from "../Utility/Commons";
 
 export default function LoginUser(props){
 
-    let [email,setEmail] = useState("")
-    let [password,setPassword] = useState("")
-    let [sms, setSms] = useState("")
-    let [alert, setAlert] = useState(false)
+    const [email,setEmail] = useState("")
+    const [password,setPassword] = useState("")
+    const [sms, setSms] = useState("")
+    const [alert, setAlert] = useState(false)
     const navigate  = useNavigate();
     const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
 
@@ -51,6 +51,7 @@ export default function LoginUser(props){
                 props.updateQuantity();
                 props.setUserId(data.userId)
                 props.setPercent("80%") 
+                props.setMenyInScreen("block")
                 navigate("/hamburgers/all")
                 
             }

@@ -50,6 +50,9 @@ export default function ListOrder(props){
         props.setQuantityInMenu(0)
         props.setQuantity(0)
         navigate("/completeOrder")
+        props.setPercent("100%")
+        props.setMenyInScreen("none")
+       
     }
 
     let totall= false
@@ -145,14 +148,15 @@ export default function ListOrder(props){
                     <Text fontSize={"25px"} color="white"> Your order </Text> 
                 </Box>
                 <Box borderLeft={"1px"} borderColor={"gray"} alignItems="center" flexDirection={"column"} justifyContent={"center"} display={"flex"} h={"92%"}>
-                    <Text mb={"20px"} fontSize={["16px","16px","16px","16px","16px","19px","23px","25px"]} >You haven't placed any order yet</Text>
+                    <Text mb={"20px"} fontSinavigateze={["16px","16px","16px","16px","16px","19px","23px","25px"]} >You haven't placed any order yet</Text>
                     <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]}  w="80%" onClick={()=>{navigate("/hamburgers")}}>
                         <ReadOutlined style={{ fontSize: '20px', color: 'white' }} /> 
                         <Text color={"white"} ml="10px">See menu </Text>
                     </Button>
                 </Box>
             </Box>}
-            { ( props.listOfOrders.length > 0) &&<Box bg={["primary.500", "primary.500", "primary.500", "primary.500"]}  w="20%" h={"100vh"}  position="fixed"  >
+            { ( props.listOfOrders.length > 0) &&
+            <Box bg={["primary.500", "primary.500", "primary.500", "primary.500"]}  w="20%" h={"100vh"}  position="fixed"  >
             
                 <Box border={"1px"} borderColor={"gray"} display={"flex"} justifyContent="space-around" alignItems={"center"} h={"8%"} >
                     <Text color="white"> Your order </Text> 

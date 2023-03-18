@@ -29,6 +29,7 @@ export default function PhoneMenu(props){
               removeCookiObjectApiKey("apiKey", { path: '/' } )
               removeCookiObjectApiKey("userId",  { path: '/' })
               props.setPercent("100%") 
+              props.setMenyInScreen("none")
             
           }
             
@@ -126,14 +127,7 @@ export default function PhoneMenu(props){
                 </Box>
                 <ChevronRightIcon /> 
             </Box>}
-            {props.login &&
-            <Box  alignItems={"center"} borderWidth={"2px"} m={"10px"}  borderRadius="lg" onClick={()=>{goToComponent('/user/address') }} h={"40px"}  p="30px"  display={"flex"} justifyContent="space-between" >
-                <Box display={"flex"}  alignItems={"center"}> 
-                    <CompassOutlined />
-                    <Text ml={"20px"} > Address </Text> 
-                </Box>
-                <ChevronRightIcon /> 
-            </Box>}
+      
 
             <Box  w={"100%"} h={"70px"} display={"flex"} justifyContent="center" alignItems={"center"} >
                 {props.login && <Button w={"70%"} onClick={logOut}>Log out </Button>}

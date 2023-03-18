@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from "react"
 import {
-    Checkbox,
-    Input,
+    Checkbox,AlertIcon,Alert,
+    Input,AlertTitle,
     Textarea,SliderTrack,
     Box,Slider,SliderThumb,SliderFilledTrack,
     Button,Text,Select,Switch,Stack
@@ -21,7 +21,7 @@ export default function CompleteOrder(props){
     const [commentForOrder,setCommentForOrder]=useState("")
 
     const [call, setCall]=useState(0)
-
+    const [alert, setAlert] = useState(false)
     const [time, setTime]=useState("in time")
     const [date, setDate]=useState("in time")
 
@@ -31,7 +31,16 @@ export default function CompleteOrder(props){
     
     useEffect (()=>{ 
         getInformationAboutUser()
+        props.setPercent("100%")
+        props.setMenyInScreen("none")
     },[])
+
+    useEffect(() => {
+        return () => {
+            props.setPercent("80%")
+            props.setMenyInScreen("block")
+        };
+      }, []);
 
     let addPayment =(e)=>{
         setPayment(e.target.value)
@@ -81,6 +90,7 @@ export default function CompleteOrder(props){
       
     }
     let orderPackid
+
     let complete =async ()=>{
 
         if(props.listOfOrders.length===0){
@@ -184,36 +194,55 @@ export default function CompleteOrder(props){
     
 
     let controlPoints=(val)=>{
-        if(val<totall){
+        if(val===(user.points/100)*80){
+            setAlert("You can pay a maximum of 80% of the total amount with points")
+        }
+        if(val<=(user.points/100)*80){
             setSliderValue(val)
+        }
+        if(val<(user.points/100)*80){
+            setAlert(false)
         }
     }
 
 
     return(
-        <Box minH={"100vh"} pl={["300px","0px","90px","100px","300px"] } pr={["0px","0px","0px","300px","300px"]} pt={"50px"} alignItems="center" justifyContent={"center"} >
-             {(props.listOfOrders.length == 0 )&&
-                <Box h={"600px"} display={"flex"} justifyContent="center" flexDirection={"column"} alignItems="center" > 
-                    <Text mb={"20px"} fontSize={["16px","16px","16px","16px","16px","19px","23px","25px"]} >You haven't placed any order yet</Text>
-                    <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]}  w="80%" onClick={()=>{navigate("/hamburgers")}}>
-                        <ReadOutlined style={{ fontSize: '20px', color: 'white' }} /> 
-                        <Text color={"white"} ml="10px">See menu </Text>
-                    </Button>
-                </Box>
+        <Box  minH={"100vh"}   pt={"50px"} alignItems="center" justifyContent={"space-around"} >
+            {(props.listOfOrders.length == 0 )&&
+            <Box h={"600px"} display={"flex"} justifyContent="center" flexDirection={"column"} alignItems="center" > 
+                <Text mb={"20px"} fontSize={["16px","16px","16px","16px","16px","19px","23px","25px"]} >You haven't placed any order yet</Text>
+                <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]}  w="80%" onClick={()=>{navigate("/hamburgers")}}>
+                    <ReadOutlined style={{ fontSize: '20px', color: 'white' }} /> 
+                    <Text color={"white"} ml="10px">See menu </Text>
+                </Button>
+            </Box>
              }
             {(props.listOfOrders.length >0 )&&
             <div>
             <Text mb="20px" textAlign={"center"} fontSize={"50px"} w="100%">Your order</Text>
-            <Box fontSize={"20px"}  display={["flex"]} alignItems={["center",0,0,"flex-start","flex-start"]} flexDirection={["column","column","row","row","row"]} justifyContent={["center","center","space-between","space-between","space-between"]}  w={["100%"]}>
-                <Box w={["100%","90%","60%","60%","60%"]} display={"flex"} flexDirection="column" justifyContent={["center"]} alignItems="center" >
-                    <Box  border={"1px"} borderColor="lightGray" borderRadius='lg' mb={"30px"}  minH={"400px"}  p={"20px"}>
-                        <Text fontSize={"25px"} mb="10px">Adress</Text>
-                        <Input value={user.street} required onChange={(e)=>setUser({...user, street:e.target.value})} placeholder="street" mb={"10px"} ></Input>
-                        <Box  display={"flex"} justifyContent="space-between" w={"100%"} mb="10px">
-                            <Input value={user.entrance} onChange={(e)=>setUser({...user, entrance:e.target.value})} w={"23%"} placeholder="entrance" ></Input>
-                            <Input value={user.floor} onChange={(e)=>setUser({...user, floor:e.target.value})} w={"23%"} placeholder="floor"></Input>
-                            <Input value={user.apartment} onChange={(e)=>setUser({...user, apartment:e.target.value})} w={"23%"} placeholder="apartment"></Input>
-                            <Input value={user.intercom} onChange={(e)=>setUser({...user, intercom:e.target.value})} w={"23%"} placeholder="intercom" ></Input>
+            <Box   fontSize={"20px"}  display={["flex"]} alignItems={["center","center","flex-start","flex-start","flex-start"]} flexDirection={["column","column","row","row","row"]} justifyContent={["center"]}  w={["100%"]}>
+                <Box display={"flex"} flexDirection="column" justifyContent={["center"]} alignItems="center" >
+                    <Box w={["90%","90%","80%","80%","80%"]} border={"1px"} borderColor="lightGray" borderRadius='lg' mb={"30px"}  minH={"400px"}  p={"20px"}>
+                        <Text fontSize={"25px"} mb="10px">Address</Text>
+                        <Box  mb={"10px"} display={"flex"}alignItems="center">
+                            <Text mr={"20px"} w="20%"  mb='8px'>street:</Text>
+                            <Input w={"80%"} value={user.street} required onChange={(e)=>setUser({...user, street:e.target.value})} placeholder="street" mb={"10px"} ></Input>
+                        </Box>
+                        <Box  mb={"10px"} display={"flex"}alignItems="center">
+                            <Text  mr={"20px"} w="20%" mb='8px'>entrance:</Text>
+                            <Input value={user.entrance} onChange={(e)=>setUser({...user, entrance:e.target.value})}w={"80%"}  placeholder="entrance" ></Input>
+                        </Box>
+                        <Box  mb={"10px"} display={"flex"}alignItems="center">
+                            <Text  mr={"20px"} w="20%"mb='8px'>floor:</Text>
+                            <Input value={user.floor} onChange={(e)=>setUser({...user, floor:e.target.value})} w={"80%"}  placeholder="floor"></Input>
+                        </Box>    
+                        <Box  mb={"10px"} display={"flex"}alignItems="center">
+                            <Text mr={"20px"} w="20%" mb='8px'>apartment:</Text>
+                            <Input value={user.apartment} onChange={(e)=>setUser({...user, apartment:e.target.value})} w={"80%"}  placeholder="apartment"></Input>
+                        </Box>    
+                        <Box  mb={"10px"} display={"flex"}alignItems="center">
+                            <Text  mr={"20px"} w="20%"mb='8px'>intercom:</Text>
+                            <Input value={user.intercom} onChange={(e)=>setUser({...user, intercom:e.target.value})} w={"80%"}  placeholder="intercom" ></Input>
                         </Box>
                         <Textarea value={commentForAddress} onChange={e=>{setCommentForAddress(e.target.value)}}  mb="10px" placeholder="comments for adress" ></Textarea>
                         <Checkbox defaultChecked  mb="15px" onChange={callBefore} >Do not call to check the order </Checkbox>
@@ -229,7 +258,7 @@ export default function CompleteOrder(props){
                         </Box>}
                     </Box>
 
-                    <Box  border={"1px"} borderColor="lightGray" borderRadius='lg' p={"20px"} mb="20px" >
+                    <Box w={["90%","90%","80%","80%","80%"]} border={"1px"} borderColor="lightGray" borderRadius='lg' p={"20px"} mb="20px" >
 
                         <Text fontSize={"25px"} mb="10px" >Dishes in order</Text>
                         <Textarea w={"100%"} value={commentForOrder} onChange={(e)=>{setCommentForOrder(e.target.value)}} placeholder="comment for order" ></Textarea>
@@ -250,7 +279,7 @@ export default function CompleteOrder(props){
                     </Box>
                 </Box>
         
-                <Box display={"flex"} justifyContent="center" flexDirection={"column"}  border={"1px"} borderColor="lightGray" borderRadius='lg' ml={["0%","0%","60%","45%","25%","31%","35%"]} position={["none", "none", "fixed", "fixed", "fixed" ]}  p={"20px"} mb="30px" w={["90%","90%","30%","30%","30%"]}>
+                <Box display={"flex"} justifyContent="center" flexDirection={"column"}  border={"1px"} borderColor="lightGray" borderRadius='lg'  p={"20px"} mb="30px" w={["90%","90%","60%","60%","30%"]}>
                     <Text  fontSize={"25px"} mb="10px">Payment</Text>
                     <Select onChange={addPayment} >
                         <option value="Cash"  selected={user.payment==="Cash"}>Cash</option>
@@ -259,12 +288,21 @@ export default function CompleteOrder(props){
                     </Select>
                     <>
                    { (user.points>0) &&
-                   <Box  display={"flex"} justifyContent="space-around" >
-                        <Text>Spend points  {user.points}</Text>
-                        <Stack  align='center' direction='row'>
-                        { (totall <= 0 ) && <Switch size='sm' htmlFor='isFocusable'  />}
-                        { (totall > 0 ) && <Switch size='sm' onChange={showSlider}  />}
-                        </Stack>
+                   <Box  display={"flex"} flexDirection="column" justifyContent="space-around" >
+                     { alert &&
+                        <Box  mt={"10px"} display={"flex"}  justifyContent="center" alignItems={"center"}  >
+                            <Alert borderRadius='lg'  status='error' width={"90%"}  >
+                                <AlertIcon />
+                                <AlertTitle>{alert}</AlertTitle>
+                            </Alert>
+                        </Box>}
+                       <Box display={"flex"} justifyContent="space-around">
+                            <Text>Spend points  {user.points}</Text>
+                            <Stack  align='center' direction='row'>
+                            { (totall <= 0 ) && <Switch size='sm' htmlFor='isFocusable'  />}
+                            { (totall > 0 ) && <Switch size='sm' onChange={showSlider}  />}
+                            </Stack>
+                        </Box>
                     </Box>}
 
                   { spendPoints &&  
