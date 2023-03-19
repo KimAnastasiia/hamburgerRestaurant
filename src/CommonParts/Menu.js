@@ -13,7 +13,7 @@ import Commons from "../Utility/Commons";
 export default function Menu(props){
   
   const navigate  = useNavigate();
-  const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
+  const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey',"percent","menyInScreen"]);
 
   const toggle = () => props.setIsOpen(!props.isOpen);
 
@@ -36,10 +36,14 @@ export default function Menu(props){
             props.setLogin(false)   
             props.setAdmin(false) 
             props.setProfileAvatar("User")
-            removeCookiObjectApiKey("apiKey", { path: '/' } )
+            props.logOut.current=true
+            //removeCookiObjectApiKey("apiKey", { path: '/' } )
+            setObjectApiKey("apiKey", null,  { path: '/' } )
             removeCookiObjectApiKey("userId",  { path: '/' })
             props.setPercent("100%") 
+            setObjectApiKey("percent", "100%",  { path: '/' } )
             props.setMenyInScreen("none")
+            setObjectApiKey("menyInScreen", "none",  { path: '/' } )
             navigate("/hamburgers/all")
         }
           
@@ -146,7 +150,7 @@ export default function Menu(props){
     return (
       <header>
           <Flex  as="nav" align="center" justify={["space-between" ,"space-between" ,"space-between" ,"space-around" , "space-around"]} position={"fixed"}
-               w={["100%","100%","100%","100%",props.percent]}  p={3} 
+               w={["100%","100%","100%","100%",cookieObjectApiKey.percent]}  p={3} 
                 bg={["primary.500", "primary.500", "primary.500", "primary.500"]}
               color={["white", "white", "white", "white"]}>
 

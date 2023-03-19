@@ -26,12 +26,14 @@ export default function ListDoneOrders(props){
 
 
     useEffect(()=>{
+
         createListOfButtons()
-        if(props.login){
+        if(cookieObjectApiKey.apiKey != "null" && cookieObjectApiKey.apiKey != "" && cookieObjectApiKey.apiKey != null  ){
             doneOrders(1)
         } else {
             navigate("/login")
         }
+
     }, [])
 
 
@@ -61,7 +63,7 @@ export default function ListDoneOrders(props){
         numberOfPages = Math.ceil(numberOfPages) 
 
         for(let i=0; i<numberOfPages; i++){
-            listOfButtons.push(<Button onClick={e=>doneOrders(i+1)} key={i} >{i+1}</Button>)
+            listOfButtons.push(<Button m={"10px"} onClick={e=>doneOrders(i+1)} key={i} >{i+1}</Button>)
         }
 
         setListOfButtons(listOfButtons) 

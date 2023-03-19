@@ -23,7 +23,7 @@ import Commons from "../Utility/Commons";
 export default function ListOrder(props){
     const navigate  = useNavigate();
    
-    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey', "userId"]);
+    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey', "userId","percent","menyInScreen"]);
 
     useEffect(()=>{
         checkListOfOrders()
@@ -46,12 +46,15 @@ export default function ListOrder(props){
 
 
     let complete =async ()=>{
+        
         checkListOfOrders()
         props.setQuantityInMenu(0)
         props.setQuantity(0)
         navigate("/completeOrder")
         props.setPercent("100%")
+        setObjectApiKey("percent", "100%", { path: '/'})
         props.setMenyInScreen("none")
+        setObjectApiKey("menyInScreen", "none", { path: '/'})
        
     }
 

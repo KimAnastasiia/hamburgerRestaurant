@@ -14,7 +14,7 @@ import { useNavigate   } from "react-router-dom";
 export default function CompleteOrder(props){
     
     const navigate  = useNavigate();
-    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
+    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey',"percent","menyInScreen"]);
     const [user, setUser ] = useState({})
     const [spendPoints, setSpendPoints]=useState(false)
     const [sliderValue, setSliderValue]=useState(0)
@@ -34,12 +34,21 @@ export default function CompleteOrder(props){
         getInformationAboutUser()
         props.setPercent("100%")
         props.setMenyInScreen("none")
+        setObjectApiKey("menyInScreen","none", { path: '/' } )
+        setObjectApiKey("percent","100%", { path: '/' } )
+       
+        console.log(cookieObjectApiKey)
     },[])
 
     useEffect(() => {
         return () => {
-            props.setPercent("80%")
-            props.setMenyInScreen("block")
+            if(props.logOut.current!=true){
+                setObjectApiKey("percent","80%", { path: '/' } )
+                setObjectApiKey("menyInScreen","block", { path: '/' } )
+                props.setPercent("80%")
+                props.setMenyInScreen("block")
+            }
+
         };
       }, []);
 

@@ -10,7 +10,7 @@ import { HourglassOutlined, HomeOutlined, FileDoneOutlined,
 
 export default function PhoneMenu(props){
 
-    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
+    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey',"percent","menyInScreen"]);
     const navigate  = useNavigate();
  
     let logOut=async()=>{
@@ -28,9 +28,10 @@ export default function PhoneMenu(props){
               props.setProfileAvatar("User")
               removeCookiObjectApiKey("apiKey", { path: '/' } )
               removeCookiObjectApiKey("userId",  { path: '/' })
-              props.setPercent("100%") 
-              props.setMenyInScreen("none")
-            
+              //props.setPercent("100%") 
+              //props.setMenyInScreen("none")
+              setObjectApiKey("percent","100%", { path: '/' } )
+              setObjectApiKey("menyInScreen","none", { path: '/' } )
           }
             
         }  

@@ -12,7 +12,7 @@ export default function LoginUser(props){
     const [sms, setSms] = useState("")
     const [alert, setAlert] = useState(false)
     const navigate  = useNavigate();
-    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
+    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey',"percent","menyInScreen"]);
 
 ;
 
@@ -51,7 +51,10 @@ export default function LoginUser(props){
                 props.updateQuantity();
                 props.setUserId(data.userId)
                 props.setPercent("80%") 
+                props.logOut.current = false
                 props.setMenyInScreen("block")
+                setObjectApiKey("percent","80%",{ path: '/'} )
+                setObjectApiKey("menyInScreen", "block",{ path: '/'}  )
                 navigate("/hamburgers/all")
                 
             }
