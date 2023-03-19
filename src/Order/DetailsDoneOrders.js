@@ -26,6 +26,7 @@ export default function DetailsDoneOrders(props){
     let date 
     
     const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
+    const [userDetail, setUserDetail]=useState({})
 
     useEffect(()=>{
         doneOrdersDetails()
@@ -37,7 +38,8 @@ export default function DetailsDoneOrders(props){
         if(response.ok){
             let data = await response.json()
             if(!data.error){
-                setListOfDoneOrdersDetails(data)
+                setListOfDoneOrdersDetails(data.orderpack)
+                setUserDetail(data.user[0])
             }
         }
        
@@ -69,72 +71,103 @@ export default function DetailsDoneOrders(props){
             </Button>
 
 
-        <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                <TableContainer w={["100%","100%","100%","70%","60%"]} >
-                    <Table variant='striped' colorScheme='teal'>
+                    <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
+                        <TableContainer w={["100%","100%","100%","70%","60%"]} >
+                            <Table variant='striped' colorScheme='teal'>
 
-                        <TableCaption>Your order</TableCaption>
-                       
-                        <Thead>
-
-                            <Tr>
-                                <Th >Type</Th>
-                                <Th >Quantity</Th>
-                                <Th >Price</Th>
-                                <Hide below='md'>
-                                    <Th >In check</Th>
-                                    <Th>Date</Th>
-                                    <Th>Total</Th>
-                                </Hide>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {  listOfDoneOrdersDetails.map((order)=>
-                            <Tr key={order.key} >
-                                <Td>{order.type}</Td>
-                                <Td>{order.number}</Td>
-                                <Td>{order.price}</Td>
-                                <Hide below='md'>   
-                                    <Td>{order.price*order.number} euro</Td>
-                                    <Td></Td>
-                                    <Td></Td>
-                                </Hide>
-                            </Tr>
+                                <TableCaption>Order I</TableCaption>
                             
-                            )}
-                            <Tr>
-                                <Td></Td>
-                                <Td></Td>
-                                <Td></Td>
-                                
-                                <Hide below='md'>
-                                    <Td></Td>
-                                    <Td >{formatDate(date)}</Td>
-                                    <Td>{totall} euro</Td>
-                                </Hide>
-                                
-                            </Tr>
-                        </Tbody>
+                                <Thead>
 
-                        <Tfoot>
-                            <Tr>
-                                <Th>Type</Th>
-                                <Th>Quantity</Th>
-                                <Th >Price</Th>
-                                <Hide below='md'>
-                                    <Th>In check</Th>
-                                    <Th>Date</Th>
-                                    <Th>Total</Th>
-                                </Hide>
-                            </Tr>
-                        </Tfoot>
-                    </Table>
-                   
-                    <Box display={["flex","flex","none","none","none"]} justifyContent="center" fontSize={"20px"} >
-                        <Text bg="red" color={"white"} >Total: {totall} euro</Text>
-                    </Box>
-                </TableContainer>
-            </Box>  
+                                    <Tr>
+                                        <Th >Type</Th>
+                                        <Th >Quantity</Th>
+                                        <Th >Price</Th>
+                                        <Hide below='md'>
+                                            <Th >In check</Th>
+                                            <Th>Date</Th>
+                                            <Th>Total</Th>
+                                        </Hide>
+                                    </Tr>
+                                </Thead>
+                                <Tbody>
+                                    {  listOfDoneOrdersDetails.map((order)=>
+                                    <Tr key={order.key} >
+                                        <Td>{order.type}</Td>
+                                        <Td>{order.number}</Td>
+                                        <Td>{order.price}</Td>
+                                        <Hide below='md'>   
+                                            <Td>{order.price*order.number} euro</Td>
+                                            <Td></Td>
+                                            <Td></Td>
+                                        </Hide>
+                                    </Tr>
+                                    
+                                    )}
+                                    <Tr>
+                                        <Td></Td>
+                                        <Td></Td>
+                                        <Td></Td>
+                                        
+                                        <Hide below='md'>
+                                            <Td></Td>
+                                            <Td >{formatDate(date)}</Td>
+                                            <Td>{totall} euro</Td>
+                                        </Hide>
+                                        
+                                    </Tr>
+                                </Tbody>
+
+                                <Tfoot>
+                                    <Tr>
+                                        <Th>Type</Th>
+                                        <Th>Quantity</Th>
+                                        <Th >Price</Th>
+                                        <Hide below='md'>
+                                            <Th>In check</Th>
+                                            <Th>Date</Th>
+                                            <Th>Total</Th>
+                                        </Hide>
+                                    </Tr>
+                                </Tfoot>
+                            </Table>
+                        
+                            <Box display={["flex","flex","none","none","none"]} justifyContent="center" fontSize={"20px"} >
+                                <Text bg="red" color={"white"} >Total: {totall} euro</Text>
+                            </Box>
+                        </TableContainer>
+                    </Box> 
+                    {props.admin &&
+                    <Box ml="20%" mr={"20%"} mt="100px" alignItems="center" flexDirection="column" display="flex" justifyContent={"center"} >
+                        <Text fontSize={"25px"} mb="20px" >Information about user</Text>
+                        <Box fontSize={"20px"} flexDirection="column" display="flex" w={"30%"} >
+                            <Box borderBottom={"1px"} justifyContent={"space-around"} display="flex" >
+                                <Text  >name: </Text>
+                                <Text  >{userDetail.name} {userDetail.surname}</Text>
+                            </Box>
+                            <Box borderBottom={"1px"} justifyContent={"space-around"} display="flex" >
+                                <Text>country: </Text>
+                                <Text>{userDetail.country}</Text>
+                            </Box>
+                            <Box borderBottom={"1px"} justifyContent={"space-around"}  display="flex" >
+                                <Text>street: </Text>
+                                <Text>{userDetail.street}</Text>
+                            </Box>
+                            <Box borderBottom={"1px"} justifyContent={"space-around"} display="flex" >
+                                <Text>floor: </Text>
+                                <Text>{userDetail.floor}</Text>
+                            </Box>
+                            <Box borderBottom={"1px"} justifyContent={"space-around"} display="flex" >
+                                <Text>entrance: </Text>
+                                <Text>{userDetail.entrance}</Text>
+                            </Box>
+                            <Box borderBottom={"1px"} justifyContent={"space-around"} display="flex" >
+                                <Text>apartment: </Text>
+                                <Text>{userDetail.apartment}</Text>
+                            </Box>
+                        </Box>
+                        
+                    </Box> }
         </Box>
     )
 }

@@ -12,6 +12,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate   } from "react-router-dom";
 
 export default function CompleteOrder(props){
+    
     const navigate  = useNavigate();
     const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
     const [user, setUser ] = useState({})
@@ -27,7 +28,7 @@ export default function CompleteOrder(props){
 
     const [putDate, setPutDate]=useState(false)
 
-    const [payment, setPayment]=useState('')
+    const [payment, setPayment]=useState("Cash")
     
     useEffect (()=>{ 
         getInformationAboutUser()
@@ -224,25 +225,25 @@ export default function CompleteOrder(props){
                 <Box display={"flex"} flexDirection="column" justifyContent={["center"]} alignItems="center" >
                     <Box w={["90%","90%","80%","80%","80%"]} border={"1px"} borderColor="lightGray" borderRadius='lg' mb={"30px"}  minH={"400px"}  p={"20px"}>
                         <Text fontSize={"25px"} mb="10px">Address</Text>
-                        <Box  mb={"10px"} display={"flex"}alignItems="center">
-                            <Text mr={"20px"} w="20%"  mb='8px'>street:</Text>
-                            <Input w={"80%"} value={user.street} required onChange={(e)=>setUser({...user, street:e.target.value})} placeholder="street" mb={"10px"} ></Input>
+                        <Box  mb={"10px"} display={"flex"} alignItems="center" justifyContent={"space-between"}>
+                            <Text mr={"20px"} w="30%" mb='8px'>street:</Text>
+                            <Input w={"70%"} value={user.street} required onChange={(e)=>setUser({...user, street:e.target.value})} placeholder="street" mb={"10px"} ></Input>
                         </Box>
-                        <Box  mb={"10px"} display={"flex"}alignItems="center">
-                            <Text  mr={"20px"} w="20%" mb='8px'>entrance:</Text>
-                            <Input value={user.entrance} onChange={(e)=>setUser({...user, entrance:e.target.value})}w={"80%"}  placeholder="entrance" ></Input>
+                        <Box  mb={"10px"} display={"flex"}alignItems="center" justifyContent={"space-between"}>
+                            <Text  mr={"20px"} w="30%" mb='8px'>entrance:</Text>
+                            <Input value={user.entrance} onChange={(e)=>setUser({...user, entrance:e.target.value})}w={"70%"}  placeholder="entrance" ></Input>
                         </Box>
-                        <Box  mb={"10px"} display={"flex"}alignItems="center">
-                            <Text  mr={"20px"} w="20%"mb='8px'>floor:</Text>
-                            <Input value={user.floor} onChange={(e)=>setUser({...user, floor:e.target.value})} w={"80%"}  placeholder="floor"></Input>
+                        <Box  mb={"10px"} display={"flex"}alignItems="center" justifyContent={"space-between"}>
+                            <Text  mr={"20px"} w="30%" mb='8px'>floor:</Text>
+                            <Input value={user.floor} onChange={(e)=>setUser({...user, floor:e.target.value})} w={"70%"}  placeholder="floor"></Input>
                         </Box>    
-                        <Box  mb={"10px"} display={"flex"}alignItems="center">
-                            <Text mr={"20px"} w="20%" mb='8px'>apartment:</Text>
-                            <Input value={user.apartment} onChange={(e)=>setUser({...user, apartment:e.target.value})} w={"80%"}  placeholder="apartment"></Input>
+                        <Box  mb={"10px"} display={"flex"} alignItems="center" justifyContent={"space-between"}>
+                            <Text mr={"20px"} w="30%" mb='8px'>apartment:</Text>
+                            <Input value={user.apartment} onChange={(e)=>setUser({...user, apartment:e.target.value})} w={"70%"}  placeholder="apartment"></Input>
                         </Box>    
-                        <Box  mb={"10px"} display={"flex"}alignItems="center">
-                            <Text  mr={"20px"} w="20%"mb='8px'>intercom:</Text>
-                            <Input value={user.intercom} onChange={(e)=>setUser({...user, intercom:e.target.value})} w={"80%"}  placeholder="intercom" ></Input>
+                        <Box  mb={"10px"} display={"flex"} alignItems="center" justifyContent={"space-between"}>
+                            <Text  mr={"20px"} w="30%" mb='8px'>intercom:</Text>
+                            <Input value={user.intercom} onChange={(e)=>setUser({...user, intercom:e.target.value})} w={"70%"}  placeholder="intercom" ></Input>
                         </Box>
                         <Textarea value={commentForAddress} onChange={e=>{setCommentForAddress(e.target.value)}}  mb="10px" placeholder="comments for adress" ></Textarea>
                         <Checkbox defaultChecked  mb="15px" onChange={callBefore} >Do not call to check the order </Checkbox>

@@ -7,7 +7,7 @@ import { DeleteIcon, EditIcon, CheckIcon} from '@chakra-ui/icons'
 import listOfCountries from "../Utility/ListOfCountries";
 import ListDoneOrders from '../Order/ListDoneOrders';
 import Commons from "../Utility/Commons";
-import AddressInPhone from "./AddresInPhone";
+import AddressUser from "./AddressUser";
 
 export default function ProfileUser(props){
 
@@ -164,7 +164,7 @@ export default function ProfileUser(props){
                                 <Box  m={"20px"} w={"100%"} display={"flex"} justifyContent={"center"} alignItems="center" flexDirection="column" >
                                    
                                     <Box  w={"80%"} >
-                                        <AddressInPhone/> 
+                                        <AddressUser/> 
                                     </Box> 
                                 </Box> 
                                 }

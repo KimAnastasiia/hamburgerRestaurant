@@ -19,7 +19,7 @@ import Commons from './Utility/Commons';
 import PhoneMenu from './CommonParts/PhoneMenu';
 import PointsOfUser from './User/PointsOfUser';
 import CompleteOrder from './Order/CompleteOrder';
-import AddressInPhone from './User/AddresInPhone';
+import AddressUser from './User/AddressUser';
 
 export default function App(props){
   const [percent, setPercent]=useState("80%")
@@ -100,7 +100,7 @@ export default function App(props){
   return (
     <Box display={"flex"}>
       <Box w={{ base: "none", xl: percent }} >
-        <Menu  setUrlGoBackAfterDetailsOrder={setUrlGoBackAfterDetailsOrder} url={url}  isOpen={isOpen} setIsOpen={setIsOpen} percent={percent} setPercent={setPercent} updateQuantity={updateQuantity} setLogin={setLogin} login={login} admin={admin} setAdmin={setAdmin} setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu} profileAvatar={profileAvatar} setProfileAvatar={setProfileAvatar}/>
+        <Menu setMenyInScreen={setMenyInScreen}  setUrlGoBackAfterDetailsOrder={setUrlGoBackAfterDetailsOrder} url={url}  isOpen={isOpen} setIsOpen={setIsOpen} percent={percent} setPercent={setPercent} updateQuantity={updateQuantity} setLogin={setLogin} login={login} admin={admin} setAdmin={setAdmin} setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu} profileAvatar={profileAvatar} setProfileAvatar={setProfileAvatar}/>
           <Box pt={["100px","100px","100px","100px"]}>
           <Routes>
             <Route path='/' element={<ListHamburgers/>} />
@@ -109,14 +109,14 @@ export default function App(props){
           { admin && <Route path='/hamburgers/status' element={<StatusOrder login={login}/>} />}
             <Route path='/hamburgers' element={<TableHamburgers setUrl={setUrl}/>} />
             <Route path='/orderPack' element={<ListDoneOrders login={login} />} />
-            <Route path='/order/details/:doneOrdersDetailsId' element={<DetailsDoneOrders urlGoBackAfterDetailsOrder={urlGoBackAfterDetailsOrder}/>} />
+            <Route path='/order/details/:doneOrdersDetailsId' element={<DetailsDoneOrders admin={admin} urlGoBackAfterDetailsOrder={urlGoBackAfterDetailsOrder}/>} />
             <Route path='/order/:id' element={<DetailsHamburgers setUrl={setUrl} setHamburgerId={setHamburgerId} hamburgerId={hamburgerId} setQuantity={setQuantity} quantity={quantity}  listOfOrders={listOfOrders} setListOfOrders={setListOfOrders}  login={login} userId={userId}  setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu}  />} />
             <Route path='/order/hamburgers' element={<ListOrder  setMenyInScreen={setMenyInScreen} setPercent={setPercent}  login={login}  setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu}/>} />
             {!login && <Route path='/login' element={<LoginUser  setMenyInScreen={setMenyInScreen}  setPercent={setPercent} setUserId={setUserId} updateQuantity={updateQuantity} setProfileAvatar={setProfileAvatar} login={login} setLogin={setLogin} setAdmin={setAdmin} />} />}
             <Route path='/login/create-account' element={<AddUser setLogin={setLogin} setAdmin={setAdmin}  setProfileAvatar={setProfileAvatar}/>} />
             {login && <Route path='/user' element={<ProfileUser login={login} setProfileAvatar={setProfileAvatar} />} />}
             {login && <Route path='/user/points' element={<PointsOfUser />} />}
-            {login && <Route path='/user/address' element={<AddressInPhone />} />}
+            {login && <Route path='/user/address' element={<AddressUser />} />}
             {login && <Route path='/completeOrder' element={<CompleteOrder  setPercent={setPercent} setMenyInScreen={setMenyInScreen} setProfileAvatar={setProfileAvatar} setListOfOrders={setListOfOrders} setQuantityInMenu={setQuantityInMenu} setQuantity={setQuantity}   listOfOrders={listOfOrders}/>} />}
             <Route path='/menu' element={<PhoneMenu setMenyInScreen={setMenyInScreen}  setUrl={setUrl}  isOpen={isOpen} setIsOpen={setIsOpen} admin={admin}  profileAvatar={profileAvatar}  login={login} setPercent={setPercent} setProfileAvatar={setProfileAvatar} setLogin={setLogin} setAdmin={setAdmin} />} />
           </Routes>

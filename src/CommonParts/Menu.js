@@ -39,6 +39,7 @@ export default function Menu(props){
             removeCookiObjectApiKey("apiKey", { path: '/' } )
             removeCookiObjectApiKey("userId",  { path: '/' })
             props.setPercent("100%") 
+            props.setMenyInScreen("none")
             navigate("/hamburgers/all")
         }
           

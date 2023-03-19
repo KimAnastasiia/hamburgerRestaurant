@@ -10,7 +10,7 @@ import Commons from "../Utility/Commons";
 import { useCookies } from 'react-cookie';
 
 
-export default function AddressInPhone(props){
+export default function AddressUser(props){
 
     const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
     const [user, setUser ] = useState({})
