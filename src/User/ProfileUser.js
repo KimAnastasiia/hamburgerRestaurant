@@ -136,15 +136,15 @@ export default function ProfileUser(props){
 
 
                     <Box w={"100%"} display={"flex"} justifyContent="center" >
-                        <Box  w={["80%","100%","40%","30%","30%","16%"]}>
+                        <Box  w={["80%","100%","40%","30%","30%","16%"]} display="flex" flexDirection={"column"}  >
                            
-                            <Text marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Address")}>Address</Text>
-                            <Text marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Points")}>
+                            <Link marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Address")}>Address</Link>
+                            <Link marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Points")}>
                                 Points       
                                 <Badge ml='1' colorScheme='yellow'>
                                     {user.points}
                                 </Badge>
-                            </Text>
+                            </Link>
                             <Link marginBottom={"10px"} fontSize='30px' onClick={()=>editProfile("Private Data")} >Private data</Link>
                         </Box>
 

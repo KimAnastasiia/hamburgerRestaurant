@@ -50,7 +50,11 @@ export default function Menu(props){
       }  
   }
 
-    
+    let navigateClick=()=>{
+      if(props.url!="/login"){
+        navigate(props.url)
+      }
+    }
 
 
 
@@ -75,50 +79,50 @@ export default function Menu(props){
                   w={'100%'}
                  
                 >
-                    <Text display="block" >
+                    <Button  variant='link' color={"white"}  display="block" >
                       <Link to="/hamburgers/all">
                         Home
                       </Link>
-                    </Text>
+                    </Button>
                   
 
                   {props.admin &&
-                    <Text display="block" >
+                    <Button  variant='link' color={"white"}  display="block" >
                       <Link to="/hamburgers/addNew">
                         Add new Hamburger
                       </Link>
-                    </Text>
+                    </Button>
                   }
                   
                   {props.admin &&
-                    <Text display="block" onClick={()=>props.setUrlGoBackAfterDetailsOrder("/hamburgers/status" )} >
+                    <Button variant='link' color={"white"} display="block" onClick={()=>props.setUrlGoBackAfterDetailsOrder("/hamburgers/status" )} >
                       <Link to="/hamburgers/status" >
                       Status of orders
                       </Link>
-                    </Text>
+                    </Button>
     
                   }  
 
                  
-                  <Text display="block" >
+                  <Button variant='link' color={"white"} display="block" >
                     <Link aria-label="hamburgers" to="/hamburgers">
                       Hamburgers
                     </Link>
-                  </Text>
+                  </Button>
                   
 
 
                 
                   {props.login &&
-                    <Text display="block" onClick={()=>props.setUrlGoBackAfterDetailsOrder("/orderPack")}>
+                    <Button display="block" variant='link' color={"white"} onClick={()=>props.setUrlGoBackAfterDetailsOrder("/orderPack")}>
                       <Link to="/orderPack">
                         History of orders
                       </Link>
-                    </Text>
+                    </Button>
                   }
 
                   {!props.login &&
-                    <Text display="block" >
+                    <Text display="block"  onClick={()=>props.setUrl("/login")} >
                       <Link aria-label="login" to="/login">
                         Login
                       </Link>
@@ -135,7 +139,7 @@ export default function Menu(props){
                   
 
                   {props.login &&
-                    <Button  bg={"none"} onClick={logOut}  >
+                    <Button  variant='link' color={"white"}  bg={"none"} onClick={logOut}  >
                       Log out <ArrowForwardIcon/>
                     </Button>
                   }   
@@ -149,7 +153,7 @@ export default function Menu(props){
 
     return (
       <header>
-          <Flex  as="nav" align="center" justify={["space-between" ,"space-between" ,"space-between" ,"space-around" , "space-around"]} position={"fixed"}
+          <Flex zIndex="sticky" as="nav" align="center" justify={["space-between" ,"space-between" ,"space-between" ,"space-around" , "space-around"]} position={"fixed"}
                w={["100%","100%","100%","100%",cookieObjectApiKey.percent]}  p={3} 
                 bg={["primary.500", "primary.500", "primary.500", "primary.500"]}
               color={["white", "white", "white", "white"]}>
@@ -158,7 +162,7 @@ export default function Menu(props){
             
             <Box 
               display={{ base: "block", lg: "none" }} onClick={toggle} >
-              {props.isOpen ? <CloseIcon w={8} h={8}  onClick={()=>{ navigate(props.url)}}  /> : <HamburgerIcon onClick={()=>{ navigate("/menu")}}  w={8} h={8}/>}
+              {props.isOpen ? <CloseIcon w={8} h={8}  onClick={navigateClick}  /> : <HamburgerIcon onClick={()=>{ navigate("/menu")}}  w={8} h={8}/>}
               
             </Box>
             <MenuLinks/>

@@ -48,6 +48,7 @@ export default function App(props){
   const [urlGoBackAfterDetailsOrder, setUrlGoBackAfterDetailsOrder]=useState("")
 
 
+
   let updateQuantity =async()=>{
       let response = await fetch(Commons.baseUrl+"/order/basket?apiKey="+cookieObjectApiKey.apiKey)
       if(response.ok){
@@ -122,7 +123,7 @@ export default function App(props){
   return (
     <Box display={"flex"}>
       <Box w={{ base: "none", xl: percent }} >
-        <Menu logOut={logOut} setMenyInScreen={setMenyInScreen}  setUrlGoBackAfterDetailsOrder={setUrlGoBackAfterDetailsOrder} url={url}  isOpen={isOpen} setIsOpen={setIsOpen} percent={percent} setPercent={setPercent} updateQuantity={updateQuantity} setLogin={setLogin} login={login} admin={admin} setAdmin={setAdmin} setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu} profileAvatar={profileAvatar} setProfileAvatar={setProfileAvatar}/>
+        <Menu logOut={logOut} setMenyInScreen={setMenyInScreen}  setUrlGoBackAfterDetailsOrder={setUrlGoBackAfterDetailsOrder} url={url} setUrl={setUrl}   isOpen={isOpen} setIsOpen={setIsOpen} percent={percent} setPercent={setPercent} updateQuantity={updateQuantity} setLogin={setLogin} login={login} admin={admin} setAdmin={setAdmin} setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu} profileAvatar={profileAvatar} setProfileAvatar={setProfileAvatar}/>
           <Box pt={["100px","100px","100px","100px"]}>
           <Routes>
             <Route path='/' element={<ListHamburgers/>} />
@@ -133,13 +134,13 @@ export default function App(props){
             <Route path='/orderPack' element={<ListDoneOrders login={login} />} />
             <Route path='/order/details/:doneOrdersDetailsId' element={<DetailsDoneOrders admin={admin} urlGoBackAfterDetailsOrder={urlGoBackAfterDetailsOrder}/>} />
             <Route path='/order/:id' element={<DetailsHamburgers setUrl={setUrl} setHamburgerId={setHamburgerId} hamburgerId={hamburgerId} setQuantity={setQuantity} quantity={quantity}  listOfOrders={listOfOrders} setListOfOrders={setListOfOrders}  login={login} userId={userId}  setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu}  />} />
-            <Route path='/order/hamburgers' element={<ListOrder  setMenyInScreen={setMenyInScreen} setPercent={setPercent}  login={login}  setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu}/>} />
-            {!login && <Route path='/login' element={<LoginUser logOut={logOut} setMenyInScreen={setMenyInScreen}  setPercent={setPercent} setUserId={setUserId} updateQuantity={updateQuantity} setProfileAvatar={setProfileAvatar} login={login} setLogin={setLogin} setAdmin={setAdmin} />} />}
+            <Route path='/order/hamburgers' element={<ListOrder setMenyInScreen={setMenyInScreen} setPercent={setPercent}  login={login}  setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu}/>} />
+            {!login && <Route path='/login' element={<LoginUser url={url} setUrl={setUrl}  logOut={logOut} setMenyInScreen={setMenyInScreen}  setPercent={setPercent} setUserId={setUserId} updateQuantity={updateQuantity} setProfileAvatar={setProfileAvatar} login={login} setLogin={setLogin} setAdmin={setAdmin} />} />}
             <Route path='/login/create-account' element={<AddUser setLogin={setLogin} setAdmin={setAdmin}  setProfileAvatar={setProfileAvatar}/>} />
             {login && <Route path='/user' element={<ProfileUser login={login} setProfileAvatar={setProfileAvatar} />} />}
             {login && <Route path='/user/points' element={<PointsOfUser />} />}
             {login && <Route path='/user/address' element={<AddressUser />} />}
-            {login && <Route path='/completeOrder' element={<CompleteOrder logOut={logOut} login={login} setPercent={setPercent} setMenyInScreen={setMenyInScreen} setProfileAvatar={setProfileAvatar} setListOfOrders={setListOfOrders} setQuantityInMenu={setQuantityInMenu} setQuantity={setQuantity}   listOfOrders={listOfOrders}/>} />}
+            {login && <Route path='/completeOrder' element={<CompleteOrder  setHamburgerId={setHamburgerId} hamburgerId={hamburgerId}  setUrl={setUrl}  logOut={logOut} login={login} setPercent={setPercent} setMenyInScreen={setMenyInScreen} setProfileAvatar={setProfileAvatar} setListOfOrders={setListOfOrders} setQuantityInMenu={setQuantityInMenu} setQuantity={setQuantity}   listOfOrders={listOfOrders}/>} />}
             <Route path='/menu' element={<PhoneMenu setMenyInScreen={setMenyInScreen}  setUrl={setUrl}  isOpen={isOpen} setIsOpen={setIsOpen} admin={admin}  profileAvatar={profileAvatar}  login={login} setPercent={setPercent} setProfileAvatar={setProfileAvatar} setLogin={setLogin} setAdmin={setAdmin} />} />
           </Routes>
         </Box>
@@ -148,7 +149,7 @@ export default function App(props){
 
       <Box  display={{ base: "none", xl:menyInScreen }} > 
         {login && 
-          <ListOrder  setHamburgerId={setHamburgerId} hamburgerId={hamburgerId} setQuantity={setQuantity} quantity={quantity} listOfOrders={listOfOrders} setListOfOrders={setListOfOrders}  login={login}  setQuantityInMenu={setQuantityInMenu} setPercent={setPercent} quantityInMenu={quantityInMenu}/>
+          <ListOrder  url={url} setUrl={setUrl}  setHamburgerId={setHamburgerId} hamburgerId={hamburgerId} setQuantity={setQuantity} quantity={quantity} listOfOrders={listOfOrders} setListOfOrders={setListOfOrders}  login={login}  setQuantityInMenu={setQuantityInMenu} setPercent={setPercent} quantityInMenu={quantityInMenu}/>
         }
         </Box>
       </Box>

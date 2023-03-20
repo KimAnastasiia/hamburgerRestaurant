@@ -174,14 +174,14 @@ export default function DetailsHamburgers(props){
             <Image  w={["90%","90%","70%", "50%","30%"]} src={Commons.baseUrl+"/images/"+hamburger.type+".png"} ></Image>
             <Box display={"flex"} flexDirection="column" justifyContent="center" alignItems="center"  w={["80%","70%","60%","50%","40%","30%"]}>
                 <Text w="100%"  >{hamburger.description}</Text>
-                <Text w="100%" color="red" >price: {hamburger.price} euro</Text>
+                <Text fontSize='3xl' m={"10px"}>Price: <Text as='b'>{hamburger.price}</Text> € </Text>
 
                 {props.login && 
                 <Box mt="30px">
                     <Text color="green" >Quantity in cart {props.quantity}</Text>
                     <Box  display={"flex"} justifyContent="center" alignItems={"center"} >
-                        <Button mr="8px" onClick={minus} >-</Button>
-                        <Button onClick={makeOrder} >+</Button>
+                        <Button bg="primary.500" color="white"  onClick={minus} mr="8px" >-</Button>
+                        <Button bg={"primary.500"} color="white"   onClick={makeOrder} >+</Button>
                     </Box>
                 </Box>}
 
@@ -189,7 +189,7 @@ export default function DetailsHamburgers(props){
                 <Box mt="30px" >
                     <Text color="green" >Add in cart</Text>
                     <Box  display={"flex"} justifyContent="center" alignItems={"center"} >
-                        <Button><Link to="/login" >Login</Link></Button>
+                        <Button bg={"primary.500"} color="white" fontSize="2xl" pt="20px" pb="20px" pr="40px" pl="40px"><Link to="/login" >Login</Link></Button>
                     </Box>
                 </Box>}
             </Box> 

@@ -33,11 +33,11 @@ export default function TableHamburgers(props){
              {listOfHamburgers.map((hamburger)=>
             <Box onClick={()=>{updateUrlForMenu("/order/"+hamburger.Id)}}   w={["50%","50%","30%","24%","24%","23%","23%","22%","22%","20%","20%"]} key={hamburger.Id} >
                    
-                    <Box  m={"3"} bg={"hsl(40, 47%, 82%)"}  borderRadius='20px' display="flex" flexDirection={"column"} >
+                    <Box m={"3"} bg={"hsl(40, 47%, 82%)"}  borderRadius='20px' display="flex" flexDirection={"column"} >
                         <Box  h="70%" display="flex" justifyContent={"center"} alignItems="flex-end" > 
                             <Image borderRadius='20px' w="70%"  src={Commons.baseUrl+"/images/"+hamburger.type+".png"} />
                         </Box>
-                        <Box  w="100%"  h="30%" display="flex"><Text w="100%"  h="30%" display="flex"  justifyContent={"center"} alignItems="flex-start" color={"blue"}>{hamburger.type}</Text></Box>
+                        <Box mb="20px" w="100%"  h="30%" display="flex"><Text w="100%"  h="30%" display="flex"  justifyContent={"center"} alignItems="flex-start" fontSize={"2xl"} >{hamburger.type}</Text></Box>
                     </Box>
             </Box>
               )}

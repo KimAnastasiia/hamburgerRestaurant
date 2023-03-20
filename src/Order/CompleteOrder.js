@@ -204,24 +204,96 @@ export default function CompleteOrder(props){
     
 
     let controlPoints=(val)=>{
-        if(val===(user.points/100)*80){
+        if(val===(totall/100)*80){
             setAlert("You can pay a maximum of 80% of the total amount with points")
         }
-        if(val<=(user.points/100)*80){
+        if(val<=(totall/100)*80){
             setSliderValue(val)
         }
-        if(val<(user.points/100)*80){
+        if(val<(totall/100)*80){
             setAlert(false)
         }
     }
+    let navigateClick=()=>{
+        navigate("/hamburgers")
+        props.setUrl("/hamburgers")
+    }
+    let minus = async(idOfHamburger)=>{
+        let response = await fetch(Commons.baseUrl+"/order/"+idOfHamburger+"?apiKey="+cookieObjectApiKey.apiKey)
+        if(response.ok){
+            let data = await response.json()
+            if(!data.error){
+              let listOfOrders = data;
+              if(listOfOrders[0].number>1){
+                   
+                    let response = await fetch (Commons.baseUrl+"/order/"+idOfHamburger+"?apiKey="+cookieObjectApiKey.apiKey,{
 
+                    method: 'PUT',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    },
+                    body:
+                    JSON.stringify( { 
+                    number:listOfOrders[0].number-1
+                    })
+                    
+                   
+                    })
+                    props.setQuantityInMenu(props.quantityInMenu-1)
+                    checkListOfOrders()
+                }
+                if(listOfOrders[0].number===1){
+                    let response = await fetch (Commons.baseUrl+"/order/"+idOfHamburger+"?apiKey="+cookieObjectApiKey.apiKey,{
+                        method: 'DELETE',
+                    })
+                    
+                    props.setQuantityInMenu(props.quantityInMenu-1)
+                    checkListOfOrders()
+                }
+                if(props.hamburgerId==idOfHamburger){
+                    props.setQuantity(listOfOrders[0].number-1)
+                }
+                console.log(listOfOrders)
+            }
+        }
+    }
+
+    let plus=async(idOfHamburger)=>{
+        let response = await fetch(Commons.baseUrl+"/order/"+idOfHamburger+"?apiKey="+cookieObjectApiKey.apiKey)
+        if(response.ok){
+            let data = await response.json()
+            if(!data.error){
+                let listOfOrders = data;
+                let response = await fetch (Commons.baseUrl+"/order/"+idOfHamburger+"?apiKey="+cookieObjectApiKey.apiKey,{
+
+                    method: 'PUT',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    },
+
+                    body:
+                    JSON.stringify( { 
+                    number:listOfOrders[0].number+1
+                    })
+                })
+                if(props.hamburgerId==idOfHamburger){
+                    props.setQuantity(listOfOrders[0].number+1)
+                }
+                props.setQuantityInMenu(props.quantityInMenu+1)
+               
+            }
+       
+        }           
+       
+        checkListOfOrders()
+    }
 
     return(
         <Box  minH={"100vh"}   pt={"50px"} alignItems="center" justifyContent={"space-around"} >
             {(props.listOfOrders.length == 0 )&&
             <Box h={"600px"} display={"flex"} justifyContent="center" flexDirection={"column"} alignItems="center" > 
                 <Text mb={"20px"} fontSize={["16px","16px","16px","16px","16px","19px","23px","25px"]} >You haven't placed any order yet</Text>
-                <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]}  w="80%" onClick={()=>{navigate("/hamburgers")}}>
+                <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]}  w="80%" onClick={navigateClick}>
                     <ReadOutlined style={{ fontSize: '20px', color: 'white' }} /> 
                     <Text color={"white"} ml="10px">See menu </Text>
                 </Button>
@@ -274,17 +346,19 @@ export default function CompleteOrder(props){
                         <Textarea w={"100%"} value={commentForOrder} onChange={(e)=>{setCommentForOrder(e.target.value)}} placeholder="comment for order" ></Textarea>
                         {  props.listOfOrders.map((order)=>
                             <Box mt={"20px"} display={"flex"} justifyContent="space-around" >
-                                <Box w={"25%"}> <img src={Commons.baseUrl+"/images/"+order.type+".png"} /></Box>
-                                <Box   display={"flex"} justifyContent="space-around" w={"75%"}>
-                                    <Box  display={"flex"} flexDirection="column" justifyContent="center" w={"50%"} >
-                                        <Box color={"white"}> {order.type}</Box>
-                                    </Box>
-                                    <Box color={"white"} w={"50%"} justifyContent="space-between" display={"flex"} alignItems={"center"}>
-                                        <Text ml={"20px"} display="flex" alignItems="center"> {order.number}  </Text>
-                                        <Text>  {order.number*order.price} euro</Text>
+                            <Box w={"25%"}> <img src={Commons.baseUrl+"/images/"+order.type+".png"} /></Box>
+                            <Box   display={"flex"} justifyContent="space-around" w={"75%"}>
+                                <Box  display={"flex"} flexDirection="column" justifyContent="center" w={"50%"} >
+                                    <Box  mb={"10px"}> {order.type}</Box>
+                                    <Box display={"flex"} justifyContent="center"  >
+                                        <Button color={"white"} mr="10px" bg={"primary.500"}  onClick={(e)=>minus(order.hamburgerId)}>-</Button>
+                                        <Text   display="flex" alignItems="center"> {order.number}  </Text>
+                                        <Button color={"white"}  ml="10px" bg={"primary.500"}  onClick={(e)=>plus(order.hamburgerId)}>+</Button> 
                                     </Box>
                                 </Box>
+                                <Box mr={"20px"}  w={"50%"} justifyContent="flex-end" display={"flex"} alignItems={"flex-end"}> {order.number*order.price} €</Box>
                             </Box>
+                        </Box>
                         )}
                     </Box>
                 </Box>
@@ -342,10 +416,10 @@ export default function CompleteOrder(props){
                     </div>}
                     <Box mt={"10px"} display={"flex"} justifyContent="space-between">
                         <Text>To pay</Text>
-                        <Text>{totall-sliderValue} euro</Text>
+                        <Text fontWeight={"bold"}>{totall-sliderValue} € </Text>
                     </Box>
                     <Box mt={"10px"} display={"flex"} justifyContent={"center"}>
-                        <Button w="80%" bg={"lightblue"} fontSize={"25px"} onClick={complete}>Order</Button>
+                        <Button w="100%" color={"white"} bg={"primary.500"} fontSize={"25px"} onClick={complete}>Order</Button>
                     </Box>
                 
                   

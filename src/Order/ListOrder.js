@@ -46,7 +46,7 @@ export default function ListOrder(props){
 
 
     let complete =async ()=>{
-        
+
         checkListOfOrders()
         props.setQuantityInMenu(0)
         props.setQuantity(0)
@@ -147,7 +147,7 @@ export default function ListOrder(props){
           { ( props.listOfOrders.length == 0) &&
           
             <Box  w="20%" h={"100vh"}  position="fixed"  >
-                <Box  bg={["primary.500", "primary.500", "primary.500", "primary.500"]} border={"1px"} borderColor={"gray"} display={"flex"} justifyContent="center" alignItems={"center"} h={"8.2%"} >
+                <Box  bg={["#0F5736"]} border={"1px"} borderColor={"gray"} display={"flex"} justifyContent="center" alignItems={"center"} h={"8.2%"} >
                     <Text fontSize={"25px"} color="white"> Your order </Text> 
                 </Box>
                 <Box borderLeft={"1px"} borderColor={"gray"} alignItems="center" flexDirection={"column"} justifyContent={"center"} display={"flex"} h={"92%"}>
@@ -159,26 +159,25 @@ export default function ListOrder(props){
                 </Box>
             </Box>}
             { ( props.listOfOrders.length > 0) &&
-            <Box bg={["primary.500", "primary.500", "primary.500", "primary.500"]}  w="20%" h={"100vh"}  position="fixed"  >
+            <Box bg={["#0F5736"]}  w="20%" h={"100vh"}  position="fixed"  >
             
-                <Box border={"1px"} borderColor={"gray"} display={"flex"} justifyContent="space-around" alignItems={"center"} h={"8%"} >
-                    <Text color="white"> Your order </Text> 
-                    <Button onClick={deleteAllOrder}> <DeleteIcon mr="10px"/> Delete all  </Button>
+                <Box borderColor={"gray"} display={"flex"} justifyContent="space-around" alignItems={"center"} h={"8%"} >
+                    <Text color="white" fontSize={"2xl"}> Your order </Text> 
                 </Box>
-                <Box  h={"80%"} overflow="scroll" >
+                <Box  h={"80%"} overflowY="scroll" >
                 {  props.listOfOrders.map((order)=>
                     <Box mt={"20px"} display={"flex"} justifyContent="space-around" >
                         <Box w={"25%"}> <img src={Commons.baseUrl+"/images/"+order.type+".png"} /></Box>
                         <Box   display={"flex"} justifyContent="space-around" w={"75%"}>
                             <Box  display={"flex"} flexDirection="column" justifyContent="center" w={"50%"} >
-                                <Box color={"white"}> {order.type}</Box>
+                                <Box color={"white"} mb={"10px"}> {order.type}</Box>
                                 <Box display={"flex"} justifyContent="center"  >
-                                    <Button mr="10px" onClick={(e)=>minus(order.hamburgerId)}>-</Button>
-                                    <Text  display="flex" alignItems="center"> {order.number}  </Text>
-                                    <Button ml="10px" onClick={(e)=>plus(order.hamburgerId)}>+</Button> 
+                                    <Button mr="10px" bg={"#04BA34"} color={"white"}  onClick={(e)=>minus(order.hamburgerId)}>-</Button>
+                                    <Text  color={"white"} display="flex" alignItems="center"> {order.number}  </Text>
+                                    <Button ml="10px" bg={"#04BA34"} color={"white"}  onClick={(e)=>plus(order.hamburgerId)}>+</Button> 
                                 </Box>
                             </Box>
-                            <Box color={"white"} w={"50%"} justifyContent="flex-end" display={"flex"} alignItems={"flex-end"}> {order.number*order.price} euro</Box>
+                            <Box mr={"20px"} color={"white"} w={"50%"} justifyContent="flex-end" display={"flex"} alignItems={"flex-end"}> {order.number*order.price} €</Box>
                         </Box>
                     </Box>
                 )}
@@ -186,10 +185,11 @@ export default function ListOrder(props){
                 <Box  display={"flex"} flexDirection="column"   h="11%" justifyContent="flex-end" >
                     <Box mb={"20px"} color={"white"} alignItems="flex-end" display={"flex"} justifyContent="space-around"  h={"50%"}>
                         <Box>Total </Box>
-                        <Box>{totall} euro</Box>
+                        <Box fontSize={"xl"} >{totall} €</Box>
                     </Box>
                    <Box  h={"50%"} display={"flex"} justifyContent={"center"}  >
-                        <Button w={"90%"} onClick={complete} >Complete order</Button>
+                        <Button margin={"10px"} onClick={deleteAllOrder} color="white" colorScheme='black' variant='outline' > <DeleteIcon ml="20px" mr="10px"/><Text mr={"20px"}>Delete all</Text> </Button>
+                        <Button margin={"10px"} bg={"#04BA34"} color={"white"}  w={"90%"} onClick={complete} >Complete order</Button>
                    </Box>
                    
                 </Box>

@@ -35,9 +35,13 @@ export default function ListCommentsHamburger(props){
 
 
     let userComment=(e)=>{
+      
         setComments(e.target.value)
     }
     let addFirstComment=(e)=>{
+        if(!props.login){
+            setAlert(true) 
+        }
         setOriginalComment(e.target.value)
 
     }
@@ -127,7 +131,7 @@ return(
             <Box display={"flex"}  justifyContent="center" alignItems={"center"} mt="20px"  >
                 <Alert status='error' width={"400px"}  >
                     <AlertIcon />
-                    <AlertTitle>For add comments enter your profile   <Link to="/login" ><ExternalLinkIcon/></Link>  </AlertTitle>
+                    <AlertTitle>For add comments enter your profile    </AlertTitle>
                 </Alert>
             </Box>}
             <Box w={"100%"} display={"flex"} alignItems={"center"} flexDirection={"column"} >   
@@ -138,7 +142,7 @@ return(
                     onChange={addFirstComment}
                     value={originalComment}
                 />
-                <Button mt="20px" onClick={addComments} isDisabled={!originalComment}  w={["50%","40%","30%","20%","10%"]}>Sent</Button>
+                <Button  colorScheme='green' variant='outline' mt="20px" onClick={addComments} isDisabled={!originalComment || !props.login}  w={["50%","40%","30%","20%","10%"]}>Send</Button>
             </Box  >   
                 { 
                 listOfComments.sort((a, b) => b.date-a.date )
@@ -173,7 +177,7 @@ return(
                                     onChange={userComment}
                                     />
                                   
-                                    <Button onClick={onChangeData} isDisabled={!comments}><CheckIcon/></Button>
+                                    <Button colorScheme='green' variant='outline'  onClick={onChangeData} isDisabled={!comments}><CheckIcon/></Button>
                                 </Box>
                             }
 
@@ -189,8 +193,8 @@ return(
                         {( selectedCommentId.current != comment.id && props.userId==comment.userId ) && 
                             <Box w={["90%","80%","70%","60%","30%"]} display="flex" justifyContent={"end"}  >
                                 <Box  display={"flex"} justifyContent="end" >
-                                    <Button onClick={(e)=>deleteComment(comment)} mr="2px" ><DeleteIcon/></Button>  
-                                    <Button onClick={(e)=>changeData(comment)} ml="2px"><EditIcon/></Button>
+                                    <Button colorScheme='green' variant='outline'  onClick={(e)=>deleteComment(comment)} mr="2px" ><DeleteIcon/></Button>  
+                                    <Button colorScheme='green' variant='outline'  onClick={(e)=>changeData(comment)} ml="2px"><EditIcon/></Button>
                                 </Box>
                             </Box>}
 
