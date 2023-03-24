@@ -148,7 +148,7 @@ export default function ListOrder(props){
           
             <Box  w="20%" h={"100vh"}  position="fixed"  >
                 <Box  bg={["#0F5736"]} border={"1px"} borderColor={"gray"} display={"flex"} justifyContent="center" alignItems={"center"} h={"8.2%"} >
-                    <Text fontSize={"25px"} color="white"> Your order </Text> 
+                    <Text className="your-order" fontSize={"25px"} color="white" >Your order</Text> 
                 </Box>
                 <Box borderLeft={"1px"} borderColor={"gray"} alignItems="center" flexDirection={"column"} justifyContent={"center"} display={"flex"} h={"92%"}>
                     <Text mb={"20px"} fontSinavigateze={["16px","16px","16px","16px","16px","19px","23px","25px"]} >You haven't placed any order yet</Text>
@@ -162,7 +162,7 @@ export default function ListOrder(props){
             <Box bg={["#0F5736"]}  w="20%" h={"100vh"}  position="fixed"  >
             
                 <Box borderColor={"gray"} display={"flex"} justifyContent="space-around" alignItems={"center"} h={"8%"} >
-                    <Text color="white" fontSize={"2xl"}> Your order </Text> 
+                    <Text color="white" fontSize={"2xl"} id="your-order">Your order</Text> 
                 </Box>
                 <Box  h={"80%"} overflowY="scroll" >
                 {  props.listOfOrders.map((order)=>

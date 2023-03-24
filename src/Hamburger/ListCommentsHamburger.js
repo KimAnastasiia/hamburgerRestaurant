@@ -11,7 +11,7 @@ import Commons from "../Utility/Commons";
 export default function ListCommentsHamburger(props){
 
     const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
-    let [listOfComments, setListOfComments]=useState([])
+    let [listOfUsersComments, setListOfUsersComments]=useState([])
 
     let [comments, setComments]=useState("")
     let [originalComment, setOriginalComment]=useState("")
@@ -51,7 +51,7 @@ export default function ListCommentsHamburger(props){
         if(response.ok){
             let data = await response.json()
             if(!data.error){
-                setListOfComments(data)
+                setListOfUsersComments(data)
                
             }
         }
@@ -137,37 +137,39 @@ return(
             <Box w={"100%"} display={"flex"} alignItems={"center"} flexDirection={"column"} >   
                 <Text textAlign={"center"} fontSize={"25"} m="20px" >Rewiews</Text>
                 <Textarea  
+                    id="userComment"
                     placeholder="Comments this hamburge Shoul be 3 items and more"
                     w={["90%","80%","70%","60%","30%"]}
                     onChange={addFirstComment}
                     value={originalComment}
+                    
                 />
-                <Button  colorScheme='green' variant='outline' mt="20px" onClick={addComments} isDisabled={!originalComment || !props.login}  w={["50%","40%","30%","20%","10%"]}>Send</Button>
+                <Button id="sentComment" colorScheme='green' variant='outline' mt="20px" onClick={addComments} isDisabled={!originalComment || !props.login}  w={["50%","40%","30%","20%","10%"]}>Send</Button>
             </Box  >   
                 { 
-                listOfComments.sort((a, b) => b.date-a.date )
-                .map((comment)=>{
+                listOfUsersComments.sort((a, b) => b.date-a.date )
+                .map((usersComment)=>{
 
 
-                    if(comment.hamburgerId == id){
+                    if(usersComment.hamburgerId == id){
                        return (
-                    <Box w={"100%"}  justifyContent="space-between" display={"flex"} p="20px" alignItems={"center"} flexDirection={"column"} key={comment.id}   >
+                    <Box id={usersComment.id} w={"100%"}  justifyContent="space-between" display={"flex"} p="20px" alignItems={"center"} flexDirection={"column"} key={usersComment.id}   >
                         <Box w={"100%"} justifyContent="center" flexDirection={"column"}  display={"flex"} alignItems={"center"}  >  
                            
                             <Box w={["90%","80%","70%","60%","30%"]}  display={"flex"} justifyContent="space-between">
                                 <Box display={"flex"}>
-                                    <Avatar size='sm' name={comment.name} /> 
-                                    <Text ml={"3"} >{comment.name} </Text>    
+                                    <Avatar size='sm' name={usersComment.userName} /> 
+                                    <Text ml={"3"} >{usersComment.userName} </Text>    
                                 </Box>
                                 <Text ml="30px">Date: { 
-                                    formatDate(comment.date)}
+                                    formatDate(usersComment.date)}
                                 </Text>  
                             </Box>
                                 
                          
 
 
-                            {(props.userId==comment.userId && selectedCommentId.current==comment.id) &&
+                            {(props.userId==usersComment.userId && selectedCommentId.current==usersComment.id) &&
                                 <Box mt={"10px"}  w={["90%","80%","70%","60%","30%"]} display={"flex"} >
                                     <Textarea 
                                     minH="150px"
@@ -181,20 +183,20 @@ return(
                                 </Box>
                             }
 
-                            { (selectedCommentId.current != comment.id ) &&
+                            { (selectedCommentId.current != usersComment.id ) &&
 
                             <Box w={["90%","80%","70%","60%","30%"]}  >
-                                <Container >
-                                    <Text   mt={"10px"}>{comment.comment} </Text>
+                                <Container>
+                                    <Text  id={"comment-"+usersComment.id}  mt={"10px"}>{usersComment.comment} </Text>
                                 </Container>
                             </Box>}
 
                         
-                        {( selectedCommentId.current != comment.id && props.userId==comment.userId ) && 
+                        {( selectedCommentId.current != usersComment.id && props.userId==usersComment.userId ) && 
                             <Box w={["90%","80%","70%","60%","30%"]} display="flex" justifyContent={"end"}  >
                                 <Box  display={"flex"} justifyContent="end" >
-                                    <Button colorScheme='green' variant='outline'  onClick={(e)=>deleteComment(comment)} mr="2px" ><DeleteIcon/></Button>  
-                                    <Button colorScheme='green' variant='outline'  onClick={(e)=>changeData(comment)} ml="2px"><EditIcon/></Button>
+                                    <Button  id={"delete-comment-"+usersComment.id} colorScheme='green' variant='outline'  onClick={(e)=>deleteComment(usersComment)} mr="2px" ><DeleteIcon/></Button>  
+                                    <Button  edit={"edit-comment-"+usersComment.id} colorScheme='green' variant='outline'  onClick={(e)=>changeData(usersComment)} ml="2px"><EditIcon/></Button>
                                 </Box>
                             </Box>}
 

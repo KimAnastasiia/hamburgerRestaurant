@@ -59,6 +59,7 @@ export default function Menu(props){
 
 
     const MenuLinks = ({isOpen }) => {
+
       return (
        
               <Box
@@ -105,7 +106,7 @@ export default function Menu(props){
 
                  
                   <Button variant='link' color={"white"} display="block" >
-                    <Link aria-label="hamburgers" to="/hamburgers">
+                    <Link id="hamburgers" aria-label="hamburgers" to="/hamburgers">
                       Hamburgers
                     </Link>
                   </Button>
@@ -122,11 +123,11 @@ export default function Menu(props){
                   }
 
                   {!props.login &&
-                    <Text display="block"  onClick={()=>props.setUrl("/login")} >
-                      <Link aria-label="login" to="/login">
+                    <Button display="block" variant='link'  color={"white"} onClick={()=>props.setUrl("/login")} >
+                      <Link id="login" aria-label="login" to="/login">
                         Login
                       </Link>
-                    </Text>
+                    </Button>
                    }
                   
                   {props.login &&<Link to='/user' >

@@ -88,30 +88,32 @@ export default function LoginUser(props){
                 </Box>}
                 <Box   w={"100%"} display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center" >        
                     <Text m={"30"} >Login</Text>
-                    <Input onChange={addEmail}
+                    <Input 
+                        id="email"
                         pr='4.5rem'
                         type="email"
                         placeholder='Enter email'
                         w={["80%","70%","50%","20%"]}
                         mb="10px"
                         aria-label="email"
+                        onChange={addEmail}
                     />
                     <Input 
+                        id="password"
                         aria-label="pd"
-                        onChange={addPassword}
-                        type="text"
+                        type="password"
                         pr='4.5rem'
                         placeholder='Enter password'
                         w={["80%","70%","50%","20%"]}
-                       
+                        onChange={addPassword}
                     />
                     
-                    <Button aria-label="cm" bg={["primary.500", "primary.500", "primary.500", "primary.500"]} color="white" onClick={loginToProfile} w={["80%","50%","30%","20%"]}  m={"2"}>
-                        Continium
+                    <Button id="continue" aria-label="cm" bg={["primary.500", "primary.500", "primary.500", "primary.500"]} color="white" onClick={loginToProfile} w={["80%","50%","30%","20%"]}  m={"2"}>
+                        Continue
                     </Button> 
     
 
-                    <Button data-testid="create-button" w={["80%","50%","30%","20%","10%"]} bg={"blue.200"} >
+                    <Button colorScheme='green' variant='outline' id="create-account" data-testid="create-button" w={["80%","50%","30%","20%","10%"]}  >
                         <Link to="/login/create-account" >Create account</Link>
                     </Button>
                 </Box> 

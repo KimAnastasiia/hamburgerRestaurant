@@ -178,10 +178,10 @@ export default function DetailsHamburgers(props){
 
                 {props.login && 
                 <Box mt="30px">
-                    <Text color="green" >Quantity in cart {props.quantity}</Text>
+                    <Text color="green" >{"Quantity in cart "+ props.quantity}</Text>
                     <Box  display={"flex"} justifyContent="center" alignItems={"center"} >
-                        <Button bg="primary.500" color="white"  onClick={minus} mr="8px" >-</Button>
-                        <Button bg={"primary.500"} color="white"   onClick={makeOrder} >+</Button>
+                        <Button bg="primary.500" color="white" id={hamburger.type+"Minus"} onClick={minus} mr="8px" >-</Button>
+                        <Button bg={"primary.500"} color="white"  id={hamburger.type+"Plus"} onClick={makeOrder} >+</Button>
                     </Box>
                 </Box>}
 
