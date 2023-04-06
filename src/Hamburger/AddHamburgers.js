@@ -111,10 +111,10 @@ export default function AddHamburger(){
                 }
                 {alertDone &&                 
                 <Box w={["90%","90%","80%","80%","60%"]} display={"flex"}  justifyContent="center" alignItems={"center"}  >
-                            <Alert status='success'  borderRadius='10px' width={"500px"}  >
-                                <AlertIcon />
-                                <AlertTitle>{alertDone}</AlertTitle>
-                            </Alert>
+                    <Alert status='success'  borderRadius='10px' width={"500px"}  >
+                        <AlertIcon />
+                        <AlertTitle>{alertDone}</AlertTitle>
+                    </Alert>
                 </Box>
                 }
                 <Input

@@ -111,11 +111,11 @@ export default function LoginUser(props){
                     <Button id="continue" aria-label="cm" bg={["primary.500", "primary.500", "primary.500", "primary.500"]} color="white" onClick={loginToProfile} w={["80%","50%","30%","20%"]}  m={"2"}>
                         Continue
                     </Button> 
-    
-
-                    <Button colorScheme='green' variant='outline' id="create-account" data-testid="create-button" w={["80%","50%","30%","20%","10%"]}  >
-                        <Link to="/login/create-account" >Create account</Link>
-                    </Button>
+                    <Link to="/login/create-account" w={["80%","50%","30%","20%","10%"]}  >
+                        <Button colorScheme='green' variant='outline' id="create-account" data-testid="create-button" >
+                            Create account
+                        </Button>
+                    </Link>
                 </Box> 
             </Box> 
         </div>

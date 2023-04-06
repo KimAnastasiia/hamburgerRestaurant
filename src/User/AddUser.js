@@ -27,9 +27,16 @@ export default function AddUser(props){
     let [surname, setSurname]=useState("")
     let [payment, setPayment]=useState('Cash')
     let [country, setCountry]=useState(listOfCountries[0])
+
+    const [enoughData, setEnoughData]=useState(false)
+
     const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
     const navigate  = useNavigate();
- 
+
+    useEffect (()=>{ 
+        setEnoughData(false)
+    },[name,surname,country,password,email,payment])
+
     let addEmail =(e)=>{
         setEmail(e.target.value)
         const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -104,87 +111,63 @@ export default function AddUser(props){
 
     let createUser =async()=>{
       
-        let emailExists = await checkIfEmailExists()
-       
-        if ( !passwordError && emailInput && !emailExists){
-            let response = await fetch (Commons.baseUrl+"/login/create-account",{
+        if(email.length<1 || password.length<1 || name.length<1 ||surname.length<1 ||country.length<1 ||payment.length<1 ){
+            setEnoughData(true)
+        }else{
+            setEnoughData(false)
+            let emailExists = await checkIfEmailExists()
+        
+            if ( !passwordError && emailInput && !emailExists){
+                let response = await fetch (Commons.baseUrl+"/login/create-account",{
 
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
 
-            body:
-                JSON.stringify({ 
-                    email:email,
-                    password:password,
-                    name: name,
-                    surname:surname,
-                    country:country,
-                    payment:payment
+                body:
+                    JSON.stringify({ 
+                        email:email,
+                        password:password,
+                        name: name,
+                        surname:surname,
+                        country:country,
+                        payment:payment
+                    })
                 })
-            })
-            if(response.ok){
-                let data = await response.json()
-                if(data.apiKey){
-                    if(data.messege === "admin"){
-                        props.setAdmin(true)              
+                if(response.ok){
+                    let data = await response.json()
+                    if(data.apiKey){
+                        if(data.messege === "admin"){
+                            props.setAdmin(true)              
+                        }
+                        setObjectApiKey("apiKey", data.apiKey, { path: '/' } )
+                        props.setLogin(true)
+                        navigate("/hamburgers/all")
+                        props.setProfileAvatar(data.name)  
                     }
-                    setObjectApiKey("apiKey", data.apiKey, { path: '/' } )
-                    props.setLogin(true)
-                    navigate("/hamburgers/all")
-                    props.setProfileAvatar(data.name)  
+                }
             }
-           
-        }
         }
        
     }
     
     return(
-        <div>
-{       
-           /* <VStack  p={32} alignItems="flex-start" bg={"pink"} display={"flex"} justifyContent="center">
-            <Box minH={"73.6vh"} w={"100%"} display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center"  bg={"gray"}>    
-                
-                <Heading as="h1"  >
-                    Create your account
-                </Heading>
-                <FormControl>
-                    <FormLabel  htmlFor="email">Email</FormLabel>
-                    <Input 
-                        onChange={addEmail}
-                        pr='4.5rem'
-                        type={"email"}
-                        placeholder='Enter email'
-                        w={"20%"}
-                        id="email"
-                    />
-                    <FormErrorMessage>Write a email</FormErrorMessage>
-                </FormControl>
-                <FormControl>
-                    <FormLabel htmlFor="password">Password</FormLabel>
-                    <Input onChange={addtPassword}
-                        type="password"
-                        pr='4.5rem'
-                        placeholder='Enter password'
-                        w={"20%"}
-                        id="password"
-                    />
-                </FormControl>
-                <br></br>
-                <Button  onClick={createAccount} w="10%" m={"2"}>
-                   Continium
-                </Button> 
-                <Button w="10%" >
-                    <Link href={"/login"} >I already have account</Link>
-                </Button>
-            </Box> 
-</VStack>*/ }
+
    
-        <Box  w={"100%"} display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center" minH={"100vh"}>  
-        <Text m={"30"} >Create your account</Text>
-        {nameError &&                 
+        <Box   w={"100%"} display={"flex"} flexDirection="column" justifyContent={"center"} alignItems="center" minH={"100vh"}>  
+            <Text m={"30"}>Create your account</Text>
+
+            {enoughData &&                 
+            <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
+                        <Alert status='error' width={"500px"}  >
+                            <AlertIcon />
+                            <AlertTitle>You have not entered all the data</AlertTitle>
+                        </Alert>
+            </Box>}
+
+
+            {nameError &&                 
             <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
                         <Alert status='error' width={"500px"}  >
                             <AlertIcon />
@@ -192,40 +175,39 @@ export default function AddUser(props){
                         </Alert>
             </Box>}
 
-
-
-        <Input mb={"15"} w={"20%"} pr='4.5rem'  placeholder="Enter name" onChange={addName}/>
-        {surnameError &&                 
+            <Input mb={"15"} w={["80%","80%","20%","20%","20%"]} pr='4.5rem'  placeholder="Enter name" onChange={addName}/>
+        
+            {surnameError &&                 
             <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
                         <Alert status='error' width={"500px"}  >
                             <AlertIcon />
                             <AlertTitle>{surnameError}</AlertTitle>
                         </Alert>
             </Box>}
-        <Input mb={"15"} w={"20%"} pr='4.5rem'  placeholder="Enter surname" onChange={addSurname}/>
-        {countryError &&                 
+            <Input mb={"15"} w={["80%","80%","20%","20%","20%"]}  pr='4.5rem'  placeholder="Enter surname" onChange={addSurname}/>
+            {countryError &&                 
             <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
                         <Alert status='error' width={"500px"}  >
                             <AlertIcon />
                             <AlertTitle>{countryError}</AlertTitle>
                         </Alert>
             </Box>
-        }
+            }
 
-            <Box  pr='4.5rem' w={"20%"} mb={"15"} >
+            <Box  pr='4.5rem' w={["80%","80%","20%","20%","20%"]} mb={"15"} >
                 <Select onChange={addCountry} placeholder='Select country' >
                     {listOfCountries.map((country)=> <option value={country}>{country}</option>)}
                 </Select>
             </Box>
 
-        {paymentError &&                 
+            {paymentError &&                 
             <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
                         <Alert status='error' width={"500px"}  >
                             <AlertIcon />
                             <AlertTitle>{paymentError}</AlertTitle>
                         </Alert>
             </Box>
-        }
+            }
 
             <RadioGroup onChange={addPayment} defaultValue={'Cash'} > 
                 <Stack direction='row'>
@@ -238,57 +220,59 @@ export default function AddUser(props){
 
 
 
-        {(emailInput && emailError) &&                 
-        <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
-                    <Alert status='error' width={"500px"}  >
-                        <AlertIcon />
-                        <AlertTitle>{emailError}</AlertTitle>
-                    </Alert>
-        </Box>}
-
-        <Input 
-            mb={"15"}
-            onBlur={e=>blurHandler(e)}
-            onChange={addEmail}
-            pr='4.5rem'
-            type={"email"}
-            placeholder='Enter email'
-            w={"20%"}
-            name="email"
-            value={email}
-        />
-
-        {(passwordInput && passwordError) &&                 
+            {(emailInput && emailError) &&                 
             <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
                         <Alert status='error' width={"500px"}  >
                             <AlertIcon />
-                            <AlertTitle>{passwordError}</AlertTitle>
+                            <AlertTitle>{emailError}</AlertTitle>
                         </Alert>
+            </Box>}
+
+            <Input 
+                mb={"15"}
+                onBlur={e=>blurHandler(e)}
+                onChange={addEmail}
+                pr='4.5rem'
+                type={"email"}
+                placeholder='Enter email'
+                w={["80%","80%","20%","20%","20%"]} 
+                name="email"
+                value={email}
+            />
+
+            {(passwordInput && passwordError) &&                 
+                <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
+                            <Alert status='error' width={"500px"}  >
+                                <AlertIcon />
+                                <AlertTitle>{passwordError}</AlertTitle>
+                            </Alert>
+                </Box>
+            }
+
+            <Input 
+                onBlur={e=>blurHandler(e)}
+                onChange={addtPassword}
+                type="password"
+                pr='4.5rem'
+                placeholder='Enter password'
+                w={["80%","80%","20%","20%","20%"]} 
+                name="password"
+                value={password}
+                mb={"15"}
+            />
+
+            <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]} color="white" onClick={createUser} w="20%" m={"2"}>
+                Continium
+            </Button> 
+
+
+            <Box  w={["80%","80%","20%","20%","20%"]} justifyContent={"center"} display={"flex"}>
+                <Link href={"/login"} >
+                    <Button  bg={"blue.200"} >
+                        I already have account
+                    </Button>
+                </Link> 
             </Box>
-        }
-
-        <Input 
-            onBlur={e=>blurHandler(e)}
-            onChange={addtPassword}
-            type="password"
-            pr='4.5rem'
-            placeholder='Enter password'
-            w={"20%"}
-            name="password"
-            value={password}
-            mb={"15"}
-        />
-
-        <Button bg={["primary.500", "primary.500", "primary.500", "primary.500"]} color="white" onClick={createUser} w="20%" m={"2"}>
-            Continium
-        </Button> 
-
-
-
-
-        <Button w="10%" bg={"blue.200"} >
-            <Link href={"/login"} >I already have account</Link>
-        </Button>
         </Box> 
-    </div>
+
 )}

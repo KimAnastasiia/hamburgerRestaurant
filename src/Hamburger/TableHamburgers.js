@@ -8,6 +8,7 @@ export default function TableHamburgers(props){
 
     let [listOfHamburgers, setListOfHamburgers ] = useState([])
     const navigate  = useNavigate();
+    
     useEffect (()=>{ 
         showAll()
     },[])
