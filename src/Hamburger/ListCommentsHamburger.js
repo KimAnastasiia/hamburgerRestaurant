@@ -27,6 +27,11 @@ export default function ListCommentsHamburger(props){
         listComments()
     },[])
 
+    useEffect (()=>{  
+       if(originalComment.length<1){
+        setAlert(false)
+       }
+    },[originalComment])
 
     useEffect (()=>{ 
         if (inputCommentRef != null && inputCommentRef.current != null ) {

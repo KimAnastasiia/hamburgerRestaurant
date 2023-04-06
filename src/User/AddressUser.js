@@ -26,6 +26,11 @@ export default function AddressUser(props){
         if(response.ok){
             let data = await response.json()
             if(!data.error){
+                for(var propt in data[0]){
+                    if (data[0][propt]== "null"){
+                        data[0][propt]= ""
+                    }
+                }
                 setUser(data[0])
             }
           

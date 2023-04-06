@@ -189,7 +189,11 @@ export default function DetailsHamburgers(props){
                 <Box mt="30px" >
                     <Text color="green" >Add in cart</Text>
                     <Box  display={"flex"} justifyContent="center" alignItems={"center"} >
-                        <Button bg={"primary.500"} color="white" fontSize="2xl" pt="20px" pb="20px" pr="40px" pl="40px"><Link to="/login" >Login</Link></Button>
+                        <Link to="/login" >
+                            <Button bg={"primary.500"} color="white" fontSize="2xl" pt="20px" pb="20px" pr="40px" pl="40px">
+                                Login
+                           </Button>
+                        </Link>
                     </Box>
                 </Box>}
             </Box> 
