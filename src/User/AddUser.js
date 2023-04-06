@@ -10,23 +10,22 @@ import Commons from "../Utility/Commons";
 
 export default function AddUser(props){
 
-    let [email,setEmail] = useState("")
-    let [password,setPassword] = useState("")
+    const [email,setEmail] = useState("")
+    const [password,setPassword] = useState("")
 
-    let [emailInput, setEmailInput]=useState(false)
-    let [passwordInput, setPasswordInput]=useState(false)
+    const [emailInput, setEmailInput]=useState(false)
+    const [passwordInput, setPasswordInput]=useState(false)
 
-    let [emailError, setEmailError]=useState(false)
-    let [passwordError, setPasswordError]=useState(false)
-    let [nameError, setNameError]=useState(false)
-    let [surnameError, setSurnameError]=useState(false)
-    let [paymentError, setPaymentError]=useState(false)
-    let [countryError, setCountryError]=useState(false)
+    const [emailError, setEmailError]=useState(false)
+    const [passwordError, setPasswordError]=useState(false)
+    const [nameError, setNameError]=useState(false)
+    const [surnameError, setSurnameError]=useState(false)
+    const [countryError, setCountryError]=useState(false)
 
-    let [name, setName]=useState("")
-    let [surname, setSurname]=useState("")
-    let [payment, setPayment]=useState('Cash')
-    let [country, setCountry]=useState(listOfCountries[0])
+    const [name, setName]=useState("")
+    const [surname, setSurname]=useState("")
+    const [payment, setPayment]=useState('Cash')
+    const [country, setCountry]=useState("")
 
     const [enoughData, setEnoughData]=useState(false)
 
@@ -35,6 +34,21 @@ export default function AddUser(props){
 
     useEffect (()=>{ 
         setEnoughData(false)
+
+        if(name.length<1){
+            setNameError(false)
+        }
+        if(surname.length<1){
+            setSurnameError(false)
+        }
+        if(password.length<1){
+            setPasswordError(false)
+        }
+        if(email.length<1){
+            setEmailError(false)
+        }
+        setCountryError(false)
+    
     },[name,surname,country,password,email,payment])
 
     let addEmail =(e)=>{
@@ -111,8 +125,11 @@ export default function AddUser(props){
 
     let createUser =async()=>{
       
-        if(email.length<1 || password.length<1 || name.length<1 ||surname.length<1 ||country.length<1 ||payment.length<1 ){
+        if(email.length<1 || password.length<1 || name.length<1 ||surname.length<1 ||payment.length<1 ){
             setEnoughData(true)
+        }
+        if(country==""){
+            setCountryError(true)
         }else{
             setEnoughData(false)
             let emailExists = await checkIfEmailExists()
@@ -185,11 +202,12 @@ export default function AddUser(props){
                         </Alert>
             </Box>}
             <Input mb={"15"} w={["80%","80%","20%","20%","20%"]}  pr='4.5rem'  placeholder="Enter surname" onChange={addSurname}/>
+            
             {countryError &&                 
             <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
                         <Alert status='error' width={"500px"}  >
                             <AlertIcon />
-                            <AlertTitle>{countryError}</AlertTitle>
+                            <AlertTitle>You didnt select your country</AlertTitle>
                         </Alert>
             </Box>
             }
@@ -200,14 +218,7 @@ export default function AddUser(props){
                 </Select>
             </Box>
 
-            {paymentError &&                 
-            <Box display={"flex"}  justifyContent="center" alignItems={"center"}  >
-                        <Alert status='error' width={"500px"}  >
-                            <AlertIcon />
-                            <AlertTitle>{paymentError}</AlertTitle>
-                        </Alert>
-            </Box>
-            }
+         
 
             <RadioGroup onChange={addPayment} defaultValue={'Cash'} > 
                 <Stack direction='row'>
