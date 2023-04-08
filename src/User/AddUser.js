@@ -168,7 +168,7 @@ export default function AddUser(props){
                         props.setLogin(true)
                         props.setProfileAvatar(data.name)  
                         props.logOut.current = false
-                        if(props.url=="/login"){
+                        if(props.url=="/login"|| props.url=="/login/create-account"){
                             navigate("/hamburgers/all")
                         }else{
                             navigate(props.url)
