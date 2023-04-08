@@ -29,7 +29,7 @@ export default function AddUser(props){
 
     const [enoughData, setEnoughData]=useState(false)
 
-    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey']);
+    const [cookieObjectApiKey, setObjectApiKey, removeCookiObjectApiKey] = useCookies(['apiKey',"percent","menyInScreen"]);
     const navigate  = useNavigate();
 
     useEffect (()=>{ 
@@ -159,9 +159,20 @@ export default function AddUser(props){
                             props.setAdmin(true)              
                         }
                         setObjectApiKey("apiKey", data.apiKey, { path: '/' } )
+                        setObjectApiKey("percent","80%",{ path: '/'} )
+                        setObjectApiKey("menyInScreen", "block",{ path: '/'}  )
+                        props.updateQuantity();
+                        props.setUserId(data.userId)
+                        props.setPercent("80%") 
+                        props.setMenyInScreen("block")
                         props.setLogin(true)
-                        navigate("/hamburgers/all")
                         props.setProfileAvatar(data.name)  
+                        props.logOut.current = false
+                        if(props.url=="/login"){
+                            navigate("/hamburgers/all")
+                        }else{
+                            navigate(props.url)
+                        }
                     }
                 }
             }

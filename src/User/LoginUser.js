@@ -55,7 +55,7 @@ export default function LoginUser(props){
                 props.setMenyInScreen("block")
                 setObjectApiKey("percent","80%",{ path: '/'} )
                 setObjectApiKey("menyInScreen", "block",{ path: '/'}  )
-                if(props.url=="/login"){
+                if(props.url=="/login" || props.url=="/login/create-account"){
                     navigate("/hamburgers/all")
                 }else{
                     navigate(props.url)

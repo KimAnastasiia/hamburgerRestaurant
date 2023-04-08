@@ -84,13 +84,6 @@ export default function App(props){
           setUserId(data[0].id)
         }
 
-        /*
-        setPercent("80%")
-        setObjectApiKey("percent","80%",{ path: '/'})
-        setObjectApiKey("menyInScreen","block",{ path: '/'})
-        setMenyInScreen("block")
-        */
-
       }
     }
   }
@@ -101,11 +94,6 @@ export default function App(props){
     
     if (cookieObjectApiKey.apiKey != "null" && cookieObjectApiKey.apiKey != "" && cookieObjectApiKey.apiKey != null  ){
       setLogin(true)  
-      //setProfileAvatar(cookieObjectApiKey.userName)
-
-      //setPercent( cookieObjectApiKey.percent)
-      //setMenyInScreen(cookieObjectApiKey.menyInScreen)
-
       getInformationUser()
      
     }else{
@@ -136,7 +124,7 @@ export default function App(props){
             <Route path='/order/:id' element={<DetailsHamburgers setUrl={setUrl} setHamburgerId={setHamburgerId} hamburgerId={hamburgerId} setQuantity={setQuantity} quantity={quantity}  listOfOrders={listOfOrders} setListOfOrders={setListOfOrders}  login={login} userId={userId}  setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu}  />} />
             <Route path='/order/hamburgers' element={<ListOrder setMenyInScreen={setMenyInScreen} setPercent={setPercent}  login={login}  setQuantityInMenu={setQuantityInMenu} quantityInMenu={quantityInMenu}/>} />
             {!login && <Route path='/login' element={<LoginUser url={url} setUrl={setUrl}  logOut={logOut} setMenyInScreen={setMenyInScreen}  setPercent={setPercent} setUserId={setUserId} updateQuantity={updateQuantity} setProfileAvatar={setProfileAvatar} login={login} setLogin={setLogin} setAdmin={setAdmin} />} />}
-            <Route path='/login/create-account' element={<AddUser setLogin={setLogin} setAdmin={setAdmin}  setProfileAvatar={setProfileAvatar}/>} />
+            <Route path='/login/create-account' element={<AddUser url={url}  logOut={logOut} updateQuantity={updateQuantity}  setMenyInScreen={setMenyInScreen}  setPercent={setPercent} setUserId={setUserId} setLogin={setLogin} setAdmin={setAdmin}  setProfileAvatar={setProfileAvatar}/>} />
             {login && <Route path='/user' element={<ProfileUser login={login} setProfileAvatar={setProfileAvatar} />} />}
             {login && <Route path='/user/points' element={<PointsOfUser />} />}
             {login && <Route path='/user/address' element={<AddressUser />} />}
