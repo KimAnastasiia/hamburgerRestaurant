@@ -1,6 +1,51 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+
+# Introduction
+
+Deployed in	http://38.242.239.205:3000/
+User: sample2@sample2.com
+password: 123456pass.
+
+User profile
+- Register a new user
+-	Login
+-	View and edit user profile
+-	Info, address, and point (get points for every order)
+-	Modify data in user profile
+-	List of hamburguers
+-	Add hamburguers to cart
+-	Modify hamburguers units of hamburguers in cart
+-	Delete hamburguers from cart
+-	Finish order
+- See my previous orders.
+
+Admin profile
+-	Add new hamburguers
+-	Check orders of clients
+-	Change the status of orders
+
+
+Technical points
+React (Frontend)
+- Framework Chakra UI
+-	Flex
+- Navigation
+-	Responsive design
+-	Input field validation
+-	Automatic Test with React JEST and puppeteer
+-	Cookies
+-	React hooks: userState, useRef, useEffect, useCookie, useNavigate...
+
+Node.js + express (backend)
+-	API Rest (GET, POST, PUT, DELETE)
+-	JWT Token for ApiKey
+-	MySQL 
+- Routers and Middlewares
+- Encrypt information
+
+
+
 
 ## Available Scripts
 
